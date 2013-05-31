@@ -135,8 +135,4 @@ myTumblr.attachEvent( myTumblr.events.JSON_COMPLETE, function(){} );
 
 ```javascript
 myTumblr.detachEvent( myTumblr.events.JSON_COMPLETE );
-<<<<<<< HEAD
 ```
-=======
-```
->>>>>>> First commit
