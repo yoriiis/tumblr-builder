@@ -25,6 +25,12 @@ var myTumblr = new TB({
 });
 ```
 
+Infinite scroll require total page parameter (send by Tumblr). Paste this line in your HTML before this js class. The name of the var is totalPages.
+
+```html
+<script>var totalPages = {TotalPages};</script>
+```
+
 You can disable infinite scroll in home page
 
 
