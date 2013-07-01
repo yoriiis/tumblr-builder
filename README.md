@@ -19,7 +19,7 @@ var myTumblr = new TB({
 	infiniteScroll: {
 		activate 				: true,
 		nearBottom				: 200,
-		targetPost				: '#content'
+		targetPost				: '#content',
 		appendMethod			: 'normal'
 	}
 });
