@@ -8,11 +8,11 @@ Instanciate the class
 
 ```javascript
 var myTumblr = new TB({
-  url							: 'http://mame.tumblr.com'
+	url							: 'http://mame.tumblr.com' //Optional
 	limitPostInJSON				: 250,
 	sessionStorage				: true,
 	postSelector				: '.post',
-	privateBlog: {
+	privateBlog: { //Pass user:password@ in url to remove the popin authentification (No IE)
 		activate 				: false,
 		password				: ''
 	},
@@ -25,6 +25,14 @@ var myTumblr = new TB({
 });
 ```
 
+###Session storage
+Caching JSON data in browser storage. You can choose the limit of posts to cache in sessionStorage (250 by default). Activate this functionnality in production, not in development.
+```javascript
+sessionStorage	: true
+limitPostInJSON	: 250
+```
+
+###Infinite scroll
 Infinite scroll require total page parameter (send by Tumblr). Paste this line in your HTML before this js class. The name of the var is totalPages.
 
 ```html
@@ -36,6 +44,25 @@ You can disable infinite scroll in home page
 
 ```javascript
 myTumblr.params.infiniteScroll.activate = false
+```
+
+Infinite scroll is compatible with grid plugin : Isotope, Masonry and Freetile. Change the value of appendMethod params
+```javascript
+appendMethod    : 'normal'
+appendMethod    : 'isotope'
+appendMethod    : 'masonry'
+appendMethod    : 'freetile'
+```
+
+Infinite scroll can run with on or two container (odd/even compatibility).
+```javascript
+targetPost      : '#content'
+targetPost      : ['#content-left', '#content-right']
+```
+
+You can choose the distance (in pixel) near bottom of the page to trigger the infinite scroll method
+```javascript
+nearBottom      : 200
 ```
 
 Access to JSON data
