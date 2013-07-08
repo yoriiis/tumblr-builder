@@ -12,7 +12,8 @@ var myTumblr = new TB({
 	limitPostInJSON				: 250,
 	sessionStorage				: true,
 	postSelector				: '.post',
-	privateBlog: { //Pass user:password@ in url to remove the popin authentification (No IE)
+	//Pass user:password@ in url to remove the popin authentification (No IE)
+	privateBlog: {
 		activate 				: false,
 		password				: ''
 	},
@@ -54,7 +55,7 @@ appendMethod    : 'masonry'
 appendMethod    : 'freetile'
 ```
 
-Infinite scroll can run with on or two container (odd/even compatibility).
+Infinite scroll can run with on or two container (odd/even compatibility) This functionnality is only compatible with normal appendMethod.
 ```javascript
 targetPost      : '#content'
 targetPost      : ['#content-left', '#content-right']
