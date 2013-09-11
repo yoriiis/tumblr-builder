@@ -835,8 +835,9 @@
     _Tumblr.prototype.getTagPage = function(e){
 
         if( this.checkPage() == 'tagged' ){
-            var pathName =  window.location.pathname.split('/');
-            return pathName[ pathName.length - 1 ];
+            var pathName = window.location.pathname.split('/');
+            var tagComponent = pathName[ pathName.length - 1 ];
+            return decodeURIComponent(tagComponent.replace(/-/g, ' '));
         }
 
     }
