@@ -87,7 +87,7 @@ myTumblr.getFirstPushHome('#grid-home');
 
 ### Get related posts
 
-**Require attach to JSON_COMPLETE event**. The function return a list of posts in object
+**Require attach to JSON_COMPLETE event**. The function return a list of posts in object. There is a limit with related posts, only for X first post (X = limitPostInJSON) because getRelatedPosts() use getTagsPost() and sessionStorage.
 
 - **`limit`** : number of related posts
 - **`listTags`** : optional parameter, you can pass your own tag in array else the script get all tags of current post
