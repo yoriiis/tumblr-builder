@@ -1,7 +1,7 @@
 /**
  *
- * Plugin: 
- * @version 1.5
+ * Plugin:
+ * @version 1.6
  *
  * @author: Joris DANIEL
  * @fileoverview: New Tumblr class js which use Tumblr API V1 and extend methods. Include infinite scroll, related posts and tag methods.
@@ -18,7 +18,7 @@
     "use strict";
 
 
-    /*  
+    /*
     --------------------
     UTILS METHOD
     --------------------
@@ -41,7 +41,7 @@
         for (i = 0; i < len; i++) {
             nums[i] = i + min;
         }
-        
+
         // randomly pick one from the array
         for (var i = 0; i < numPicks; i++) {
 
@@ -61,7 +61,7 @@
     }
 
 
-    /*  
+    /*
     --------------------------------------------------
     RETRIEVE FROM GLOBAL OR CREATE THE _Tumblr OBJECT
     --------------------------------------------------
@@ -105,7 +105,7 @@
     };
 
 
-    /*  
+    /*
     -----------------------------
     CONSTRUCTOR
     -----------------------------
@@ -138,11 +138,11 @@
             self.fireEvent(self.events.ON_SCROLL);
         });
         this.attachEvent( this.events.JSON_COMPLETE, this.attachScroll );
-        
+
     };
 
 
-    /*  
+    /*
     -----------------------------
     MANAGE EVENTS
     -----------------------------
@@ -157,7 +157,7 @@
         var self = this;
         this.handlers[ method ] = function(){ method.call( self ) };
         this.$doc.on( eventName,  this.handlers[ method ] );
-    };  
+    };
 
     _Tumblr.prototype.detachEvent = function( eventName, method ){
         this.$doc.off( eventName, this.handlers[ method ] );
@@ -168,7 +168,7 @@
     };
 
 
-    /*  
+    /*
     -----------------------------
     LIST OF PUBLISH EVENT
     -----------------------------
@@ -188,9 +188,9 @@
     };
 
 
-    /*  
+    /*
     ---------------------------
-    JSON REQUEST 
+    JSON REQUEST
     ---------------------------
     */
 
@@ -205,7 +205,7 @@
     };
 
 
-    /*  
+    /*
     -------------------------------------------------------
     GET THE JSON AND STORE IT IN SESSIONSTORAGE IF POSSIBLE
     -------------------------------------------------------
@@ -219,7 +219,7 @@
         if( typeof sessionStorage != 'undefined' && this.params.sessionStorage ){
 
             //Try to get JSON in sessionstorage
-            var getDataFromSessionStorage = sessionStorage.getItem('_Tumblr_JSON_data');
+            var getDataFromSessionStorage = sessionStorage.getItem('TUMBLR_JSON_DATA');
 
             //If doesn't exist, get the JSON with limit (this.params.limitPostInJSON)
             if( getDataFromSessionStorage == null ){
@@ -229,31 +229,31 @@
 
                     //On complete, store the object JSON in sessionstorage if size is lower than limit sessionStorage
                     try{
-                        sessionStorage.setItem( '_Tumblr_JSON_data', JSON.stringify (this.data ) );
+                        sessionStorage.setItem( 'TUMBLR_JSON_DATA', JSON.stringify (this.data ) );
                     }catch( error ){
 
                         //JSON can't store in sessionStorage
                         if( error.code == 22 ){
                             log('JSON is too big and can\'t store in sessionStorage, please pass sessionStorage params to false or reduice limitPostInJSON');
-                            sessionStorage.removeItem('_Tumblr_JSON_data');
+                            sessionStorage.removeItem('TUMBLR_JSON_DATA');
                         }
-                    
+
                     }
-                    
+
 
                 });
 
             }else{
 
                 //If exist in sessionstorage, get it
-                this.data = JSON.parse( sessionStorage.getItem('_Tumblr_JSON_data') );
+                this.data = JSON.parse( sessionStorage.getItem('TUMBLR_JSON_DATA') );
                 this.totalPost = this.data['posts-total'];
                 this.jsonComplete = true;
 
                 setTimeout(function(){
                     self.fireEvent(self.events.JSON_COMPLETE);
                 }, 0);
-                
+
             }
 
         }else{
@@ -266,7 +266,7 @@
     }
 
 
-    /*  
+    /*
     -----------------------------
     GET ALL THE JSON WITH A LIMIT
     -----------------------------
@@ -282,20 +282,20 @@
             this.data = d;
             this.totalPost = this.data['posts-total'];
 
-            var countMissingPost = parseInt( this.totalPost - this.data['posts'].length ),
+           var countMissingPost = parseInt( this.params.limitPostInJSON - this.data['posts'].length ),
                 nbLoop,
                 start = 0,
                 k = 0;
 
             if( this.params.limitPostInJSON == 'all' ){
                 log('Get all posts in JSON can be very long and slow down your application');
-                nbLoop = Math.ceil(this.totalPost - nbPostPerRequest) / nbPostPerRequest;
+                nbLoop = Math.ceil( (this.totalPost - nbPostPerRequest) / nbPostPerRequest );
             }else{
-                nbLoop = Math.ceil(this.params.limitPostInJSON - nbPostPerRequest) / nbPostPerRequest;
+                nbLoop = Math.ceil( (this.params.limitPostInJSON - nbPostPerRequest) / nbPostPerRequest );
             }
 
             //If JSON is complete
-            if( countMissingPost == 0 ){
+            if( countMissingPost <= 0 ){
 
                 this.jsonComplete = true;
                 this.fireEvent(this.events.JSON_COMPLETE);
@@ -310,7 +310,7 @@
                         start = nbPostPerRequest + ( nbPostPerRequest * i );
 
                         self.getJSON( self.params.url + '/api/read/json?callback=?&num=' + nbPostPerRequest + '&start=' + start, function(d){
-                            
+
                             var countPost = parseInt( self.data['posts'].length );
 
                             for( var j = 0, len = d['posts'].length; j < len; j++ ){
@@ -338,7 +338,7 @@
     };
 
 
-    /*  
+    /*
     ------------------------------------------------------------------
     INITIALIZE THE SCROLL EVENT AND GET NEXT POSTS FOR INFINITE SCROLL
     ------------------------------------------------------------------
@@ -361,7 +361,7 @@
 
         }
 
-        if( !this.isLoading && this.params.infiniteScroll.activate && !this.endPage && this.checkPage() == 'home' ){
+        if( !this.isLoading && this.params.infiniteScroll.activate && !this.endPage && this.checkPage() == 'home' || this.checkPage() == 'tagged' ){
 
             if( this.$win.scrollTop() >= this.$doc.height() - this.$win.height() - this.params.infiniteScroll.nearBottom  ){
 
@@ -404,7 +404,7 @@
                             //Push event now only for normal append method
                             if( self.params.infiniteScroll.appendMethod == 'normal' ){
 
-                                //Double append   
+                                //Double append
                                 if( typeof self.params.infiniteScroll.targetPost == 'object' && self.params.infiniteScroll.targetPost.length == 2 ){
 
                                     $( self.params.infiniteScroll.targetPost[0] ).append( d[0] );
@@ -412,7 +412,7 @@
 
                                 //One append
                                 }else if( typeof self.params.infiniteScroll.targetPost == 'string' ){
-                                    $( self.params.infiniteScroll.targetPost ).append( d );     
+                                    $( self.params.infiniteScroll.targetPost ).append( d );
                                 }
 
                                 self.fireEvent(self.events.POST_APPEND);
@@ -527,7 +527,7 @@
     };
 
 
-    /*  
+    /*
     ------------------------------------------------------------------
     GETPOSTOFPAGE, USE BY INFINITE SCROLL AND GETFIRSTPUSHHOME
     ------------------------------------------------------------------
@@ -567,11 +567,8 @@
                         htmlNewPost = $(data).find( self.params.postSelector );
                         self.fireEvent(self.events.ON_RECEIVE_NEW_POST, [htmlNewPost]);
 
-                    }   
+                    }
 
-                },
-                error: function(jqXHR, textStatus){
-                    console.log('error');
                 }
 
             });
@@ -581,7 +578,7 @@
     }
 
 
-    /*  
+    /*
     ------------------------------------------------
     GET X FIRST POST OF HOME, AND PUSH IT IN TARGET
     ------------------------------------------------
@@ -606,7 +603,7 @@
 
             //If jQuery.imagesLoaded.js is available, push a event
             if( typeof $.fn.imagesLoaded != 'undefined' ){
-                
+
                 $( target ).imagesLoaded( function(){
 
                     self.fireEvent(self.events.IMAGES_LOADED);
@@ -626,7 +623,7 @@
     }
 
 
-    /*  
+    /*
     ----------------------------
     GET A RELATED POSTS
     ----------------------------
@@ -658,17 +655,25 @@
         if( typeof params.listTags != 'undefined' && params.listTags != '' && params.listTags != [] && params.listTags.length > 0 ){
             tags = params.listTags;
         }else{
+
             //Else get tags of current post
             tags = this.getTagsPost();
+
+            //If return null, idPost is unknown in the sessionStorage
+            if( tags == null ){
+                this.fireEvent(this.events.NO_RELATED);
+                return;
+            }
+
         }
-    
+
         //If no tags, stop
         if( typeof tags == 'undefined' || !tags ){
             log('The current post (' + this.getIdPostPage() + ') has no tag');
             this.fireEvent(this.events.NO_RELATED);
             return;
         }
-        
+
         //Get current ID post page
         currentID = this.getIdPostPage();
 
@@ -685,11 +690,11 @@
         //Loop in all posts
         for( var i = 0, lengthPosts = this.data['posts'].length; i < lengthPosts; i++ ){
 
-            posts = this.data['posts'][i];                  
+            posts = this.data['posts'][i];
 
             //If post has tags
             if( typeof posts['tags'] != 'undefined' ){
-                
+
                 //Loop in tags of every post
                 for( var j = 0, lengthTag = posts['tags'].length; j < lengthTag; j++ ){
 
@@ -697,7 +702,7 @@
                     for( var k = 0, lengthCurrentTag = tags.length; k < lengthCurrentTag; k++ ){
 
                         if( posts['tags'][j].toLowerCase() == tags[k].toLowerCase() && posts['id'] != currentID && $.inArray( posts['id'], listID ) == -1 ){
-                            
+
                             listPosts.push(posts);
                             listID.push( posts['id'] );
 
@@ -713,7 +718,7 @@
 
         //Get an array of random unique number
         randomArray = getRandoms(params.limit, 0, parseInt( listPosts.length) -1 );
-        
+
         //Zero tag return
         if( listPosts.length < 1 ){
             this.fireEvent(this.events.NO_RELATED);
@@ -755,7 +760,7 @@
     };
 
 
-    /*  
+    /*
     ----------------------------
     GET A SORT TAB OF ALL TAGS
     ----------------------------
@@ -795,7 +800,7 @@
     }
 
 
-    /*  
+    /*
     ----------------------------
     GET A TAB OF TAGS POST
     ----------------------------
@@ -811,13 +816,20 @@
 
             if( this.data['posts'][i]['id'] == idPost ){
 
-                if( typeof this.data['posts'][i]['tags'] == 'undefined' ) return;;
+                if( typeof this.data['posts'][i]['tags'] == 'undefined' ) return;
 
                 for( var j = 0, l = this.data['posts'][i]['tags'].length; j < l; j++ ){
                     listTags.push( this.data['posts'][i]['tags'][j].toLowerCase() );
                 }
 
                 return listTags
+
+            }else{
+
+                if( i == ( lengthPost - 1 ) ){
+                    log('Unknown idPost');
+                    return undefined;
+                }
 
             }
 
@@ -826,7 +838,7 @@
     }
 
 
-    /*  
+    /*
     ----------------------------
     GET TAG OF TAGGED PAGE
     ----------------------------
@@ -835,14 +847,15 @@
     _Tumblr.prototype.getTagPage = function(e){
 
         if( this.checkPage() == 'tagged' ){
-            var pathName =  window.location.pathname.split('/');
-            return pathName[ pathName.length - 1 ];
+            var pathName = window.location.pathname.split('/');
+            var tagComponent = pathName[ pathName.length - 1 ];
+            return decodeURIComponent(tagComponent.replace(/-/g, ' '));
         }
 
     }
 
 
-    /*  
+    /*
     ----------------------------
     GET ID OF POST IN POST PAGE
     ----------------------------
@@ -862,7 +875,7 @@
     }
 
 
-    /*  
+    /*
     ----------------------------
     CHECK PAGE
     ----------------------------
@@ -881,7 +894,7 @@
     }
 
 
-    /*  
+    /*
     ----------------------------
     EXPOSE _Tumblr TO GLOBAL
     ----------------------------
