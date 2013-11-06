@@ -1,4 +1,4 @@
-Tumblr app
+Tumblr js
 ==================================================
 
 New Tumblr class js which use Tumblr API V1 and extend methods. Include infinite scroll, related posts and tag methods.
