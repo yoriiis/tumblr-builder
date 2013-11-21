@@ -1,7 +1,7 @@
 /**
  *
  * Plugin:
- * @version 1.6
+ * @version 1.7
  *
  * @author: Joris DANIEL
  * @fileoverview: New Tumblr class js which use Tumblr API V1 and extend methods. Include infinite scroll, related posts and tag methods.
@@ -391,8 +391,12 @@
 
                 }else{
 
-                    //Get post of next page
-                    htmlNewPost = this.getPostOfPage( this.currentPage + 1 );
+                    //Get post of next page (home and tagged page)
+                    if( this.checkPage() == 'tagged' ){
+                        htmlNewPost = this.getPostOfPage( this.currentPage + 1, true );
+                    }else{
+                        htmlNewPost = this.getPostOfPage( this.currentPage + 1, false );
+                    }
 
                     //On receive next post page
                     $(document).on(this.events.ON_RECEIVE_NEW_POST, function(e, d){
@@ -533,7 +537,7 @@
     ------------------------------------------------------------------
     */
 
-    _Tumblr.prototype.getPostOfPage = function( numPage ){
+    _Tumblr.prototype.getPostOfPage = function( numPage, taggedPage ){
 
         var self                = this,
             htmlNewPost         = null,
@@ -545,7 +549,12 @@
             return false;
         }else{
 
-            url = this.params.url + '/page/' + numPage;
+            //If tagged page, change url of ajax request
+            if( taggedPage ){
+                url = this.params.url + '/tagged/' + this.getTagPage() + '/page/' + numPage;
+            }else{
+                url = this.params.url + '/page/' + numPage;
+            }
 
             $.ajax({
                 url: url,
@@ -590,7 +599,7 @@
             _url                = null,
             htmlNewPost         = null;
 
-        htmlNewPost = this.getPostOfPage(1);
+        htmlNewPost = this.getPostOfPage(1, false);
 
         $(document).on(this.events.ON_RECEIVE_NEW_POST, function(e, d){
 
