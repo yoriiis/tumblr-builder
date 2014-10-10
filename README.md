@@ -1,101 +1,109 @@
 Tumblr js
 ==================================================
 
-New Tumblr class js which use Tumblr API V1 and extend methods. Include infinite scroll, related posts and tag methods.
+New Tumblr class js which use Tumblr API and extend methods. Include infinite scroll, related posts and all tags.
 
 Instanciate the class
 --------------------------------------
 
 ```javascript
-var myTumblr = new TB({
-	url							: 'http://mame.tumblr.com' //Optional
-	limitPostInJSON				: 250,
-	sessionStorage				: true,
-	postSelector				: '.post',
-	//Pass user:password@ in url to remove the popin authentification (No IE)
-	privateBlog: {
-		activate 				: false,
-		password				: ''
-	},
-	infiniteScroll: {
-		activate 				: true,
-		nearBottom				: 200,
-		targetPost				: '#content',
-		appendMethod			: 'normal'
-	}
+var myTumblr = new _Tumblr({
+    useAPI              : false,
+    versionAPI          : 1,
+    keyAPI              : '',
+    limitData           : 250,
+    cache               : false,
+    cacheMethod         : 'sessionStorage',
+    wrapperSelector     : '',
+    postSelector        : '.post',
+    appendMethod        : 'normal',
+    nearBottom          : 450,
+    debug               : false
 });
 ```
 
-###Session storage
-Caching JSON data in browser storage. You can choose the limit of posts to cache in sessionStorage (250 by default). Activate this functionnality in production, not in development.
+###API
+By default, the use of the APi is disable. No requests, no related posts, no all tags, just infinite scroll. It's more fast for basic blog.
+
 ```javascript
-sessionStorage	: true
-limitPostInJSON	: 250
+useAPI : false
+```
+
+Choose the Tumblr API V1 or V2. Api V2 require a valid api key.
+
+```javascript
+versionAPI : 1,
+keyAPI     : '',
+```
+
+###Web storage
+By default cache is disable. If enable it, JSON data use the browser storage. You can choose the web storage (sessionStorage by default or localStorage), the limit of posts to cache (250 by default). Activate this functionnality in production not in development.
+
+```javascript
+limitData   : 250,
+cache       : false,
+cacheMethod : 'sessionStorage',
 ```
 
 ###Infinite scroll
-Infinite scroll require total page parameter (send by Tumblr). Paste this line in your HTML before this js class. The name of the var is totalPages.
+Infinite scroll require total page parameter (send by Tumblr). Paste this line in your HTML before this js class. Respect the name of the var (totalPages).
 
 ```html
 <script>var totalPages = {TotalPages};</script>
 ```
 
-You can disable infinite scroll in home page
-
+You can manage infinite scroll :
 
 ```javascript
-myTumblr.params.infiniteScroll.activate = false
+myTumblr.disableInfiniteScroll();
+myTumblr.enableInfiniteScroll();
 ```
 
-Infinite scroll is compatible with grid plugin : Isotope, Masonry and Freetile. Change the value of appendMethod params
+Infinite scroll is compatible with grid plugin : Isotope, Masonry and Freetile.
+
 ```javascript
-appendMethod    : 'normal'
-appendMethod    : 'isotope'
-appendMethod    : 'masonry'
-appendMethod    : 'freetile'
+appendMethod : 'normal'
+appendMethod : 'isotope'
+appendMethod : 'masonry'
+appendMethod : 'freetile'
 ```
 
-Infinite scroll can run with on or two container (odd/even compatibility) This functionnality is only compatible with normal appendMethod.
+Infinite scroll can run with one or two columns (odd/even compatibility). This functionnality is only compatible with normal appendMethod.
+
 ```javascript
-targetPost      : '#content'
-targetPost      : ['#content-left', '#content-right']
+targetPost : '#content'
+targetPost : ['#content-left', '#content-right']
 ```
 
-You can choose the distance (in pixel) near bottom of the page to trigger the infinite scroll method
+You can choose the distance (in pixel) near bottom of the page to trigger the infinite scroll method.
+
 ```javascript
-nearBottom      : 200
+nearBottom : 450
 ```
 
 Access to JSON data
 
 ```javascript
-myTumblr.attachEvent( myTumblr.events.JSON_COMPLETE, function(){
-  var data = this.data;
+myTumblr.on( myTumblr.events.JSON_COMPLETE, function(){
+    var data = this.data;
 });
 ```
 
 ## Methods
 
-###Push content of the first page in the dom
-Note : infinite scroll is available only in home page.
-
-- **`target`** : target to push new content
-
-```javascript
-myTumblr.getFirstPushHome('#grid-home');
-```
-
 ### Get related posts
 
-**Require attach to JSON_COMPLETE event**. The function return a list of posts in object. There is a limit with related posts, only for X first post (X = limitPostInJSON) because getRelatedPosts() use getTagsPost() and sessionStorage.
+**Require attach to JSON_COMPLETE event**. The function return a list of posts in object. You can use a templating engine for rendering data : Lo-Dash, Handlebars.
 
-- **`limit`** : number of related posts
-- **`listTags`** : optional parameter, you can pass your own tag in array else the script get all tags of current post
-- **`ignoreTag`** : optional parameter, you can ignore a tag in the list (first or last)
+- **`limit`** : number of related posts (3 by default)
+- **`ignoreTag`** : tag ignore in related post (optional)
 
 ```javascript
 myTumblr.attachEvent( myTumblr.events.JSON_COMPLETE, function(){
-  var relateds = myTumblr.getRelatedPosts({ limit: 3 });
+    var relateds = myTumblr.getRelatedPosts({
+        limit: 6,
+        ignoreTag: 'tumblr'
+    });
 });
 ```
 
@@ -107,27 +115,31 @@ myTumblr.attachEvent( myTumblr.events.JSON_COMPLETE, function(){
 var allTags = myTumblr.getAllTags();
 ```
 
-Get an array of all tags to specific post id
+### Get tags post
+
+**Require attach to JSON_COMPLETE event**. Get an array of all tags of current post.
 
 ```javascript
-var allTagsPost = smyTumblr.getAllTags('51726887298');
+var tagsPost = myTumblr.getTagsPost();
+```
+
+Get an array of all tags of specific post id
+
+```javascript
+var tagsPost = myTumblr.getTagsPost('51726887298');
 ```
 
 ### Get tag of current page tagged
 
+Get tag of current page tagged
+
 ```javascript
 var currentTag = myTumblr.getTagPage();
 ```
 
-### Get tag of current or specific post
+### Get id of current post page
 
-If the function pass no param, this return an array of all tags of current post (on post page). If you pass an id post in param, this return an array of all tags of specific post.
-```javascript
-var currentTag = myTumblr.getTagPage();
-```
-
-
-### Get id post of current post page
+Get id of current post page
 
 ```javascript
 var currentIdPost = myTumblr.getIdPostPage();
@@ -155,18 +167,23 @@ myTumblr.events.NO_RELATED
 myTumblr.events.HAS_RELATED
 ```
 
-`myTumblr.events.JSON_COMPLETE` is require for these methods :
-- getRelatedPosts()
-- getAllTags()
-
 ### Attach an event
 
 ```javascript
-myTumblr.attachEvent( myTumblr.events.JSON_COMPLETE, function(){} );
+myTumblr.on( myTumblr.events.JSON_COMPLETE, function(){} );
 ```
 
 ### Detach an event
 
 ```javascript
-myTumblr.detachEvent( myTumblr.events.JSON_COMPLETE );
+myTumblr.off( myTumblr.events.JSON_COMPLETE );
 ```
+
+### Information
+
+`myTumblr.events.JSON_COMPLETE` is require for these methods :
+- getRelatedPosts()
+- getAllTags()
+- getTagsPost()
+
+For performance issues there is a limit for these methods, only for X first post (X = limitData) because they use API.
