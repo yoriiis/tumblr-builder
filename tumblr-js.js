@@ -1,14 +1,14 @@
 /**
  *
  * Plugin:
- * @version 1.7
+ * @version 1.8
  *
  * @author: Joris DANIEL
  * @fileoverview: New Tumblr class js which use Tumblr API V1 and extend methods. Include infinite scroll, related posts and tag methods.
  * Thanks to Nicolas Riciotti aka Twode
  * For IE8/9, FF, Chrome, Opera, Safari
  *
- * Copyright (c) 2013 Joris DANIEL
+ * Copyright (c) 2014 Joris DANIEL
  * Licensed under the MIT License: http://www.opensource.org/licenses/mit-license.php
  *
 **/
@@ -17,15 +17,14 @@
 
     "use strict";
 
-
-    /*
-    --------------------
-    UTILS METHOD
-    --------------------
-    */
-
     //Get a unique random number between min/max
     function getRandoms(numPicks, min, max) {
+
+        var len         = max - min + 1,
+            nums        = new Array(len),
+            selections  = [],
+            i           = 0,
+            j           = 0;
 
         if( min == 0 ){
             if( numPicks > (max + 1)  ) return;
@@ -33,19 +32,15 @@
             if( numPicks > ( (max-min) + 1) ) return;
         }
 
-        var len = max - min + 1,
-            nums = new Array(len),
-            selections = [], i;
-
-        // initialize the array
-        for (i = 0; i < len; i++) {
+        //Initialize the array
+        for( i = 0; i < len; i++ ){
             nums[i] = i + min;
         }
 
-        // randomly pick one from the array
-        for (var i = 0; i < numPicks; i++) {
+        //Randomly pick one from the array
+        for( j = 0; j < numPicks; j++ ){
 
-            var index = Math.floor(Math.random() * nums.length);
+            var index = Math.floor( Math.random() * nums.length );
             selections.push( nums[index] );
             nums.splice( index, 1 );
 
@@ -55,45 +50,33 @@
 
     }
 
-    //Show console.warn if function is available in the browser (FIX IE)
-    function log( d ){
-        if ((window.console && console.log)) console.warn(d);
-    }
 
-
-    /*
-    --------------------------------------------------
-    RETRIEVE FROM GLOBAL OR CREATE THE _Tumblr OBJECT
-    --------------------------------------------------
-    */
-
+    //Retrieve from global or create the _tumblr object
     var _Tumblr = function( options ){
 
         //Params
-        this.params = $.extend(true, {
-            url: window.location.protocol + '//' + window.location.host,    //Optional, the script get the url of location.host
-            limitPostInJSON     : 250,                                      //Limit loop to get all JSON
-            sessionStorage      : true,                                     //Get the JSON once and push it in sessionStorage if possible. More fast
-            postSelector        : '.post',                                  //CSS class of item with infinite scroll
-            privateBlog: {                                                  //For private, pass user:password@ in url to remove the popin authentification (No IE)
-                activate        : false,
-                password        : ''
-            },
-            infiniteScroll: {
-                activate        : true,                                     //Activate infinite scroll
-                nearBottom      : 200,                                      //Scrolltop near bottom trigger new post load
-                targetPost      : '',                                       //String for on target or array for two target (odd/even compatibility)
-                appendMethod    : 'normal'                                  //Normal or isotope or masonry
-            }
+        this.params = $.extend({
+            useAPI              : false,                                 //Use API to get data in JSON (to manipulate tags and related posts)
+            versionAPI          : 1,                                     //Support API V1 & V2 (In private blog API V2 is unavailable)
+            keyAPI              : '',                                    //api_key use by API V2
+            limitData           : 250,                                   //Limit loop to get all JSON
+            cache               : false,                                  //Cache data in web storage if possible. More fast
+            cacheMethod         : 'sessionStorage',                      //Choose web storage to use (sessionStorage or localStorage)
+            wrapperSelector     : '',                                    //Target or array for two target (odd/even compatibility)
+            postSelector        : '.post',                               //Selector of item with infinite scroll
+            appendMethod        : 'normal',                              //Normal | isotope | masonry
+            nearBottom          : 350,                                   //Scrolltop near bottom trigger new post load
+            debug               : false                                  //On debug mode, show log error and warning
         }, options || {});
 
-        _Tumblr.url = this.params.url;
-
         //No configurables params
+        this.baseURL            = '//' + window.location.host;
+        this.infiniteScroll     = true;
         this.endPage            = false;
         this.isLoading          = false;
         this.jsonComplete       = false;
         this.currentPage        = 1;
+        this.totalPages         = totalPages;
 
         this.$win               = $(window);
         this.$doc               = $(document);
@@ -101,79 +84,51 @@
         this.handlers           = {};
 
         this.init();
-
     };
 
 
-    /*
-    -----------------------------
-    CONSTRUCTOR
-    -----------------------------
-    */
-
+    //Constructor
     _Tumblr.prototype.init = function(){
 
         //Clean url of tumblr if a slashe is at the end
-        var self = this,
-            slashe = this.params.url.charAt( this.params.url.length -1 ),
-            newUrl;
+        var self = this;
 
-        if( slashe == '/' ){
-            newUrl = this.params.url.substring(0, this.params.url.length-1);
-            this.params.url = newUrl;
+        //Get JSON and push it in cache if option is active and if it's possible
+        if( this.params.useAPI ){
+            this.getAllData();
         }
 
-        //If blog is private, pass user:password@ in url for remove the popin authentification
-        //FIX : IE doesn't allow to pass user/password in url, detect it with feature
-        if( typeof window.attachEvent == 'undefined' && this.params.privateBlog.activate ){
-            var newUrl;
-            newUrl = this.params.url.replace('http://', 'http://user:' + this.params.privateBlog.password + '@');
-            this.params.url = newUrl;
+        //Detect Internet Explorer 8 with features and disable infinite scroll
+        if( document.all && !document.addEventListener && document.documentMode == 8 ){
+            this.infiniteScroll = false;
+            return;
         }
-
-        //Get JSON and push it in sessionStorage if option is active and if it's possible
-        this.webStorage();
 
         this.$win.on('scroll', function(){
-            self.fireEvent(self.events.ON_SCROLL);
+            self.trigger(self.events.ON_SCROLL);
+            self.onScroll();
         });
-        this.attachEvent( this.events.JSON_COMPLETE, this.attachScroll );
 
     };
 
 
-    /*
-    -----------------------------
-    MANAGE EVENTS
-    -----------------------------
-    */
-
-    _Tumblr.prototype.attachScroll = function(){
-        this.detachEvent( this.events.JSON_COMPLETE, this.attachScroll );
-        this.attachEvent( this.events.ON_SCROLL, this.onScroll );
-    };
-
-    _Tumblr.prototype.attachEvent = function( eventName, method ){
+    //Manage events
+    _Tumblr.prototype.on = function( eventName, method ){
         var self = this;
         this.handlers[ method ] = function(){ method.call( self ) };
         this.$doc.on( eventName,  this.handlers[ method ] );
     };
 
-    _Tumblr.prototype.detachEvent = function( eventName, method ){
+    _Tumblr.prototype.off = function( eventName, method ){
         this.$doc.off( eventName, this.handlers[ method ] );
     };
 
-    _Tumblr.prototype.fireEvent = function( eventName, datas ){
+    _Tumblr.prototype.trigger = function( eventName, datas ){
         this.$doc.trigger( eventName, ( typeof datas != 'undefined' ) ? datas : [] );
     };
 
 
-    /*
-    -----------------------------
-    LIST OF PUBLISH EVENT
-    -----------------------------
-    */
-
+    //List of publish event
     _Tumblr.prototype.events = {
         ON_SCROLL           : 'onWindowScroll',
         JSON_COMPLETE       : 'onJsonComplete',
@@ -188,133 +143,130 @@
     };
 
 
-    /*
-    ---------------------------
-    JSON REQUEST
-    ---------------------------
-    */
+    //Get the json and store it in cache if possible
+    _Tumblr.prototype.getAllData = function(e){
 
-    _Tumblr.prototype.getJSON = function( url, callback ){
+        var self        = this,
+            cacheTarget = window[this.params.cacheMethod];
 
-        var self = this;
+        //If browser support web storage and cache is true
+        if( typeof cacheTarget != 'undefined' && this.params.cache ){
 
-        $.getJSON( url, function( d ) {
-            callback.call( self, d );
-        });
+            //Try to get JSON in cache
+            var getDataFromCache = cacheTarget.getItem('TUMBLR_JSON_DATA');
 
-    };
+            //If doesn't exist, get the JSON with limit (this.params.limitData)
+            if( getDataFromCache == null ){
 
+                this.getDataFromAPI();
 
-    /*
-    -------------------------------------------------------
-    GET THE JSON AND STORE IT IN SESSIONSTORAGE IF POSSIBLE
-    -------------------------------------------------------
-    */
+                this.on( this.events.JSON_COMPLETE, function(){
 
-    _Tumblr.prototype.webStorage = function(e){
-
-        var self = this;
-
-        //If browser support sessionStorage and sessionStorage is false
-        if( typeof sessionStorage != 'undefined' && this.params.sessionStorage ){
-
-            //Try to get JSON in sessionstorage
-            var getDataFromSessionStorage = sessionStorage.getItem('TUMBLR_JSON_DATA');
-
-            //If doesn't exist, get the JSON with limit (this.params.limitPostInJSON)
-            if( getDataFromSessionStorage == null ){
-
-                this.getAllJSON();
-                this.attachEvent( this.events.JSON_COMPLETE, function(){
-
-                    //On complete, store the object JSON in sessionstorage if size is lower than limit sessionStorage
+                    //On complete, store the object JSON in web storage if size is lower than limit web storage
                     try{
-                        sessionStorage.setItem( 'TUMBLR_JSON_DATA', JSON.stringify (this.data ) );
+                        cacheTarget.setItem( 'TUMBLR_JSON_DATA', JSON.stringify (this.data ) );
                     }catch( error ){
 
-                        //JSON can't store in sessionStorage
+                        //JSON can't store in web storage
                         if( error.code == 22 ){
-                            log('JSON is too big and can\'t store in sessionStorage, please pass sessionStorage params to false or reduice limitPostInJSON');
-                            sessionStorage.removeItem('TUMBLR_JSON_DATA');
+                            self.log('JSON is too big and can\'t store in web storage, please pass cache params to false or reduice limitData');
+                            cacheTarget.removeItem('TUMBLR_JSON_DATA');
                         }
 
                     }
-
 
                 });
 
             }else{
 
-                //If exist in sessionstorage, get it
-                this.data = JSON.parse( sessionStorage.getItem('TUMBLR_JSON_DATA') );
+                //If exist in web storage, get it
+                this.data = JSON.parse( cacheTarget.getItem('TUMBLR_JSON_DATA') );
                 this.totalPost = this.data['posts-total'];
                 this.jsonComplete = true;
 
                 setTimeout(function(){
-                    self.fireEvent(self.events.JSON_COMPLETE);
+                    self.trigger(self.events.JSON_COMPLETE);
                 }, 0);
 
             }
 
         }else{
 
-            //If sessionStorage is true or browser doesn't support sessionstorage
-            this.getAllJSON();
+            //If cache is false or browser doesn't support web storage
+            this.getDataFromAPI();
+
+            //Remove data in web storage if already exist
+            sessionStorage.removeItem('TUMBLR_JSON_DATA');
+            localStorage.removeItem('TUMBLR_JSON_DATA');
 
         }
 
     }
 
 
-    /*
-    -----------------------------
-    GET ALL THE JSON WITH A LIMIT
-    -----------------------------
-    */
-
-    _Tumblr.prototype.getAllJSON = function(){
+    //Get all the json with a limit
+    _Tumblr.prototype.getDataFromAPI = function(){
 
         var self             = this,
+            nbPostPerRequest = 0,
+            urlAPI           = '';
+
+        if( this.params.versionAPI == 1 ){
+
             nbPostPerRequest = 50;
+            urlAPI           = this.baseURL + '/api/read/json?callback=?&num=' + nbPostPerRequest;
 
-        this.getJSON( this.params.url + '/api/read/json?callback=?&num=' + nbPostPerRequest, function(d){
+        }else if( this.params.versionAPI == 2 ){
 
-            this.data = d;
-            this.totalPost = this.data['posts-total'];
+            nbPostPerRequest = 50;
+            urlAPI           = '//api.tumblr.com/v2/blog/' + window.location.host + '/posts/?api_key=' + this.params.keyAPI + '&limit=' + nbPostPerRequest + '&notes_info=false&callback=?';
 
-           var countMissingPost = parseInt( this.params.limitPostInJSON - this.data['posts'].length ),
-                nbLoop,
-                start = 0,
-                k = 0;
+        }
 
-            if( this.params.limitPostInJSON == 'all' ){
-                log('Get all posts in JSON can be very long and slow down your application');
-                nbLoop = Math.ceil( (this.totalPost - nbPostPerRequest) / nbPostPerRequest );
+        $.getJSON(urlAPI, function(d){
+
+            var nbLoop        = 0,
+                start         = 0,
+                k             = 0;
+
+            //Fix if use API V2 in private blog
+            if( self.params.versionAPI == 2 && d['response'].length == 0 ){
+                self.log('Tumblr API V2 is unavailable in private blog. Please use API V1 or remove password blog.');
+                return;
+            }
+
+            self.data         = (self.params.versionAPI == 1) ? d : d['response'];
+            self.totalPost    = (self.params.versionAPI == 1) ? d['posts-total'] : d['response']['total_posts'];
+
+            if( self.totalPost <= self.params.limitData ){
+                //Loop until totalPosts
+                nbLoop = Math.ceil( (self.totalPost - nbPostPerRequest) / nbPostPerRequest );
             }else{
-                nbLoop = Math.ceil( (this.params.limitPostInJSON - nbPostPerRequest) / nbPostPerRequest );
+                //Loop until limitData
+                nbLoop = Math.ceil( (self.params.limitData - nbPostPerRequest) / nbPostPerRequest );
             }
 
             //If JSON is complete
-            if( countMissingPost <= 0 ){
+            if( nbLoop <= 0 ){
 
-                this.jsonComplete = true;
-                this.fireEvent(this.events.JSON_COMPLETE);
+                self.jsonComplete = true;
+                self.trigger(self.events.JSON_COMPLETE);
 
             }else{
 
-                //Else do multiple loop to get data in JSON (limit this.params.limitPostInJSON)
+                //Else do multiple loop to get data in JSON (limit this.params.limitData)
                 for( var i = 0; i < nbLoop; i++ ){
 
                     (function(i) {
 
                         start = nbPostPerRequest + ( nbPostPerRequest * i );
 
-                        self.getJSON( self.params.url + '/api/read/json?callback=?&num=' + nbPostPerRequest + '&start=' + start, function(d){
+                        $.getJSON( urlAPI + ((self.params.versionAPI == 1) ? '&start=' : '&offset=') + start, function(d){
 
                             var countPost = parseInt( self.data['posts'].length );
 
-                            for( var j = 0, len = d['posts'].length; j < len; j++ ){
-                                self.data['posts'][ countPost + parseInt(j) ] = d['posts'][j];
+                            for( var j = 0, len = ((self.params.versionAPI == 1) ? d['posts'].length : d['response']['posts'].length) ; j < len; j++ ){
+                                self.data['posts'][ countPost + parseInt(j) ] = ((self.params.versionAPI == 1) ? d['posts'][j] : d['response']['posts'][j]);
                             }
 
                             k++;
@@ -322,7 +274,7 @@
                             //JSON is complete or affected limit
                             if( k == nbLoop ){
                                 self.jsonComplete = true;
-                                self.fireEvent(self.events.JSON_COMPLETE);
+                                self.trigger(self.events.JSON_COMPLETE);
                             }
 
                         });
@@ -338,12 +290,7 @@
     };
 
 
-    /*
-    ------------------------------------------------------------------
-    INITIALIZE THE SCROLL EVENT AND GET NEXT POSTS FOR INFINITE SCROLL
-    ------------------------------------------------------------------
-    */
-
+    //Initialize the scroll event and get next posts for infinite scroll
     _Tumblr.prototype.onScroll = function(e){
 
         var self                    = this,
@@ -355,39 +302,39 @@
         function pushLoadedEvent(){
 
             if( firstContainerLoaded === true && secondContainerLoaded === true ){
-                self.fireEvent(self.events.IMAGES_LOADED);
-                self.fireEvent(self.events.END_LOADING);
+                self.trigger(self.events.IMAGES_LOADED);
+                self.trigger(self.events.END_LOADING);
             }
 
         }
 
-        if( !this.isLoading && this.params.infiniteScroll.activate && !this.endPage && this.checkPage() == 'home' || this.checkPage() == 'tagged' ){
+        if( !this.isLoading && this.infiniteScroll && !this.endPage && this.checkPage() == 'home' || this.checkPage() == 'tagged' ){
 
-            if( this.$win.scrollTop() >= this.$doc.height() - this.$win.height() - this.params.infiniteScroll.nearBottom  ){
+            if( this.$win.scrollTop() >= this.$doc.height() - this.$win.height() - this.params.nearBottom  ){
 
-                this.fireEvent(this.events.START_LOADING);
+                this.trigger(this.events.START_LOADING);
 
                 this.isLoading = true;
 
                 //Check if container(s) exist
-                if( typeof this.params.infiniteScroll.targetPost == 'object' && this.params.infiniteScroll.targetPost.length == 2 && ( $( this.params.infiniteScroll.targetPost[0] ).length == 0 || $( this.params.infiniteScroll.targetPost[1] ).length == 0 ) ){
+                if( typeof this.params.wrapperSelector == 'object' && this.params.wrapperSelector.length == 2 && ( $( this.params.wrapperSelector[0] ).length == 0 || $( this.params.wrapperSelector[1] ).length == 0 ) ){
 
-                    log('Containers for new post doesn\'t exist. Please create HTML element : ' + this.params.infiniteScroll.targetPost[0] + ' or ' + this.params.infiniteScroll.targetPost[1] );
+                    self.log('Containers for new post doesn\'t exist. Please create HTML element : ' + this.params.wrapperSelector[0] + ' or ' + this.params.wrapperSelector[1] );
                     return;
 
-                }else if( typeof this.params.infiniteScroll.targetPost == 'string' && $( this.params.infiniteScroll.targetPost ).length == 0 ){
+                }else if( typeof this.params.wrapperSelector == 'string' && $( this.params.wrapperSelector ).length == 0 ){
 
-                    log('The container for new post doesn\'t exist. Please create HTML element : ' + this.params.infiniteScroll.targetPost);
+                    self.log('The container for new post doesn\'t exist. Please create HTML element : ' + this.params.wrapperSelector);
                     return;
 
                 }
 
-                if( this.currentPage >= totalPages ){
+                if( this.currentPage >= this.totalPages ){
 
                     this.isLoading  = false;
                     this.endPage    = true;
-                    this.fireEvent(this.events.END_PAGE, [{ 'appended': false }]);
-                    this.fireEvent(this.events.END_LOADING);
+                    this.trigger(this.events.END_PAGE, [{ 'appended': false }]);
+                    this.trigger(this.events.END_LOADING);
 
                 }else{
 
@@ -406,90 +353,88 @@
                             self.currentPage++;
 
                             //Push event now only for normal append method
-                            if( self.params.infiniteScroll.appendMethod == 'normal' ){
+                            if( self.params.appendMethod == 'normal' ){
 
                                 //Double append
-                                if( typeof self.params.infiniteScroll.targetPost == 'object' && self.params.infiniteScroll.targetPost.length == 2 ){
+                                if( typeof self.params.wrapperSelector == 'object' && self.params.wrapperSelector.length == 2 ){
 
-                                    $( self.params.infiniteScroll.targetPost[0] ).append( d[0] );
-                                    $( self.params.infiniteScroll.targetPost[1] ).append( d[1] );
+                                    $( self.params.wrapperSelector[0] ).append( d[0] );
+                                    $( self.params.wrapperSelector[1] ).append( d[1] );
 
                                 //One append
-                                }else if( typeof self.params.infiniteScroll.targetPost == 'string' ){
-                                    $( self.params.infiniteScroll.targetPost ).append( d );
+                                }else if( typeof self.params.wrapperSelector == 'string' ){
+                                    $( self.params.wrapperSelector ).append( d );
                                 }
 
-                                self.fireEvent(self.events.POST_APPEND);
+                                self.trigger(self.events.POST_APPEND);
 
                             //For isotope or masonry method, append only on one target
                             //No push event and no double target !
-                            }else if( self.params.infiniteScroll.appendMethod == 'isotope' || self.params.infiniteScroll.appendMethod == 'masonry' ){
+                            }else if( self.params.appendMethod == 'isotope' || self.params.appendMethod == 'masonry' ){
 
-                                if( typeof self.params.infiniteScroll.targetPost == 'string' ){
-                                    $( self.params.infiniteScroll.targetPost ).append( d );
+                                if( typeof self.params.wrapperSelector == 'string' ){
+                                    $( self.params.wrapperSelector ).append( d );
                                 }else{
-                                    log('You can\'t use appendMethod isotope or masonry with two targetPost. Please use normal append method or change target post. ');
+                                    self.log('You can\'t use appendMethod isotope or masonry with two targetPost. Please use normal append method or change target post. ');
                                 }
 
                             }
 
                             //Reload new like button after append
-                            if( !self.params.privateBlog.activate ){
-                                Tumblr.LikeButton.get_status_by_page( self.currentPage );
-                            }
+                            Tumblr.LikeButton.get_status_by_page( self.currentPage );
 
                             //If jQuery.imagesLoaded.js is available, push a event
                             if( typeof $.fn.imagesLoaded != 'undefined' ){
 
                                 //If user use odd/even post with two different container
-                                if( typeof self.params.infiniteScroll.targetPost == 'object' && self.params.infiniteScroll.targetPost.length == 2 ){
+                                if( typeof self.params.wrapperSelector == 'object' && self.params.wrapperSelector.length == 2 ){
 
                                     //Check images loaded on double target for normal append method
-                                    if( self.params.infiniteScroll.appendMethod == 'normal' ){
+                                    if( self.params.appendMethod == 'normal' ){
 
-                                        $( self.params.infiniteScroll.targetPost[0] ).imagesLoaded( function(){
+                                        $( self.params.wrapperSelector[0] ).imagesLoaded( function(){
                                             firstContainerLoaded = true;
                                             pushLoadedEvent();
                                         });
 
-                                        $( self.params.infiniteScroll.targetPost[1] ).imagesLoaded( function(){
+                                        $( self.params.wrapperSelector[1] ).imagesLoaded( function(){
                                             secondContainerLoaded = true;
                                             pushLoadedEvent();
                                         });
 
                                     }else{
-                                        log('You can\'t use appendMethod isotope or masonry with two targetPost. Please use normal append method or change target post. ');
+                                        self.log('You can\'t use appendMethod isotope or masonry with two targetPost. Please use normal append method or change target post. ');
                                     }
 
 
                                 //If user has only one posts container
-                                }else if( typeof self.params.infiniteScroll.targetPost == 'string' ){
+                                }else if( typeof self.params.wrapperSelector == 'string' ){
 
-                                    $( self.params.infiniteScroll.targetPost ).imagesLoaded( function(){
+                                    $( self.params.wrapperSelector ).imagesLoaded( function(){
 
-                                        if( self.params.infiniteScroll.appendMethod == 'isotope' ){
+                                        if( self.params.appendMethod == 'isotope' ){
 
                                             if( typeof $.fn.isotope != 'undefined' ){
 
-                                                $( self.params.infiniteScroll.targetPost ).isotope('appended', d, function(){
-                                                    self.fireEvent(self.events.POST_APPEND);
+                                                $( self.params.wrapperSelector ).isotope('appended', d, function(){
+                                                    self.trigger(self.events.POST_APPEND);
                                                 });
 
                                             }
 
-                                        }else if( self.params.infiniteScroll.appendMethod == 'masonry' ){
+                                        }else if( self.params.appendMethod == 'masonry' ){
 
                                             if( typeof $.fn.masonry != 'undefined' ){
 
-                                                $( self.params.infiniteScroll.targetPost ).masonry('appended', d);
-                                                self.fireEvent(self.events.POST_APPEND);
+                                                $( self.params.wrapperSelector ).masonry('appended', d);
+                                                self.trigger(self.events.POST_APPEND);
 
                                             }
 
                                         }
 
-                                        self.fireEvent(self.events.IMAGES_LOADED);
-                                        self.fireEvent(self.events.END_LOADING);
+                                        self.trigger(self.events.IMAGES_LOADED);
+                                        self.trigger(self.events.END_LOADING);
 
                                     });
 
@@ -498,17 +443,17 @@
 
                             }else{
 
-                                if( self.params.infiniteScroll.appendMethod == 'normal' ){
-                                    log('jQuery.imagesLoaded.js plugins is not found. It necessary to subscribe : _Tumblr.events.IMAGES_LOADED ');
+                                if( self.params.appendMethod == 'normal' ){
+                                    self.log('jQuery.imagesLoaded.js plugins is not found. It necessary to subscribe : _Tumblr.events.IMAGES_LOADED ');
                                 }else{
-                                    log('jQuery.imagesLoaded.js plugins is not found. The grid use ' + self.params.infiniteScroll.appendMethod + ' plugin and it necessary to subscribe : _Tumblr.events.IMAGES_LOADED ');
+                                    self.log('jQuery.imagesLoaded.js plugins is not found. The grid use ' + self.params.appendMethod + ' plugin and it necessary to subscribe : _Tumblr.events.IMAGES_LOADED ');
                                 }
-                                self.fireEvent(self.events.END_LOADING);
+                                self.trigger(self.events.END_LOADING);
 
                             }
 
                             self.isLoading = false;
-                            self.detachEvent( self.events.ON_RECEIVE_NEW_POST );
+                            self.off( self.events.ON_RECEIVE_NEW_POST );
 
                         }
 
@@ -520,23 +465,10 @@
 
         }
 
-        //If infinite scroll is disable, trigger END_PAGE event
-        if( !this.params.infiniteScroll.activate && !this.endPage ){
-
-            self.endPage = true;
-            self.fireEvent(self.events.END_PAGE, [{ 'appended': false }]);
-
-        }
-
     };
 
 
-    /*
-    ------------------------------------------------------------------
-    GETPOSTOFPAGE, USE BY INFINITE SCROLL AND GETFIRSTPUSHHOME
-    ------------------------------------------------------------------
-    */
-
+    //Getpostofpage, use by infinite scroll
     _Tumblr.prototype.getPostOfPage = function( numPage, taggedPage ){
 
         var self                = this,
@@ -551,9 +483,9 @@
 
             //If tagged page, change url of ajax request
             if( taggedPage ){
-                url = this.params.url + '/tagged/' + this.getTagPage() + '/page/' + numPage;
+                url = this.baseURL + '/tagged/' + this.getTagPage() + '/page/' + numPage;
             }else{
-                url = this.params.url + '/page/' + numPage;
+                url = this.baseURL + '/page/' + numPage;
             }
 
             $.ajax({
@@ -561,20 +493,20 @@
                 type: 'post',
                 success: function( data ){
 
-                    if( typeof self.params.infiniteScroll.targetPost == 'object' && self.params.infiniteScroll.targetPost.length == 2 ){
+                    if( typeof self.params.wrapperSelector == 'object' && self.params.wrapperSelector.length == 2 ){
 
-                        htmlNewPostOdd = $(data).find( self.params.infiniteScroll.targetPost[0] + ' ' + self.params.postSelector );
-                        htmlNewPostEven = $(data).find( self.params.infiniteScroll.targetPost[1] + ' ' + self.params.postSelector );
+                        htmlNewPostOdd = $(data).find( self.params.wrapperSelector[0] + ' ' + self.params.postSelector );
+                        htmlNewPostEven = $(data).find( self.params.wrapperSelector[1] + ' ' + self.params.postSelector );
 
-                        self.fireEvent( self.events.ON_RECEIVE_NEW_POST, [{
+                        self.trigger( self.events.ON_RECEIVE_NEW_POST, [{
                             0 : htmlNewPostOdd,
                             1 : htmlNewPostEven
                         }]);
 
-                    }else if( typeof self.params.infiniteScroll.targetPost == 'string' ){
+                    }else if( typeof self.params.wrapperSelector == 'string' ){
 
                         htmlNewPost = $(data).find( self.params.postSelector );
-                        self.fireEvent(self.events.ON_RECEIVE_NEW_POST, [htmlNewPost]);
+                        self.trigger(self.events.ON_RECEIVE_NEW_POST, [htmlNewPost]);
 
                     }
 
@@ -587,57 +519,7 @@
     }
 
 
-    /*
-    ------------------------------------------------
-    GET X FIRST POST OF HOME, AND PUSH IT IN TARGET
-    ------------------------------------------------
-    */
-
-    _Tumblr.prototype.getFirstPushHome = function( target ){
-
-        var self                = this,
-            _url                = null,
-            htmlNewPost         = null;
-
-        htmlNewPost = this.getPostOfPage(1, false);
-
-        $(document).on(this.events.ON_RECEIVE_NEW_POST, function(e, d){
-
-            $( target ).append( d );
-            self.fireEvent(self.events.POST_APPEND);
-
-            if( !self.params.privateBlog.activate ){
-                Tumblr.LikeButton.get_status_by_page( self.currentPage );
-            }
-
-            //If jQuery.imagesLoaded.js is available, push a event
-            if( typeof $.fn.imagesLoaded != 'undefined' ){
-
-                $( target ).imagesLoaded( function(){
-
-                    self.fireEvent(self.events.IMAGES_LOADED);
-                    self.fireEvent(self.events.END_LOADING);
-
-                });
-
-            }else{
-
-                log('jQuery.imagesLoaded.js plugins is not found. It necessary to subscribe : _Tumblr.events.IMAGES_LOADED ');
-                self.fireEvent(self.events.END_LOADING);
-
-            }
-
-        });
-
-    }
-
-
-    /*
-    ----------------------------
-    GET A RELATED POSTS
-    ----------------------------
-    */
-
+    //Get a related posts
     _Tumblr.prototype.getRelatedPosts = function( options ){
 
         var self                    = this,
@@ -647,54 +529,49 @@
             randomArray             = [],
             currentID               = 0,
             tags                    = [],
-            posts                   = null,
-            params = $.extend({
-                limit               : 3,
-                listTags            : [],
-                ignoreIndex         : 'first'
+            posts                   = null;
+
+        var params = $.extend({
+            limit               : 3,
+            ignoreTag           : null
         }, options || {});
 
-        //If no tag or current page is different of page post, stop
-        if( this.checkPage() != 'post' || !this.jsonComplete ){
-            log('Related post can only be add on post page when _Tumblr.events.JSON_COMPLETE is published');
+        if( !this.params.useAPI ){
+            this.log('Related post use API, please active useAPI in params.');
             return;
         }
 
-        //If user has own tags
-        if( typeof params.listTags != 'undefined' && params.listTags != '' && params.listTags != [] && params.listTags.length > 0 ){
-            tags = params.listTags;
-        }else{
+        //If current page is different of page post or json not complete, stop
+        if( this.checkPage() != 'post' || !this.jsonComplete ){
+            this.log('Related post can only be add on post page when _Tumblr.events.JSON_COMPLETE is published');
+            return;
+        }
 
-            //Else get tags of current post
-            tags = this.getTagsPost();
+        //Get tags of current post
+        tags = this.getTagsPost();
 
-            //If return null, idPost is unknown in the sessionStorage
-            if( tags == null ){
-                this.fireEvent(this.events.NO_RELATED);
-                return;
+        //If return null, idPost is unknown in the cache
+        if( tags == null ){
+            this.log('The current post (' + this.getIdPostPage() + ') has no tag');
+            this.trigger(this.events.NO_RELATED);
+            return;
+        }
+
+        //If tag must be ignore
+        if( params.ignoreTag != null && tags.length > 1 ){
+
+            for( var l = 0, lengthTagIgnore = tags.length; l < lengthTagIgnore; l++ ){
+
+                if( params.ignoreTag == tags[l] ){
+                    tags.splice(l, 1);
+                }
+
             }
 
-        }
-
-        //If no tags, stop
-        if( typeof tags == 'undefined' || !tags ){
-            log('The current post (' + this.getIdPostPage() + ') has no tag');
-            this.fireEvent(this.events.NO_RELATED);
-            return;
         }
 
         //Get current ID post page
         currentID = this.getIdPostPage();
-
-        //If tag must be ignore
-        if( typeof params.ignoreIndex != 'undefined' ){
-
-            if( tags.length > 1 && params.ignoreIndex != '' ){
-                if( params.ignoreIndex == 'first' ) tags.shift();
-                else if( params.ignoreIndex == 'last' ) tags.pop();
-            }
-
-        }
 
         //Loop in all posts
         for( var i = 0, lengthPosts = this.data['posts'].length; i < lengthPosts; i++ ){
@@ -712,7 +589,7 @@
 
                         if( posts['tags'][j].toLowerCase() == tags[k].toLowerCase() && posts['id'] != currentID && $.inArray( posts['id'], listID ) == -1 ){
 
-                            listPosts.push(posts);
+                            listPosts.push( posts );
                             listID.push( posts['id'] );
 
                         }
@@ -725,13 +602,13 @@
 
         }
 
-        //Get an array of random unique number
-        randomArray = getRandoms(params.limit, 0, parseInt( listPosts.length) -1 );
-
         //Zero tag return
         if( listPosts.length < 1 ){
-            this.fireEvent(this.events.NO_RELATED);
+            this.trigger(this.events.NO_RELATED);
         }else{
+
+            //Get an array of random unique number
+            randomArray = getRandoms(params.limit, 0, parseInt( listPosts.length) -1 );
 
             //Return all tag
             if( listPosts.length < params.limit ){
@@ -746,22 +623,7 @@
 
             }
 
-            this.fireEvent(this.events.HAS_RELATED);
-
-            //If limit is inquire, ajust the data
-            if( typeof params.limit != 'undefined' ){
-
-                var firstPosts = [];
-                firstPosts['posts'] = [];
-
-                for( var i = 0; i < params.limit; i++ ){
-                    firstPosts['posts'].push( randomTagsArray['posts'][i] );
-                }
-
-                randomTagsArray = firstPosts;
-
-            }
-
+            this.trigger(this.events.HAS_RELATED);
             return randomTagsArray;
 
         }
@@ -769,22 +631,22 @@
     };
 
 
-    /*
-    ----------------------------
-    GET A SORT TAB OF ALL TAGS
-    ----------------------------
-    */
-
+    //Get a sort tab of all tags
     _Tumblr.prototype.getAllTags = function(e){
 
-        //If JSON isn't complete, stop
-        if( !this.jsonComplete ){
-            log('The function getAllTags() use JSON data, please attach to _Tumblr.events.JSON_COMPLETE event to execute your code');
+        if( !this.params.useAPI ){
+            this.log('List of all tags use API, please active useAPI in params.');
             return;
         }
 
-        var data = this.data,
-            listTag = [];
+        //If JSON isn't complete, stop
+        if( !this.jsonComplete ){
+            this.log('The function getAllTags() use JSON data, please attach to _Tumblr.events.JSON_COMPLETE event to execute your code');
+            return;
+        }
+
+        var data        = this.data,
+            listTag     = [];
 
         for( var k = 0, lengthPost = data['posts'].length; k < lengthPost ; k++ ){
 
@@ -809,13 +671,13 @@
     }
 
 
-    /*
-    ----------------------------
-    GET A TAB OF TAGS POST
-    ----------------------------
-    */
-
+    //Get a tab of tags post
     _Tumblr.prototype.getTagsPost = function( idPost ){
+
+        if( !this.params.useAPI ){
+            this.log('List of tags of posts use API, please active useAPI in params.');
+            return;
+        }
 
         var listTags = [];
 
@@ -836,8 +698,8 @@
             }else{
 
                 if( i == ( lengthPost - 1 ) ){
-                    log('Unknown idPost');
-                    return undefined;
+                    this.log('Unknown idPost');
+                    return null;
                 }
 
             }
@@ -847,29 +709,29 @@
     }
 
 
-    /*
-    ----------------------------
-    GET TAG OF TAGGED PAGE
-    ----------------------------
-    */
-
+    //Get tag of tagged page
     _Tumblr.prototype.getTagPage = function(e){
 
         if( this.checkPage() == 'tagged' ){
-            var pathName = window.location.pathname.split('/');
+
+            var urlToCheck = '';
+
+            if( window.location.hash == '' ){
+                urlToCheck = window.location.pathname;
+            }else{
+                urlToCheck = window.location.hash;
+            }
+
+            var pathName = urlToCheck.split('/');
             var tagComponent = pathName[ pathName.length - 1 ];
             return decodeURIComponent(tagComponent.replace(/-/g, ' '));
+
         }
 
     }
 
 
-    /*
-    ----------------------------
-    GET ID OF POST IN POST PAGE
-    ----------------------------
-    */
-
+    //Get id of post in post page
     _Tumblr.prototype.getIdPostPage = function(e){
 
         var currentPostUrl = window.location.href,
@@ -884,30 +746,44 @@
     }
 
 
-    /*
-    ----------------------------
-    CHECK PAGE
-    ----------------------------
-    */
-
+    //Check page
     _Tumblr.prototype.checkPage = function(e){
 
-        if( window.location.pathname.indexOf('/tagged/') != -1 ){
+        var urlToCheck = '';
+
+        if( window.location.hash == '' ){
+            urlToCheck = window.location.pathname;
+        }else{
+            urlToCheck = window.location.hash;
+        }
+
+        if( urlToCheck.indexOf('tagged/') != -1 ){
             return 'tagged';
-        }else if( window.location.pathname.indexOf('/post/') != -1 ){
+        }else if( urlToCheck.indexOf('post/') != -1 ){
             return 'post';
-        }else if( window.location.pathname == '/' ){
+        }else if( urlToCheck == '/' ){
             return 'home';
         }
 
     }
 
 
-    /*
-    ----------------------------
-    EXPOSE _Tumblr TO GLOBAL
-    ----------------------------
-    */
+    //Disable infiniteScroll
+    _Tumblr.prototype.disableInfiniteScroll = function(e){
+        this.infiniteScroll = false;
+    }
+
+
+    //Enable infiniteScroll
+    _Tumblr.prototype.enableInfiniteScroll = function(e){
+        this.infiniteScroll = true;
+    }
+
+    //Show console.warn if function is available in the browser (FIX IE)
+    _Tumblr.prototype.log = function( d ){
+        if( !this.params.debug ) return;
+        if ((window.console && console.log)) console.warn(d);
+    }
 
     window._Tumblr = _Tumblr;
 
