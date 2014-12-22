@@ -308,7 +308,7 @@
 
         }
 
-        if( !this.isLoading && this.infiniteScroll && !this.endPage && this.checkPage() == 'home' || this.checkPage() == 'tagged' ){
+        if( !this.isLoading && this.infiniteScroll && !this.endPage && (this.checkPage() == 'home' || this.checkPage() == 'tagged') ){
 
             if( this.$win.scrollTop() >= this.$doc.height() - this.$win.height() - this.params.nearBottom  ){
 
