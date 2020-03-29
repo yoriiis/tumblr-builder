@@ -8,7 +8,7 @@ module.exports = {
 				const listAlias = [
 					{
 						alias: '@commonVars',
-						path: './src/shared/assets/styles/vars.css'
+						path: './src/styles/vars.css'
 					}
 				]
 

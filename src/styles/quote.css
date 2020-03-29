@@ -1,0 +1,7 @@
+@import "@commonVars";
+
+.card {
+    &-blockquote {
+        margin-bottom: 20px;
+    }
+}

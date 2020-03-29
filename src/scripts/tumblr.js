@@ -5,6 +5,7 @@ import TemplateVideo from './templates/template-video'
 import TemplateAudio from './templates/template-audio'
 import TemplateChat from './templates/template-chat'
 import TemplateLink from './templates/template-link'
+import './styles'
 
 export default class Tumblr {
 	constructor (options) {
@@ -18,22 +19,20 @@ export default class Tumblr {
 			cacheMethod: 'sessionStorage',
 			element: '',
 			nearBottom: 350,
-			elementPerPage: 20,
-			totalPages: 1
+			elementPerPage: 20
 		}
 
 		// Merge default options with user options
 		this.options = Object.assign(defaultOptions, userOptions)
 
 		// No configurables params
+		this.browserStorageKey = `${this.options.host.split('.')[0]}TumblrJsonData`
 		this.infiniteScroll = true
 		this.endPage = false
 		this.isLoading = false
 		this.jsonComplete = false
 		this.currentPage = 1
 		this.nbPostPerRequest = 50
-
-		this.handlers = {}
 
 		this.onScroll = this.onScroll.bind(this)
 	}
@@ -45,6 +44,7 @@ export default class Tumblr {
 
 			this.datas = datas
 			this.jsonComplete = true
+			this.totalPages = Math.ceil(this.datas.totalPosts / this.options.elementPerPage)
 		}
 		console.log(this.datas)
 
@@ -57,22 +57,25 @@ export default class Tumblr {
 	}
 
 	buildDOM () {
-		let html = ''
-
-		const maxIteration =
+		const maxPosts =
 			this.datas.totalPosts < this.options.elementPerPage
 				? this.datas.totalPosts
 				: this.options.elementPerPage
 
-		for (let i = 0; i < maxIteration; i++) {
-			const post = this.datas.posts[i]
-			const type = post.type
-			const template = this.getTemplateByType(type)
+		const datas = this.datas.posts.slice(0, maxPosts)
+		this.options.element.insertAdjacentHTML(
+			'beforeend',
+			`<div class="posts">${this.getHTMLNewPosts(datas)}</div>`
+		)
+	}
 
-			html += template(post)
-		}
+	getHTMLNewPosts (datas) {
+		let html = ''
+		datas.forEach(post => {
+			html += this.getTemplateByType(post.type)(post)
+		})
 
-		this.options.element.insertAdjacentHTML('beforeend', html)
+		return html
 	}
 
 	getTemplateByType (type) {
@@ -93,60 +96,35 @@ export default class Tumblr {
 		}
 	}
 
-	onScroll (e) {
-		if (
-			!this.isLoading &&
-			this.infiniteScroll &&
-			!this.endPage &&
-			(this.checkPage() === 'home' || this.checkPage() === 'tagged')
-		) {
+	onScroll = async e => {
+		if (!this.isLoading && this.infiniteScroll && !this.endPage) {
 			if (
 				this.getScrollTop() >=
 				document.body.clientHeight - window.innerHeight - this.options.nearBottom
 			) {
 				this.isLoading = true
-
-				if (this.currentPage >= this.options.totalPages) {
+				if (this.currentPage >= this.totalPages) {
 					this.isLoading = false
 					this.endPage = true
 				} else {
 					// Get post of next page (home and tagged page)
-					const datas = this.getPostOfPage(
-						this.currentPage + 1,
-						this.checkPage() === 'tagged'
-					)
-					this.onReceivedNewPosts(datas)
+					const datas = await this.getPostsByPageNumber(this.currentPage + 1)
+					this.options.element
+						.querySelector('.posts')
+						.insertAdjacentHTML('beforeend', this.getHTMLNewPosts(datas))
+					this.currentPage++
+					this.isLoading = false
+					// this.onReceivedNewPosts(datas)
 				}
 			}
 		}
 	}
 
 	onReceivedNewPosts (datas) {
-		this.currentPage++
-
-		this.options.element.insertAdjacentHTML('beforeend', datas)
-
+		// this.options.element.insertAdjacentHTML('beforeend', datas)
 		// Reload new like button after append
-		Tumblr.LikeButton.get_status_by_page(this.currentPage)
-
-		this.isLoading = false
-	}
-
-	// Manage events
-	on (eventName, method) {
-		var self = this
-		this.handlers[method] = function () {
-			method.call(self)
-		}
-		document.on(eventName, this.handlers[method])
-	}
-
-	off (eventName, method) {
-		document.off(eventName, this.handlers[method])
-	}
-
-	trigger (eventName, datas) {
-		document.trigger(eventName, typeof datas !== 'undefined' ? datas : [])
+		// Tumblr.LikeButton.get_status_by_page(this.currentPage)
+		// this.isLoading = false
 	}
 
 	// Get the json and store it in cache if possible
@@ -155,39 +133,47 @@ export default class Tumblr {
 		// If cache is true
 		if (this.options.cache) {
 			// Try to get JSON in cache
-			var getDataFromCache = window[this.options.cacheMethod].getItem('TUMBLR_JSON_DATA')
+			var getDataFromCache = window[this.options.cacheMethod].getItem(this.browserStorageKey)
 
 			// If doesn't exist, get the JSON with limit (this.options.limitData)
 			if (getDataFromCache === null) {
 				datas = await this.getDataFromAPI()
 
-				window[this.options.cacheMethod].setItem('TUMBLR_JSON_DATA', JSON.stringify(datas))
+				window[this.options.cacheMethod].setItem(
+					this.browserStorageKey,
+					JSON.stringify(datas)
+				)
 			} else {
 				// If exist in web storage, get it
-				datas = JSON.parse(window[this.options.cacheMethod].getItem('TUMBLR_JSON_DATA'))
+				datas = JSON.parse(window[this.options.cacheMethod].getItem(this.browserStorageKey))
 			}
 		} else {
 			// If cache is false or browser doesn't support web storage
 			datas = await this.getDataFromAPI()
 
 			// Remove data in web storage if already exist
-			window[this.options.cacheMethod].removeItem('TUMBLR_JSON_DATA')
+			window[this.options.cacheMethod].removeItem(this.browserStorageKey)
 		}
 
 		return datas
 	}
 
-	getAPIUrl () {
-		return `//api.tumblr.com/v2/blog/${this.options.host}/posts/?api_key=${this.options.keyAPI}&limit=${this.nbPostPerRequest}&notes_info=false`
+	getAPIUrl ({
+		offset = 0,
+		limit = this.options.limitData < this.nbPostPerRequest
+			? this.options.limitData
+			: this.nbPostPerRequest
+	} = {}) {
+		return `//api.tumblr.com/v2/blog/${this.options.host}/posts/?api_key=${this.options.keyAPI}&limit=${limit}&notes_info=false&offset=${offset}`
 	}
 
 	requestAPI (url) {
 		return fetch(url).then(response => response.json())
 	}
 
-	getNumberOfRequest (totalPost) {
-		return totalPost <= this.options.limitData
-			? Math.ceil((totalPost - this.nbPostPerRequest) / this.nbPostPerRequest)
+	getNumberOfRequest (totalPosts) {
+		return totalPosts <= this.options.limitData
+			? Math.ceil((totalPosts - this.nbPostPerRequest) / this.nbPostPerRequest)
 			: Math.ceil((this.options.limitData - this.nbPostPerRequest) / this.nbPostPerRequest)
 	}
 
@@ -204,8 +190,9 @@ export default class Tumblr {
 			// Else do multiple loop to get data in JSON (limit this.options.limitData)
 			for (var i = 0; i < nbLoop; i++) {
 				apiUrls.push(
-					`${this.getAPIUrl()}&offset=${this.nbPostPerRequest +
-						this.nbPostPerRequest * i}`
+					this.getAPIUrl({
+						offset: this.nbPostPerRequest + this.nbPostPerRequest * i
+					})
 				)
 			}
 
@@ -221,24 +208,42 @@ export default class Tumblr {
 		return { totalPosts, posts }
 	}
 
-	// Getpostofpage, use by infinite scroll
-	getPostOfPage (numPage, taggedPage) {
-		var url = null
+	// GetpostsBypageNumber, use by infinite scroll
+	getPostsByPageNumber = async pageNumber => {
+		const range = this.getRange(pageNumber)
+		const datas = this.extractDatasFromLocalDatas(range)
+		console.log(datas)
 
-		if (numPage > this.options.totalPages) {
-			return false
+		if (datas.length) {
+			console.log('datas available in local')
+			return datas
 		} else {
-			// If tagged page, change url of ajax request
-			if (taggedPage) {
-				url = `${this.options.host}/tagged/${this.getTagPage()}/page/${numPage}`
-			} else {
-				url = `${this.options.host}/page/${numPage}`
-			}
-
-			return fetch(url)
-				.then(response => response.json())
-				.then(response => response)
+			console.log('datas not available call api')
+			const datas = await this.requestAPI(
+				this.getAPIUrl({
+					offset: range.start,
+					limit: this.options.elementPerPage
+				})
+			)
+			return datas.response.posts
 		}
+	}
+
+	extractDatasFromLocalDatas (range) {
+		console.log(range)
+		return this.datas.posts.slice(range.start, range.end + 1)
+	}
+
+	getRange (pageNumber) {
+		const previousPage = pageNumber > 1 ? pageNumber - 1 : pageNumber
+		return {
+			start: previousPage * this.options.elementPerPage,
+			end: pageNumber * this.options.elementPerPage - 1
+		}
+	}
+
+	isTaggedPage () {
+		return false
 	}
 
 	// Get a related posts
@@ -447,14 +452,14 @@ export default class Tumblr {
 		}
 	}
 
-	static getScrollTop () {
+	getScrollTop () {
 		return (
 			window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
 		)
 	}
 
 	// Get a unique random number between min/max
-	static getRandoms (numPicks, min, max) {
+	getRandoms (numPicks, min, max) {
 		var len = max - min + 1
 		var nums = new Array(len)
 		var selections = []

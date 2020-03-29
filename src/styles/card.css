@@ -1,0 +1,78 @@
+@import "@commonVars";
+
+.card {
+    margin-bottom: 25px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+    border: 1px solid var(--gray-10);
+    border-radius: 0.25rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    &-body {
+        padding: 20px;
+    }
+
+    &-title {
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: 500;
+    }
+
+    p {
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 20px;
+    }
+
+    &-picture {
+        margin-bottom: 20px;
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    &-iframe {
+        position: relative;
+        height: 0;
+        padding-bottom: 56.25%;
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+
+    &-link {
+        display: block;
+        padding: 16px 12px;
+        border: 1px solid var(--gray-10);
+        margin-bottom: 20px;
+    }
+
+    &-tags {
+        margin-top: 10px;
+
+        li {
+            margin-top: 10px;
+            margin-right: 10px;
+            display: inline-block;
+            vertical-align: top;
+
+            &:first-child {
+                margin-right: 0;
+            }
+        }
+
+        a {
+            color: var(--gray-65);
+        }
+    }
+}

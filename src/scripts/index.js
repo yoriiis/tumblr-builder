@@ -1,0 +1,8 @@
+export { default as Tumblr } from './tumblr'
+export { default as TemplateAudio } from './templates/template-audio'
+export { default as TemplateChat } from './templates/template-chat'
+export { default as TemplateLink } from './templates/template-link'
+export { default as TemplatePhoto } from './templates/template-photo'
+export { default as TemplateQuote } from './templates/template-quote'
+export { default as TemplateText } from './templates/template-text'
+export { default as TemplateVideo } from './templates/template-video'

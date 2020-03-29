@@ -1,4 +1,4 @@
-import Tumblr from '../dist/tumblr.js'
+import { Tumblr } from '../dist/tumblr'
 
 const tumblr = new Tumblr({
 	host: 'yoriiis.tumblr.com',
@@ -8,11 +8,8 @@ const tumblr = new Tumblr({
 	limitData: 250,
 	cache: true,
 	cacheMethod: 'sessionStorage',
-	postSelector: '.post',
 	nearBottom: 350,
-	debug: false,
-	elementPerPage: 20,
-	templates: []
+	elementPerPage: 2
 })
 
 // Initialize the Tumblr from the instance
