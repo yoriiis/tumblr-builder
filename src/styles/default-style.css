@@ -10,3 +10,11 @@ a {
 strong {
     font-weight: 500;
 }
+
+.btn {
+    padding: 8px;
+    background-color: #001935;
+    display: inline-block;
+    color: #fff;
+    border-radius: 8px;
+}

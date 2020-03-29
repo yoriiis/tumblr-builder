@@ -5,6 +5,7 @@ import TemplateVideo from './templates/template-video'
 import TemplateAudio from './templates/template-audio'
 import TemplateChat from './templates/template-chat'
 import TemplateLink from './templates/template-link'
+import { getScrollTop, getRandoms } from './utils'
 import './styles'
 
 export default class Tumblr {
@@ -33,40 +34,131 @@ export default class Tumblr {
 		this.jsonComplete = false
 		this.currentPage = 1
 		this.nbPostPerRequest = 50
+		this.datas = {}
 
 		this.onScroll = this.onScroll.bind(this)
+		this.onHashChanged = this.onHashChanged.bind(this)
 	}
 
 	init = async () => {
 		// Get JSON and push it in cache if option is active and if it's possible
 		if (this.options.useAPI) {
-			const datas = await this.getAllDatas()
-
-			this.datas = datas
+			this.datas = await this.getAllDatas()
 			this.jsonComplete = true
+			this.datas.tags = await this.getAllTags()
 			this.totalPages = Math.ceil(this.datas.totalPosts / this.options.elementPerPage)
 		}
 		console.log(this.datas)
 
 		this.addEvents()
-		this.buildDOM()
+
+		// Get current route
+		this.currentRoute = this.getRoute()
+
+		// Init the router with the default route
+		if (this.currentRoute !== '') {
+			this.onHashChanged()
+		} else {
+			this.setRoute('')
+		}
+
+		this.buildPage(this.getDatasForHomePage())
 	}
 
-	addEvents () {
-		window.addEventListener('scroll', this.onScroll, false)
-	}
-
-	buildDOM () {
+	getDatasForHomePage () {
 		const maxPosts =
 			this.datas.totalPosts < this.options.elementPerPage
 				? this.datas.totalPosts
 				: this.options.elementPerPage
 
-		const datas = this.datas.posts.slice(0, maxPosts)
-		this.options.element.insertAdjacentHTML(
-			'beforeend',
-			`<div class="posts">${this.getHTMLNewPosts(datas)}</div>`
+		return this.datas.posts.slice(0, maxPosts)
+	}
+
+	getDatasForTaggedPage = async tag => {
+		const datas = await this.requestAPI(
+			this.getAPIUrl({
+				tag: tag
+			})
 		)
+
+		return datas && datas.response ? datas.response.posts : []
+	}
+
+	getDatasForPostPage = async id => {
+		const datas = await this.requestAPI(
+			this.getAPIUrl({
+				id: id
+			})
+		)
+
+		return datas && datas.response ? datas.response.posts : []
+	}
+
+	hashIsValid (tag) {
+		return this.datas.tags.find(item => item === tag)
+	}
+
+	/**
+	 * Set the route
+	 *
+	 * @returns {String} route New value for the route
+	 */
+	setRoute (route) {
+		window.location.hash = route
+	}
+
+	addEvents () {
+		window.addEventListener('scroll', this.onScroll, false)
+		window.addEventListener('hashchange', this.onHashChanged, false)
+	}
+
+	onHashChanged = async e => {
+		const currentTag = this.getHashTag()
+		const currentPostId = this.getHashPostId()
+		const pageType = this.getPageType()
+		let datas
+
+		if (pageType === 'tagged' && currentTag && this.hashIsValid(currentTag)) {
+			console.log('goto tag => ', currentTag)
+			datas = await this.getDatasForTaggedPage(currentTag)
+		} else if (pageType === 'post' && currentPostId) {
+			console.log('goto post => ', currentPostId)
+			datas = await this.getDatasForPostPage(currentPostId)
+			if (datas.length > 1) {
+				console.log('goto redirect home')
+				this.setRoute('')
+				return
+			}
+		} else {
+			console.log('goto home')
+			datas = await this.getDatasForHomePage()
+		}
+
+		// Reset class properties on page changes
+		this.endPage = false
+		this.currentPage = 1
+
+		this.buildPage(datas)
+	}
+
+	buildPage (datas) {
+		/* prettier-ignore */
+		this.options.element.innerHTML = `
+			<a class="btn" href="#_" title="Home">Home</a>
+			<div class="tags">
+				<ul>
+					${this.datas.tags.map(tag => `
+						<li>
+							<a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
+						</li>
+					`).join('')}
+					<li></li>
+				</ul>
+			</div>
+			<div class="posts">${this.getHTMLNewPosts(datas)}</div>
+		`
+
+		// ${window.location.protocol}//${this.options.host}/tagged/${tag}
 	}
 
 	getHTMLNewPosts (datas) {
@@ -97,34 +189,35 @@ export default class Tumblr {
 	}
 
 	onScroll = async e => {
-		if (!this.isLoading && this.infiniteScroll && !this.endPage) {
+		if (
+			!this.isLoading &&
+			this.infiniteScroll &&
+			!this.endPage &&
+			this.getPageType() === 'home'
+		) {
 			if (
-				this.getScrollTop() >=
+				getScrollTop() >=
 				document.body.clientHeight - window.innerHeight - this.options.nearBottom
 			) {
 				this.isLoading = true
 				if (this.currentPage >= this.totalPages) {
-					this.isLoading = false
 					this.endPage = true
 				} else {
-					// Get post of next page (home and tagged page)
-					const datas = await this.getPostsByPageNumber(this.currentPage + 1)
-					this.options.element
-						.querySelector('.posts')
-						.insertAdjacentHTML('beforeend', this.getHTMLNewPosts(datas))
+					await this.loadNewPage()
 					this.currentPage++
-					this.isLoading = false
-					// this.onReceivedNewPosts(datas)
 				}
+				this.isLoading = false
 			}
 		}
 	}
 
-	onReceivedNewPosts (datas) {
-		// this.options.element.insertAdjacentHTML('beforeend', datas)
-		// Reload new like button after append
-		// Tumblr.LikeButton.get_status_by_page(this.currentPage)
-		// this.isLoading = false
+	loadNewPage = async datas => {
+		this.options.element
+			.querySelector('.posts')
+			.insertAdjacentHTML(
+				'beforeend',
+				this.getHTMLNewPosts(await this.getPostsByPageNumber(this.currentPage + 1))
+			)
 	}
 
 	// Get the json and store it in cache if possible
@@ -159,12 +252,18 @@ export default class Tumblr {
 	}
 
 	getAPIUrl ({
+		id = false,
 		offset = 0,
 		limit = this.options.limitData < this.nbPostPerRequest
 			? this.options.limitData
-			: this.nbPostPerRequest
+			: this.nbPostPerRequest,
+		tag = false
 	} = {}) {
-		return `//api.tumblr.com/v2/blog/${this.options.host}/posts/?api_key=${this.options.keyAPI}&limit=${limit}&notes_info=false&offset=${offset}`
+		return `//api.tumblr.com/v2/blog/${this.options.host}/posts/?api_key=${
+			this.options.keyAPI
+		}&limit=${limit}&notes_info=false&offset=${offset}${tag ? `&tag=${tag}` : ''}${
+			id ? `&id=${id}` : ''
+		}`
 	}
 
 	requestAPI (url) {
@@ -185,19 +284,19 @@ export default class Tumblr {
 		let posts = datasFirstRequest.response.posts
 
 		if (datasFirstRequest.response.posts.length && nbLoop) {
-			const apiUrls = []
+			const requests = []
 
 			// Else do multiple loop to get data in JSON (limit this.options.limitData)
 			for (var i = 0; i < nbLoop; i++) {
-				apiUrls.push(
-					this.getAPIUrl({
-						offset: this.nbPostPerRequest + this.nbPostPerRequest * i
-					})
+				requests.push(
+					this.requestAPI(
+						this.getAPIUrl({
+							offset: this.nbPostPerRequest + this.nbPostPerRequest * i
+						})
+					)
 				)
 			}
 
-			const requests = []
-			apiUrls.forEach(url => requests.push(fetch(url).then(response => response.json())))
 			await Promise.all(requests).then(responses => {
 				responses.forEach(response => {
 					posts = posts.concat(response.response.posts)
@@ -212,13 +311,10 @@ export default class Tumblr {
 	getPostsByPageNumber = async pageNumber => {
 		const range = this.getRange(pageNumber)
 		const datas = this.extractDatasFromLocalDatas(range)
-		console.log(datas)
 
 		if (datas.length) {
-			console.log('datas available in local')
 			return datas
 		} else {
-			console.log('datas not available call api')
 			const datas = await this.requestAPI(
 				this.getAPIUrl({
 					offset: range.start,
@@ -230,7 +326,6 @@ export default class Tumblr {
 	}
 
 	extractDatasFromLocalDatas (range) {
-		console.log(range)
 		return this.datas.posts.slice(range.start, range.end + 1)
 	}
 
@@ -242,8 +337,16 @@ export default class Tumblr {
 		}
 	}
 
-	isTaggedPage () {
-		return false
+	getHashTag () {
+		return this.getRoute().split('/tagged/')[1]
+	}
+
+	getHashPostId () {
+		return this.getRoute().split('/post/')[1]
+	}
+
+	getRoute () {
+		return window.location.hash.substr(1)
 	}
 
 	// Get a related posts
@@ -324,7 +427,7 @@ export default class Tumblr {
 		// Zero tag return
 		if (listPosts.length) {
 			// Get an array of random unique number
-			randomArray = this.getRandoms(params.limit, 0, parseInt(listPosts.length) - 1)
+			randomArray = getRandoms(params.limit, 0, parseInt(listPosts.length) - 1)
 
 			// Return all tag
 			if (listPosts.length < params.limit) {
@@ -343,35 +446,16 @@ export default class Tumblr {
 
 	// Get a sort tab of all tags
 	getAllTags (e) {
-		if (!this.options.useAPI) {
-			console.log('List of all tags use API, please active useAPI in params.')
-			return
-		}
-
-		// If JSON isn't complete, stop
-		if (!this.jsonComplete) {
-			console.log(
-				'The function getAllTags() use JSON data, please attach to _Tumblr.events.JSON_COMPLETE event to execute your code'
-			)
-			return
-		}
-
-		var data = this.data
-		var listTag = []
-
-		for (var k = 0, lengthPost = data.posts.length; k < lengthPost; k++) {
-			if (typeof data.posts[k].tags !== 'undefined') {
-				for (var j = 0, lengthtag = data.posts[k].tags.length; j < lengthtag; j++) {
-					if (!listTag.includes(data.posts[k].tags[j].toLowerCase())) {
-						listTag.push(data.posts[k].tags[j].toLowerCase())
-					}
-				}
-			}
-		}
-
-		// return a sort array
-		listTag.sort()
-		return listTag
+		return this.jsonComplete
+			? this.datas.posts
+				.filter(post => post.tags.length)
+				.flatMap(post => post.tags)
+				.map(tag => tag.toLowerCase())
+				.filter((elem, pos, arr) => {
+					return arr.indexOf(elem) === pos
+				})
+				.sort()
+			: []
 	}
 
 	// Get a list of tags
@@ -433,6 +517,18 @@ export default class Tumblr {
 		}
 	}
 
+	getPageType () {
+		const hash = this.getRoute()
+
+		if (hash.indexOf('/tagged/') !== -1) {
+			return 'tagged'
+		} else if (hash.indexOf('/post/') !== -1) {
+			return 'post'
+		} else {
+			return 'home'
+		}
+	}
+
 	// Check page
 	checkPage (e) {
 		var urlToCheck = ''
@@ -450,40 +546,5 @@ export default class Tumblr {
 		} else if (urlToCheck === '/') {
 			return 'home'
 		}
-	}
-
-	getScrollTop () {
-		return (
-			window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
-		)
-	}
-
-	// Get a unique random number between min/max
-	getRandoms (numPicks, min, max) {
-		var len = max - min + 1
-		var nums = new Array(len)
-		var selections = []
-		var i = 0
-		var j = 0
-
-		if (min === 0) {
-			if (numPicks > max + 1) return
-		} else {
-			if (numPicks > max - min + 1) return
-		}
-
-		// Initialize the array
-		for (i = 0; i < len; i++) {
-			nums[i] = i + min
-		}
-
-		// Randomly pick one from the array
-		for (j = 0; j < numPicks; j++) {
-			var index = Math.floor(Math.random() * nums.length)
-			selections.push(nums[index])
-			nums.splice(index, 1)
-		}
-
-		return selections
 	}
 }

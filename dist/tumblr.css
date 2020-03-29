@@ -165,10 +165,30 @@ body {
         "Segoe UI Symbol";
 }
 
-.posts {
+.container {
     max-width: 500px;
     margin: 0 auto;
 }
+
+.tags {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.tags li {
+        margin-bottom: 10px;
+        margin-right: 10px;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+.tags li:last-child {
+            margin-right: 0;
+        }
+
+.tags a {
+        color: rgba(0, 0, 0, 0.65);
+    }
 
 a {
     text-decoration: none;
@@ -183,6 +203,14 @@ strong {
     font-weight: 500;
 }
 
+.btn {
+    padding: 8px;
+    background-color: #001935;
+    display: inline-block;
+    color: #fff;
+    border-radius: 8px;
+}
+
 .card {
     margin-bottom: 25px;
     position: relative;
@@ -195,7 +223,7 @@ strong {
             flex-direction: column;
     word-wrap: break-word;
     border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 0.25rem;
+    border-radius: 4px;
 }
 
     .card:last-child {
@@ -210,6 +238,7 @@ strong {
         font-size: 20px;
         line-height: 24px;
         font-weight: 500;
+        margin-bottom: 20px;
     }
 
     .card p {
@@ -257,7 +286,7 @@ strong {
             vertical-align: top;
         }
 
-    .card-tags li:first-child {
+    .card-tags li:last-child {
                 margin-right: 0;
             }
 

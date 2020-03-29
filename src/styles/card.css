@@ -7,7 +7,7 @@
     flex-direction: column;
     word-wrap: break-word;
     border: 1px solid var(--gray-10);
-    border-radius: 0.25rem;
+    border-radius: 4px;
 
     &:last-child {
         margin-bottom: 0;
@@ -21,6 +21,7 @@
         font-size: 20px;
         line-height: 24px;
         font-weight: 500;
+        margin-bottom: 20px;
     }
 
     p {
@@ -66,7 +67,7 @@
             display: inline-block;
             vertical-align: top;
 
-            &:first-child {
+            &:last-child {
                 margin-right: 0;
             }
         }
