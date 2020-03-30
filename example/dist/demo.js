@@ -186,6 +186,70 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/scripts sync recursive ^.*$":
+/*!*******************************!*\
+  !*** ./src/scripts sync ^.*$ ***!
+  \*******************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	".": "./src/scripts/index.js",
+	"./": "./src/scripts/index.js",
+	"./index": "./src/scripts/index.js",
+	"./index.js": "./src/scripts/index.js",
+	"./styles": "./src/scripts/styles.js",
+	"./styles.js": "./src/scripts/styles.js",
+	"./templates/components/template-nav": "./src/scripts/templates/components/template-nav.js",
+	"./templates/components/template-nav.js": "./src/scripts/templates/components/template-nav.js",
+	"./templates/components/template-posts": "./src/scripts/templates/components/template-posts.js",
+	"./templates/components/template-posts.js": "./src/scripts/templates/components/template-posts.js",
+	"./templates/components/template-related-posts": "./src/scripts/templates/components/template-related-posts.js",
+	"./templates/components/template-related-posts.js": "./src/scripts/templates/components/template-related-posts.js",
+	"./templates/components/template-tags": "./src/scripts/templates/components/template-tags.js",
+	"./templates/components/template-tags.js": "./src/scripts/templates/components/template-tags.js",
+	"./templates/types/template-audio": "./src/scripts/templates/types/template-audio.js",
+	"./templates/types/template-audio.js": "./src/scripts/templates/types/template-audio.js",
+	"./templates/types/template-chat": "./src/scripts/templates/types/template-chat.js",
+	"./templates/types/template-chat.js": "./src/scripts/templates/types/template-chat.js",
+	"./templates/types/template-link": "./src/scripts/templates/types/template-link.js",
+	"./templates/types/template-link.js": "./src/scripts/templates/types/template-link.js",
+	"./templates/types/template-photo": "./src/scripts/templates/types/template-photo.js",
+	"./templates/types/template-photo.js": "./src/scripts/templates/types/template-photo.js",
+	"./templates/types/template-quote": "./src/scripts/templates/types/template-quote.js",
+	"./templates/types/template-quote.js": "./src/scripts/templates/types/template-quote.js",
+	"./templates/types/template-text": "./src/scripts/templates/types/template-text.js",
+	"./templates/types/template-text.js": "./src/scripts/templates/types/template-text.js",
+	"./templates/types/template-video": "./src/scripts/templates/types/template-video.js",
+	"./templates/types/template-video.js": "./src/scripts/templates/types/template-video.js",
+	"./tumblr": "./src/scripts/tumblr.js",
+	"./tumblr.js": "./src/scripts/tumblr.js",
+	"./utils": "./src/scripts/utils.js",
+	"./utils.js": "./src/scripts/utils.js"
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = "./src/scripts sync recursive ^.*$";
+
+/***/ }),
+
 /***/ "./src/scripts/index.js":
 /*!******************************!*\
   !*** ./src/scripts/index.js ***!
@@ -197,34 +261,6 @@ return /******/ (function(modules) { // webpackBootstrap
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tumblr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tumblr */ "./src/scripts/tumblr.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Tumblr", function() { return _tumblr__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
-/* harmony import */ var _templates_template_audio__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./templates/template-audio */ "./src/scripts/templates/template-audio.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateAudio", function() { return _templates_template_audio__WEBPACK_IMPORTED_MODULE_1__["default"]; });
-
-/* harmony import */ var _templates_template_chat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./templates/template-chat */ "./src/scripts/templates/template-chat.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateChat", function() { return _templates_template_chat__WEBPACK_IMPORTED_MODULE_2__["default"]; });
-
-/* harmony import */ var _templates_template_link__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./templates/template-link */ "./src/scripts/templates/template-link.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateLink", function() { return _templates_template_link__WEBPACK_IMPORTED_MODULE_3__["default"]; });
-
-/* harmony import */ var _templates_template_photo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./templates/template-photo */ "./src/scripts/templates/template-photo.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplatePhoto", function() { return _templates_template_photo__WEBPACK_IMPORTED_MODULE_4__["default"]; });
-
-/* harmony import */ var _templates_template_quote__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./templates/template-quote */ "./src/scripts/templates/template-quote.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateQuote", function() { return _templates_template_quote__WEBPACK_IMPORTED_MODULE_5__["default"]; });
-
-/* harmony import */ var _templates_template_text__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./templates/template-text */ "./src/scripts/templates/template-text.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateText", function() { return _templates_template_text__WEBPACK_IMPORTED_MODULE_6__["default"]; });
-
-/* harmony import */ var _templates_template_video__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./templates/template-video */ "./src/scripts/templates/template-video.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TemplateVideo", function() { return _templates_template_video__WEBPACK_IMPORTED_MODULE_7__["default"]; });
-
-
-
-
-
-
-
 
 
 
@@ -243,14 +279,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_reset_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_styles_reset_css__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _styles_base_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles/base.css */ "./src/styles/base.css");
 /* harmony import */ var _styles_base_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_styles_base_css__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _styles_default_style_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../styles/default-style.css */ "./src/styles/default-style.css");
-/* harmony import */ var _styles_default_style_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_styles_default_style_css__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _styles_card_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../styles/card.css */ "./src/styles/card.css");
-/* harmony import */ var _styles_card_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_styles_card_css__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _styles_chat_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../styles/chat.css */ "./src/styles/chat.css");
-/* harmony import */ var _styles_chat_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_styles_chat_css__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _styles_quote_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../styles/quote.css */ "./src/styles/quote.css");
-/* harmony import */ var _styles_quote_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_styles_quote_css__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _styles_components_nav_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../styles/components/nav.css */ "./src/styles/components/nav.css");
+/* harmony import */ var _styles_components_nav_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_styles_components_nav_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _styles_components_tags_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../styles/components/tags.css */ "./src/styles/components/tags.css");
+/* harmony import */ var _styles_components_tags_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_styles_components_tags_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _styles_components_card_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../styles/components/card.css */ "./src/styles/components/card.css");
+/* harmony import */ var _styles_components_card_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_styles_components_card_css__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _styles_components_related_posts_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../styles/components/related-posts.css */ "./src/styles/components/related-posts.css");
+/* harmony import */ var _styles_components_related_posts_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_styles_components_related_posts_css__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../styles/types/chat.css */ "./src/styles/types/chat.css");
+/* harmony import */ var _styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _styles_types_quote_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../styles/types/quote.css */ "./src/styles/types/quote.css");
+/* harmony import */ var _styles_types_quote_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_styles_types_quote_css__WEBPACK_IMPORTED_MODULE_7__);
+
+
 
 
 
@@ -260,10 +302,110 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/scripts/templates/template-audio.js":
-/*!*************************************************!*\
-  !*** ./src/scripts/templates/template-audio.js ***!
-  \*************************************************/
+/***/ "./src/scripts/templates/components/template-nav.js":
+/*!**********************************************************!*\
+  !*** ./src/scripts/templates/components/template-nav.js ***!
+  \**********************************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateNav; });
+/* prettier-ignore */
+function TemplateNav() {
+  return `
+        <nav class="nav">
+                <ul>
+                    <li>
+                        <a class="btn" href="#_" title="Home">Home</a>
+                    </li>
+                </ul>
+            </ul>
+        </nav>
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/components/template-posts.js":
+/*!************************************************************!*\
+  !*** ./src/scripts/templates/components/template-posts.js ***!
+  \************************************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplatePosts; });
+/* prettier-ignore */
+function TemplatePosts({
+  posts = [],
+  templates
+}) {
+  // console.log(getTemplateByType('text'))
+  return posts.map(post => templates[post.type](post)).join('');
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/components/template-related-posts.js":
+/*!********************************************************************!*\
+  !*** ./src/scripts/templates/components/template-related-posts.js ***!
+  \********************************************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateRelatedPosts; });
+/* prettier-ignore */
+function TemplateRelatedPosts({
+  posts = [],
+  templates
+}) {
+  return `
+        <div class="relatedPosts">
+            <h5 class="relatedPosts-title">Related posts</h5>
+            ${posts.map(post => templates[post.type](post)).join('')}
+        </div>
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/components/template-tags.js":
+/*!***********************************************************!*\
+  !*** ./src/scripts/templates/components/template-tags.js ***!
+  \***********************************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateTags; });
+/* prettier-ignore */
+function TemplateTags(datas) {
+  return `
+        <div class="tags card">
+            <ul class="card-body">
+                ${datas.map(tag => `
+                    <li>
+                        <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
+                    </li>
+                `).join('')}
+                <li></li>
+            </ul>
+        </div>
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/types/template-audio.js":
+/*!*******************************************************!*\
+  !*** ./src/scripts/templates/types/template-audio.js ***!
+  \*******************************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -278,8 +420,7 @@ function TemplateAudio(datas) {
                 ${datas.player}
             </div>
             <div class="card-body">
-                <h5 class="card-title">${datas.summary}</h5>
-                <a class="btn" href="#/post/${datas.id_string}" title="See more">See more</a>
+                <a href="#/post/${datas.id_string}" class="card-title">${datas.summary}</a>
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
@@ -294,10 +435,10 @@ function TemplateAudio(datas) {
 
 /***/ }),
 
-/***/ "./src/scripts/templates/template-chat.js":
-/*!************************************************!*\
-  !*** ./src/scripts/templates/template-chat.js ***!
-  \************************************************/
+/***/ "./src/scripts/templates/types/template-chat.js":
+/*!******************************************************!*\
+  !*** ./src/scripts/templates/types/template-chat.js ***!
+  \******************************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -309,7 +450,7 @@ function TemplateChat(datas) {
   return `
         <div class="card" data-type="chat" data-id="${datas.id_string}">
             <div class="card-body">
-                <h5 class="card-title">${datas.title}</h5>
+                <a href="#/post/${datas.id_string}" class="card-title">${datas.title}</a>
                 <ul class="card-conversations">
                     ${datas.dialogue.map(line => `
                             <li>
@@ -318,7 +459,6 @@ function TemplateChat(datas) {
                             </li>
                     `).join('')}
                 </ul>
-                <a class="btn" href="#/post/${datas.id_string}" title="See more">See more</a>
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
@@ -333,10 +473,10 @@ function TemplateChat(datas) {
 
 /***/ }),
 
-/***/ "./src/scripts/templates/template-link.js":
-/*!************************************************!*\
-  !*** ./src/scripts/templates/template-link.js ***!
-  \************************************************/
+/***/ "./src/scripts/templates/types/template-link.js":
+/*!******************************************************!*\
+  !*** ./src/scripts/templates/types/template-link.js ***!
+  \******************************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -350,7 +490,6 @@ function TemplateLink(datas) {
             <div class="card-body">
                 <a href="${datas.url}" class="card-link" title="${datas.title}">${datas.title}</a>
                 ${datas.description}
-                <a class="btn" href="#/post/${datas.id_string}" title="See more">See more</a>
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
@@ -365,10 +504,10 @@ function TemplateLink(datas) {
 
 /***/ }),
 
-/***/ "./src/scripts/templates/template-photo.js":
-/*!*************************************************!*\
-  !*** ./src/scripts/templates/template-photo.js ***!
-  \*************************************************/
+/***/ "./src/scripts/templates/types/template-photo.js":
+/*!*******************************************************!*\
+  !*** ./src/scripts/templates/types/template-photo.js ***!
+  \*******************************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -378,11 +517,10 @@ __webpack_require__.r(__webpack_exports__);
 /* prettier-ignore */
 function TemplatePhoto(datas) {
   return `
-        <div class="card" data-type="photo" data-id="${datas.id_string}">
+        <div class="card" data-type="photo" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
             <div class="card-body">
                 <img class="card-picture" src="${datas.photos[0].original_size.url}" alt="${datas.summary}" />
-                <h5 class="card-title">${datas.summary}</h5>
-                <a class="btn" href="#/post/${datas.id_string}" title="See more">See more</a>
+                <a href="#/post/${datas.id_string}" class="card-title">${datas.summary}</a>
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
@@ -397,10 +535,10 @@ function TemplatePhoto(datas) {
 
 /***/ }),
 
-/***/ "./src/scripts/templates/template-quote.js":
-/*!*************************************************!*\
-  !*** ./src/scripts/templates/template-quote.js ***!
-  \*************************************************/
+/***/ "./src/scripts/templates/types/template-quote.js":
+/*!*******************************************************!*\
+  !*** ./src/scripts/templates/types/template-quote.js ***!
+  \*******************************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -416,7 +554,6 @@ function TemplateQuote(datas) {
                     <p>${datas.text}</p>
                     <footer class="blockquote-footer">${datas.source}</footer>
                 </blockquote>
-                <a class="btn" href="#/post/${datas.id_string}" title="See more">See more</a>
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
@@ -431,10 +568,10 @@ function TemplateQuote(datas) {
 
 /***/ }),
 
-/***/ "./src/scripts/templates/template-text.js":
-/*!************************************************!*\
-  !*** ./src/scripts/templates/template-text.js ***!
-  \************************************************/
+/***/ "./src/scripts/templates/types/template-text.js":
+/*!******************************************************!*\
+  !*** ./src/scripts/templates/types/template-text.js ***!
+  \******************************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -446,9 +583,8 @@ function TemplateText(datas) {
   return `
         <div class="card" data-type="text" data-id="${datas.id_string}">
             <div class="card-body">
-                <h5 class="card-title">${datas.title}</h5>
+                <a href="#/post/${datas.id_string}" class="card-title">${datas.title}</a>
                 ${datas.body}
-                <a class="btn" href="#/post/${datas.id_string}" title="See more">See more</a>
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
@@ -463,10 +599,10 @@ function TemplateText(datas) {
 
 /***/ }),
 
-/***/ "./src/scripts/templates/template-video.js":
-/*!*************************************************!*\
-  !*** ./src/scripts/templates/template-video.js ***!
-  \*************************************************/
+/***/ "./src/scripts/templates/types/template-video.js":
+/*!*******************************************************!*\
+  !*** ./src/scripts/templates/types/template-video.js ***!
+  \*******************************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -476,13 +612,12 @@ __webpack_require__.r(__webpack_exports__);
 /* prettier-ignore */
 function TemplateVideo(datas) {
   return `
-        <div class="card" data-type="video" data-id="${datas.id_string}">
+        <div class="card" data-type="video" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
             <div class="card-iframe">
                 ${datas.player[2].embed_code}
             </div>
             <div class="card-body">
-                <h5 class="card-title">${datas.summary}</h5>
-                <a class="btn" href="#/post/${datas.id_string}" title="See more">See more</a>
+                <a href="#/post/${datas.id_string}" class="card-title">${datas.summary}</a>
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
@@ -507,19 +642,17 @@ function TemplateVideo(datas) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Tumblr; });
-/* harmony import */ var _templates_template_text__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./templates/template-text */ "./src/scripts/templates/template-text.js");
-/* harmony import */ var _templates_template_photo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./templates/template-photo */ "./src/scripts/templates/template-photo.js");
-/* harmony import */ var _templates_template_quote__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./templates/template-quote */ "./src/scripts/templates/template-quote.js");
-/* harmony import */ var _templates_template_video__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./templates/template-video */ "./src/scripts/templates/template-video.js");
-/* harmony import */ var _templates_template_audio__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./templates/template-audio */ "./src/scripts/templates/template-audio.js");
-/* harmony import */ var _templates_template_chat__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./templates/template-chat */ "./src/scripts/templates/template-chat.js");
-/* harmony import */ var _templates_template_link__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./templates/template-link */ "./src/scripts/templates/template-link.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
-/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./styles */ "./src/scripts/styles.js");
+/* harmony import */ var _templates_components_template_nav__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./templates/components/template-nav */ "./src/scripts/templates/components/template-nav.js");
+/* harmony import */ var _templates_components_template_tags__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./templates/components/template-tags */ "./src/scripts/templates/components/template-tags.js");
+/* harmony import */ var _templates_components_template_posts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./templates/components/template-posts */ "./src/scripts/templates/components/template-posts.js");
+/* harmony import */ var _templates_components_template_related_posts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./templates/components/template-related-posts */ "./src/scripts/templates/components/template-related-posts.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
+/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./styles */ "./src/scripts/styles.js");
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
 
 
 
@@ -539,17 +672,26 @@ class Tumblr {
       }
 
       console.log(this.datas);
-      this.addEvents(); // Get current route
+      this.addEvents();
+      this.templates = await this.getTemplates(); // Get current route
 
-      this.currentRoute = this.getRoute(); // Init the router with the default route
+      this.currentRoute = this.getRoute();
+      this.onHashChanged(); // this.buildPage(this.getDatasForHomePage())
+    });
 
-      if (this.currentRoute !== '') {
-        this.onHashChanged();
-      } else {
-        this.setRoute('');
-      }
-
-      this.buildPage(this.getDatasForHomePage());
+    _defineProperty(this, "getTemplates", async () => {
+      const templates = {};
+      const typeAvailable = this.types.filter(type => this.hasProperty(this.options.templates, type));
+      typeAvailable.forEach(type => {
+        templates[type] = this.options.templates[type];
+      });
+      const typeUnavailable = this.types.filter(type => !this.hasProperty(this.options.templates, type));
+      const requests = typeUnavailable.map(type => Promise.resolve().then(() => _interopRequireWildcard(__webpack_require__("./src/scripts sync recursive ^.*$")(`${'./templates/types/template-' + type}`))));
+      const responses = await Promise.all(requests);
+      responses.forEach((response, index) => {
+        templates[typeUnavailable[index]] = response.default;
+      });
+      return templates;
     });
 
     _defineProperty(this, "getDatasForTaggedPage", async tag => {
@@ -570,34 +712,45 @@ class Tumblr {
       const currentTag = this.getHashTag();
       const currentPostId = this.getHashPostId();
       const pageType = this.getPageType();
-      let datas;
+      let posts;
 
       if (pageType === 'tagged' && currentTag && this.hashIsValid(currentTag)) {
-        console.log('goto tag => ', currentTag);
-        datas = await this.getDatasForTaggedPage(currentTag);
+        posts = await this.getDatasForTaggedPage(currentTag);
+        this.buildPage({
+          posts
+        });
       } else if (pageType === 'post' && currentPostId) {
-        console.log('goto post => ', currentPostId);
-        datas = await this.getDatasForPostPage(currentPostId);
+        posts = await this.getDatasForPostPage(currentPostId);
 
-        if (datas.length > 1) {
-          console.log('goto redirect home');
+        if (posts.length > 1) {
           this.setRoute('');
           return;
         }
+
+        const relatedPosts = this.getRelatedPosts({
+          postId: currentPostId,
+          tags: posts[0].tags,
+          limit: 3
+        });
+        this.buildPage({
+          posts,
+          relatedPosts
+        });
       } else {
-        console.log('goto home');
-        datas = await this.getDatasForHomePage();
+        posts = await this.getDatasForHomePage();
+        this.buildPage({
+          posts
+        });
       } // Reset class properties on page changes
 
 
       this.endPage = false;
       this.currentPage = 1;
-      this.buildPage(datas);
     });
 
     _defineProperty(this, "onScroll", async e => {
       if (!this.isLoading && this.infiniteScroll && !this.endPage && this.getPageType() === 'home') {
-        if (Object(_utils__WEBPACK_IMPORTED_MODULE_7__["getScrollTop"])() >= document.body.clientHeight - window.innerHeight - this.options.nearBottom) {
+        if (Object(_utils__WEBPACK_IMPORTED_MODULE_4__["getScrollTop"])() >= document.body.clientHeight - window.innerHeight - this.options.nearBottom) {
           this.isLoading = true;
 
           if (this.currentPage >= this.totalPages) {
@@ -613,7 +766,10 @@ class Tumblr {
     });
 
     _defineProperty(this, "loadNewPage", async datas => {
-      this.options.element.querySelector('.posts').insertAdjacentHTML('beforeend', this.getHTMLNewPosts((await this.getPostsByPageNumber(this.currentPage + 1))));
+      this.options.element.querySelector('.posts').insertAdjacentHTML('beforeend', Object(_templates_components_template_posts__WEBPACK_IMPORTED_MODULE_2__["default"])({
+        posts: await this.getPostsByPageNumber(this.currentPage + 1),
+        templates: this.templates
+      }));
     });
 
     _defineProperty(this, "getAllDatas", async e => {
@@ -693,7 +849,8 @@ class Tumblr {
       cacheMethod: 'sessionStorage',
       element: '',
       nearBottom: 350,
-      elementPerPage: 20
+      elementPerPage: 20,
+      templates: {}
     }; // Merge default options with user options
 
     this.options = Object.assign(defaultOptions, userOptions); // No configurables params
@@ -706,8 +863,13 @@ class Tumblr {
     this.currentPage = 1;
     this.nbPostPerRequest = 50;
     this.datas = {};
+    this.types = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video'];
     this.onScroll = this.onScroll.bind(this);
     this.onHashChanged = this.onHashChanged.bind(this);
+  }
+
+  hasProperty(element, attribute) {
+    return Object.prototype.hasOwnProperty.call(element, attribute);
   }
 
   getDatasForHomePage() {
@@ -734,48 +896,27 @@ class Tumblr {
     window.addEventListener('hashchange', this.onHashChanged, false);
   }
 
-  buildPage(datas) {
+  buildPage({
+    posts,
+    relatedPosts = []
+  }) {
+    const displayTags = this.getPageType() === 'home';
     /* prettier-ignore */
+
     this.options.element.innerHTML = `
-			<a class="btn" href="#_" title="Home">Home</a>
-			<div class="tags">
-				<ul>
-					${this.datas.tags.map(tag => `
-						<li>
-							<a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
-						</li>
-					`).join('')}
-					<li></li>
-				</ul>
+			${Object(_templates_components_template_nav__WEBPACK_IMPORTED_MODULE_0__["default"])()}
+			${displayTags ? Object(_templates_components_template_tags__WEBPACK_IMPORTED_MODULE_1__["default"])(this.datas.tags) : ''}
+			<div class="posts">
+				${Object(_templates_components_template_posts__WEBPACK_IMPORTED_MODULE_2__["default"])({
+      posts: posts,
+      templates: this.templates
+    })}
 			</div>
-			<div class="posts">${this.getHTMLNewPosts(datas)}</div>
-		`; // ${window.location.protocol}//${this.options.host}/tagged/${tag}
-  }
-
-  getHTMLNewPosts(datas) {
-    let html = '';
-    datas.forEach(post => {
-      html += this.getTemplateByType(post.type)(post);
-    });
-    return html;
-  }
-
-  getTemplateByType(type) {
-    if (type === 'text') {
-      return _templates_template_text__WEBPACK_IMPORTED_MODULE_0__["default"].bind(this);
-    } else if (type === 'photo') {
-      return _templates_template_photo__WEBPACK_IMPORTED_MODULE_1__["default"].bind(this);
-    } else if (type === 'quote') {
-      return _templates_template_quote__WEBPACK_IMPORTED_MODULE_2__["default"].bind(this);
-    } else if (type === 'video') {
-      return _templates_template_video__WEBPACK_IMPORTED_MODULE_3__["default"].bind(this);
-    } else if (type === 'audio') {
-      return _templates_template_audio__WEBPACK_IMPORTED_MODULE_4__["default"].bind(this);
-    } else if (type === 'chat') {
-      return _templates_template_chat__WEBPACK_IMPORTED_MODULE_5__["default"].bind(this);
-    } else if (type === 'link') {
-      return _templates_template_link__WEBPACK_IMPORTED_MODULE_6__["default"].bind(this);
-    }
+			${relatedPosts.length ? Object(_templates_components_template_related_posts__WEBPACK_IMPORTED_MODULE_3__["default"])({
+      posts: relatedPosts,
+      templates: this.templates
+    }) : ''}
+		`;
   }
 
   getAPIUrl({
@@ -821,84 +962,24 @@ class Tumblr {
   } // Get a related posts
 
 
-  getRelatedPosts(options) {
-    var listPosts = [];
-    var listID = [];
-    var randomTagsArray = [];
-    var randomArray = [];
-    var currentID = 0;
-    var tags = [];
-    var posts = null;
-    var params = Object.assign({
-      limit: 3,
-      ignoreTag: null
-    }, options);
+  getRelatedPosts({
+    postId,
+    limit = 3,
+    tags = [],
+    ignoreTags = []
+  }) {
+    // Get all tags from current post without ignore tags
+    const tagsSource = tags.filter(tag => !ignoreTags.includes(tag)); // Get related posts
 
-    if (!this.options.useAPI) {
-      console.log('Related post use API, please active useAPI in params.');
-      return;
-    } // If current page is different of page post or json not complete, stop
+    const relatedPosts = this.datas.posts.filter(post => post.tags.some(tag => tagsSource.includes(tag) && post.id_string !== postId)); // Get random keys
 
+    const randomKeys = Object(_utils__WEBPACK_IMPORTED_MODULE_4__["getRandoms"])(limit, 0, relatedPosts.length - 1) || [];
 
-    if (this.checkPage() !== 'post' || !this.jsonComplete) {
-      console.log('Related post can only be add on post page when _Tumblr.events.JSON_COMPLETE is published');
-      return;
-    } // Get tags of current post
-
-
-    tags = this.getTagsPost(); // If return null, idPost is unknown in the cache
-
-    if (tags === null) {
-      console.log('The current post (' + this.getIdPostPage() + ') has no tag');
-      return;
-    } // If tag must be ignore
-
-
-    if (params.ignoreTag != null && tags.length > 1) {
-      for (let l = 0, lengthTagIgnore = tags.length; l < lengthTagIgnore; l++) {
-        if (params.ignoreTag === tags[l]) {
-          tags.splice(l, 1);
-        }
-      }
-    } // Get current ID post page
-
-
-    currentID = this.getIdPostPage(); // Loop in all posts
-
-    for (var i = 0, lengthPosts = this.data.posts.length; i < lengthPosts; i++) {
-      posts = this.data.posts[i]; // If post has tags
-
-      if (typeof posts.tags !== 'undefined') {
-        // Loop in tags of every post
-        for (var j = 0, lengthTag = posts.tags.length; j < lengthTag; j++) {
-          // Loop in tags of current post
-          for (var k = 0, lengthCurrentTag = tags.length; k < lengthCurrentTag; k++) {
-            if (posts.tags[j].toLowerCase() === tags[k].toLowerCase() && posts.id !== currentID && !listID.includes(posts.id)) {
-              listPosts.push(posts);
-              listID.push(posts.id);
-            }
-          }
-        }
-      }
-    } // Zero tag return
-
-
-    if (listPosts.length) {
-      // Get an array of random unique number
-      randomArray = Object(_utils__WEBPACK_IMPORTED_MODULE_7__["getRandoms"])(params.limit, 0, parseInt(listPosts.length) - 1); // Return all tag
-
-      if (listPosts.length < params.limit) {
-        randomTagsArray.posts = listPosts;
-      } else {
-        // Return random
-        randomTagsArray.posts = [];
-
-        for (let l = 0, lengthRandom = randomArray.length; l < lengthRandom; l++) {
-          randomTagsArray.posts.push(listPosts[randomArray[l]]);
-        }
-      }
-
-      return randomTagsArray;
+    if (relatedPosts.length < limit) {
+      return relatedPosts;
+    } else {
+      // Extract random related posts
+      return randomKeys.map(key => relatedPosts[key]);
     }
   } // Get a sort tab of all tags
 
@@ -907,64 +988,6 @@ class Tumblr {
     return this.jsonComplete ? this.datas.posts.filter(post => post.tags.length).flatMap(post => post.tags).map(tag => tag.toLowerCase()).filter((elem, pos, arr) => {
       return arr.indexOf(elem) === pos;
     }).sort() : [];
-  } // Get a list of tags
-
-
-  getTagsPost(idPost) {
-    if (!this.options.useAPI) {
-      console.log('List of tags of posts use API, please active useAPI in params.');
-      return;
-    }
-
-    var listTags = [];
-    if (typeof idPost === 'undefined') idPost = this.getIdPostPage();
-
-    for (var i = 0, lengthPost = this.data.posts.length; i < lengthPost; i++) {
-      if (this.data.posts[i].id === idPost) {
-        if (typeof this.data.posts[i].tags === 'undefined') return;
-
-        for (var j = 0, l = this.data.posts[i].tags.length; j < l; j++) {
-          listTags.push(this.data.posts[i].tags[j].toLowerCase());
-        }
-
-        return listTags;
-      } else {
-        if (i === lengthPost - 1) {
-          console.log('Unknown idPost');
-          return null;
-        }
-      }
-    }
-  } // Get tag of tagged page
-
-
-  getTagPage(e) {
-    if (this.checkPage() === 'tagged') {
-      var urlToCheck = '';
-
-      if (window.location.hash === '') {
-        urlToCheck = window.location.pathname;
-      } else {
-        urlToCheck = window.location.hash;
-      }
-
-      var pathName = urlToCheck.split('/');
-      var tagComponent = pathName[pathName.length - 1];
-      return decodeURIComponent(tagComponent.replace(/-/g, ' '));
-    }
-  } // Get id of post in post page
-
-
-  getIdPostPage(e) {
-    var currentPostUrl = window.location.href;
-    var currentIdPost = null;
-
-    if (this.checkPage() === 'post') {
-      currentPostUrl.replace(/\/post\/([0-9]+)/g, (match, $1) => {
-        currentIdPost = $1;
-      });
-      return currentIdPost;
-    }
   }
 
   getPageType() {
@@ -975,25 +998,6 @@ class Tumblr {
     } else if (hash.indexOf('/post/') !== -1) {
       return 'post';
     } else {
-      return 'home';
-    }
-  } // Check page
-
-
-  checkPage(e) {
-    var urlToCheck = '';
-
-    if (window.location.hash === '') {
-      urlToCheck = window.location.pathname;
-    } else {
-      urlToCheck = window.location.hash;
-    }
-
-    if (urlToCheck.indexOf('tagged/') !== -1) {
-      return 'tagged';
-    } else if (urlToCheck.indexOf('post/') !== -1) {
-      return 'post';
-    } else if (urlToCheck === '/') {
       return 'home';
     }
   }
@@ -1025,9 +1029,9 @@ function getRandoms(numPicks, min, max) {
   var j = 0;
 
   if (min === 0) {
-    if (numPicks > max + 1) return;
+    if (numPicks > max + 1) numPicks = max;
   } else {
-    if (numPicks > max - min + 1) return;
+    if (numPicks > max - min + 1) numPicks = max;
   } // Initialize the array
 
 
@@ -1058,10 +1062,10 @@ function getRandoms(numPicks, min, max) {
 
 /***/ }),
 
-/***/ "./src/styles/card.css":
-/*!*****************************!*\
-  !*** ./src/styles/card.css ***!
-  \*****************************/
+/***/ "./src/styles/components/card.css":
+/*!****************************************!*\
+  !*** ./src/styles/components/card.css ***!
+  \****************************************/
 /*! ModuleConcatenation bailout: Module is not an ECMAScript module */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1069,10 +1073,10 @@ function getRandoms(numPicks, min, max) {
 
 /***/ }),
 
-/***/ "./src/styles/chat.css":
-/*!*****************************!*\
-  !*** ./src/styles/chat.css ***!
-  \*****************************/
+/***/ "./src/styles/components/nav.css":
+/*!***************************************!*\
+  !*** ./src/styles/components/nav.css ***!
+  \***************************************/
 /*! ModuleConcatenation bailout: Module is not an ECMAScript module */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1080,10 +1084,10 @@ function getRandoms(numPicks, min, max) {
 
 /***/ }),
 
-/***/ "./src/styles/default-style.css":
-/*!**************************************!*\
-  !*** ./src/styles/default-style.css ***!
-  \**************************************/
+/***/ "./src/styles/components/related-posts.css":
+/*!*************************************************!*\
+  !*** ./src/styles/components/related-posts.css ***!
+  \*************************************************/
 /*! ModuleConcatenation bailout: Module is not an ECMAScript module */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1091,10 +1095,10 @@ function getRandoms(numPicks, min, max) {
 
 /***/ }),
 
-/***/ "./src/styles/quote.css":
-/*!******************************!*\
-  !*** ./src/styles/quote.css ***!
-  \******************************/
+/***/ "./src/styles/components/tags.css":
+/*!****************************************!*\
+  !*** ./src/styles/components/tags.css ***!
+  \****************************************/
 /*! ModuleConcatenation bailout: Module is not an ECMAScript module */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1106,6 +1110,28 @@ function getRandoms(numPicks, min, max) {
 /*!******************************!*\
   !*** ./src/styles/reset.css ***!
   \******************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./src/styles/types/chat.css":
+/*!***********************************!*\
+  !*** ./src/styles/types/chat.css ***!
+  \***********************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./src/styles/types/quote.css":
+/*!************************************!*\
+  !*** ./src/styles/types/quote.css ***!
+  \************************************/
 /*! ModuleConcatenation bailout: Module is not an ECMAScript module */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1141,7 +1167,29 @@ const tumblr = new _dist_tumblr__WEBPACK_IMPORTED_MODULE_0__["Tumblr"]({
 	cache: true,
 	cacheMethod: 'sessionStorage',
 	nearBottom: 350,
-	elementPerPage: 2
+	elementPerPage: 2,
+	templates: {
+		audio: datas => {
+			/* prettier-ignore */
+			return `
+				<div class="card override" data-type="audio" data-id="${datas.id_string}">
+					<div class="card-iframe">
+						${datas.player}
+					</div>
+					<div class="card-body">
+						<h5 class="card-title">${datas.summary}</h5>
+						<ul class="card-tags">
+							${datas.tags.map(tag => `
+									<li>
+										<a href="${datas.blog.url}tagged/${tag}" title="#${tag}">#${tag}</a>
+									</li>
+							`).join('')}
+						</ul>
+					</div>
+				</div>
+			`
+		}
+	}
 })
 
 // Initialize the Tumblr from the instance

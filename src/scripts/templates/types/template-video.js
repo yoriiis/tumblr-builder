@@ -1,11 +1,12 @@
 /* prettier-ignore */
-export default function TemplateLink (datas) {
+export default function TemplateVideo (datas) {
 	return `
-        <div class="card" data-type="link" data-id="${datas.id_string}">
+        <div class="card" data-type="video" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
+            <div class="card-iframe">
+                ${datas.player[2].embed_code}
+            </div>
             <div class="card-body">
-                <a href="${datas.url}" class="card-link" title="${datas.title}">${datas.title}</a>
-                ${datas.description}
-                <a class="btn" href="#/post/${datas.id_string}" title="See more">See more</a>
+                <a href="#/post/${datas.id_string}" class="card-title">${datas.summary}</a>
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>

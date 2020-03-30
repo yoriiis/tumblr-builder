@@ -11,9 +11,9 @@ export function getRandoms (numPicks, min, max) {
 	var j = 0
 
 	if (min === 0) {
-		if (numPicks > max + 1) return
+		if (numPicks > max + 1) numPicks = max
 	} else {
-		if (numPicks > max - min + 1) return
+		if (numPicks > max - min + 1) numPicks = max
 	}
 
 	// Initialize the array

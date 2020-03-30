@@ -1,6 +1,10 @@
 import '../styles/reset.css'
 import '../styles/base.css'
-import '../styles/default-style.css'
-import '../styles/card.css'
-import '../styles/chat.css'
-import '../styles/quote.css'
+
+import '../styles/components/nav.css'
+import '../styles/components/tags.css'
+import '../styles/components/card.css'
+import '../styles/components/related-posts.css'
+
+import '../styles/types/chat.css'
+import '../styles/types/quote.css'

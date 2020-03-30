@@ -1,10 +1,7 @@
-import TemplateText from './templates/template-text'
-import TemplatePhoto from './templates/template-photo'
-import TemplateQuote from './templates/template-quote'
-import TemplateVideo from './templates/template-video'
-import TemplateAudio from './templates/template-audio'
-import TemplateChat from './templates/template-chat'
-import TemplateLink from './templates/template-link'
+import TemplateNav from './templates/components/template-nav'
+import TemplateTags from './templates/components/template-tags'
+import TemplatePosts from './templates/components/template-posts'
+import TemplateRelatedPosts from './templates/components/template-related-posts'
 import { getScrollTop, getRandoms } from './utils'
 import './styles'
 
@@ -20,7 +17,8 @@ export default class Tumblr {
 			cacheMethod: 'sessionStorage',
 			element: '',
 			nearBottom: 350,
-			elementPerPage: 20
+			elementPerPage: 20,
+			templates: {}
 		}
 
 		// Merge default options with user options
@@ -35,6 +33,7 @@ export default class Tumblr {
 		this.currentPage = 1
 		this.nbPostPerRequest = 50
 		this.datas = {}
+		this.types = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video']
 
 		this.onScroll = this.onScroll.bind(this)
 		this.onHashChanged = this.onHashChanged.bind(this)
@@ -51,18 +50,41 @@ export default class Tumblr {
 		console.log(this.datas)
 
 		this.addEvents()
+		this.templates = await this.getTemplates()
 
 		// Get current route
 		this.currentRoute = this.getRoute()
 
-		// Init the router with the default route
-		if (this.currentRoute !== '') {
-			this.onHashChanged()
-		} else {
-			this.setRoute('')
-		}
+		this.onHashChanged()
+	}
 
-		this.buildPage(this.getDatasForHomePage())
+	getTemplates = async () => {
+		const templates = {}
+
+		const typeAvailable = this.types.filter(type =>
+			this.hasProperty(this.options.templates, type)
+		)
+
+		typeAvailable.forEach(type => {
+			templates[type] = this.options.templates[type]
+		})
+
+		const typeUnavailable = this.types.filter(
+			type => !this.hasProperty(this.options.templates, type)
+		)
+
+		const requests = typeUnavailable.map(type => import('./templates/types/template-' + type))
+
+		const responses = await Promise.all(requests)
+		responses.forEach((response, index) => {
+			templates[typeUnavailable[index]] = response.default
+		})
+
+		return templates
+	}
+
+	hasProperty (element, attribute) {
+		return Object.prototype.hasOwnProperty.call(element, attribute)
 	}
 
 	getDatasForHomePage () {
@@ -116,76 +138,56 @@ export default class Tumblr {
 		const currentTag = this.getHashTag()
 		const currentPostId = this.getHashPostId()
 		const pageType = this.getPageType()
-		let datas
+		let posts
 
 		if (pageType === 'tagged' && currentTag && this.hashIsValid(currentTag)) {
-			console.log('goto tag => ', currentTag)
-			datas = await this.getDatasForTaggedPage(currentTag)
+			posts = await this.getDatasForTaggedPage(currentTag)
+			this.buildPage({ posts })
 		} else if (pageType === 'post' && currentPostId) {
-			console.log('goto post => ', currentPostId)
-			datas = await this.getDatasForPostPage(currentPostId)
-			if (datas.length > 1) {
-				console.log('goto redirect home')
+			posts = await this.getDatasForPostPage(currentPostId)
+			if (posts.length > 1) {
 				this.setRoute('')
 				return
 			}
+			const relatedPosts = this.getRelatedPosts({
+				postId: currentPostId,
+				tags: posts[0].tags,
+				limit: 3
+			})
+			this.buildPage({
+				posts,
+				relatedPosts
+			})
 		} else {
-			console.log('goto home')
-			datas = await this.getDatasForHomePage()
+			posts = await this.getDatasForHomePage()
+			this.buildPage({ posts })
 		}
 
 		// Reset class properties on page changes
 		this.endPage = false
 		this.currentPage = 1
-
-		this.buildPage(datas)
 	}
 
-	buildPage (datas) {
+	buildPage ({ posts, relatedPosts = [] }) {
+		const displayTags = this.getPageType() === 'home'
+
 		/* prettier-ignore */
 		this.options.element.innerHTML = `
-			<a class="btn" href="#_" title="Home">Home</a>
-			<div class="tags">
-				<ul>
-					${this.datas.tags.map(tag => `
-						<li>
-							<a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
-						</li>
-					`).join('')}
-					<li></li>
-				</ul>
+			${TemplateNav()}
+			${displayTags ? TemplateTags(this.datas.tags) : ''}
+			<div class="posts">
+				${TemplatePosts({
+			posts: posts,
+			templates: this.templates
+		})}
 			</div>
-			<div class="posts">${this.getHTMLNewPosts(datas)}</div>
+			${relatedPosts.length
+				? TemplateRelatedPosts({
+					posts: relatedPosts,
+					templates: this.templates
+				})
+			: ''}
 		`
-
-		// ${window.location.protocol}//${this.options.host}/tagged/${tag}
-	}
-
-	getHTMLNewPosts (datas) {
-		let html = ''
-		datas.forEach(post => {
-			html += this.getTemplateByType(post.type)(post)
-		})
-
-		return html
-	}
-
-	getTemplateByType (type) {
-		if (type === 'text') {
-			return TemplateText.bind(this)
-		} else if (type === 'photo') {
-			return TemplatePhoto.bind(this)
-		} else if (type === 'quote') {
-			return TemplateQuote.bind(this)
-		} else if (type === 'video') {
-			return TemplateVideo.bind(this)
-		} else if (type === 'audio') {
-			return TemplateAudio.bind(this)
-		} else if (type === 'chat') {
-			return TemplateChat.bind(this)
-		} else if (type === 'link') {
-			return TemplateLink.bind(this)
-		}
 	}
 
 	onScroll = async e => {
@@ -212,12 +214,13 @@ export default class Tumblr {
 	}
 
 	loadNewPage = async datas => {
-		this.options.element
-			.querySelector('.posts')
-			.insertAdjacentHTML(
-				'beforeend',
-				this.getHTMLNewPosts(await this.getPostsByPageNumber(this.currentPage + 1))
-			)
+		this.options.element.querySelector('.posts').insertAdjacentHTML(
+			'beforeend',
+			TemplatePosts({
+				posts: await this.getPostsByPageNumber(this.currentPage + 1),
+				templates: this.templates
+			})
+		)
 	}
 
 	// Get the json and store it in cache if possible
@@ -350,97 +353,23 @@ export default class Tumblr {
 	}
 
 	// Get a related posts
-	getRelatedPosts (options) {
-		var listPosts = []
-		var listID = []
-		var randomTagsArray = []
-		var randomArray = []
-		var currentID = 0
-		var tags = []
-		var posts = null
+	getRelatedPosts ({ postId, limit = 3, tags = [], ignoreTags = [] }) {
+		// Get all tags from current post without ignore tags
+		const tagsSource = tags.filter(tag => !ignoreTags.includes(tag))
 
-		var params = Object.assign(
-			{
-				limit: 3,
-				ignoreTag: null
-			},
-			options
+		// Get related posts
+		const relatedPosts = this.datas.posts.filter(post =>
+			post.tags.some(tag => tagsSource.includes(tag) && post.id_string !== postId)
 		)
 
-		if (!this.options.useAPI) {
-			console.log('Related post use API, please active useAPI in params.')
-			return
-		}
+		// Get random keys
+		const randomKeys = getRandoms(limit, 0, relatedPosts.length - 1) || []
 
-		// If current page is different of page post or json not complete, stop
-		if (this.checkPage() !== 'post' || !this.jsonComplete) {
-			console.log(
-				'Related post can only be add on post page when _Tumblr.events.JSON_COMPLETE is published'
-			)
-			return
-		}
-
-		// Get tags of current post
-		tags = this.getTagsPost()
-
-		// If return null, idPost is unknown in the cache
-		if (tags === null) {
-			console.log('The current post (' + this.getIdPostPage() + ') has no tag')
-			return
-		}
-
-		// If tag must be ignore
-		if (params.ignoreTag != null && tags.length > 1) {
-			for (let l = 0, lengthTagIgnore = tags.length; l < lengthTagIgnore; l++) {
-				if (params.ignoreTag === tags[l]) {
-					tags.splice(l, 1)
-				}
-			}
-		}
-
-		// Get current ID post page
-		currentID = this.getIdPostPage()
-
-		// Loop in all posts
-		for (var i = 0, lengthPosts = this.data.posts.length; i < lengthPosts; i++) {
-			posts = this.data.posts[i]
-
-			// If post has tags
-			if (typeof posts.tags !== 'undefined') {
-				// Loop in tags of every post
-				for (var j = 0, lengthTag = posts.tags.length; j < lengthTag; j++) {
-					// Loop in tags of current post
-					for (var k = 0, lengthCurrentTag = tags.length; k < lengthCurrentTag; k++) {
-						if (
-							posts.tags[j].toLowerCase() === tags[k].toLowerCase() &&
-							posts.id !== currentID &&
-							!listID.includes(posts.id)
-						) {
-							listPosts.push(posts)
-							listID.push(posts.id)
-						}
-					}
-				}
-			}
-		}
-
-		// Zero tag return
-		if (listPosts.length) {
-			// Get an array of random unique number
-			randomArray = getRandoms(params.limit, 0, parseInt(listPosts.length) - 1)
-
-			// Return all tag
-			if (listPosts.length < params.limit) {
-				randomTagsArray.posts = listPosts
-			} else {
-				// Return random
-				randomTagsArray.posts = []
-				for (let l = 0, lengthRandom = randomArray.length; l < lengthRandom; l++) {
-					randomTagsArray.posts.push(listPosts[randomArray[l]])
-				}
-			}
-
-			return randomTagsArray
+		if (relatedPosts.length < limit) {
+			return relatedPosts
+		} else {
+			// Extract random related posts
+			return randomKeys.map(key => relatedPosts[key])
 		}
 	}
 
@@ -458,65 +387,6 @@ export default class Tumblr {
 			: []
 	}
 
-	// Get a list of tags
-	getTagsPost (idPost) {
-		if (!this.options.useAPI) {
-			console.log('List of tags of posts use API, please active useAPI in params.')
-			return
-		}
-
-		var listTags = []
-
-		if (typeof idPost === 'undefined') idPost = this.getIdPostPage()
-
-		for (var i = 0, lengthPost = this.data.posts.length; i < lengthPost; i++) {
-			if (this.data.posts[i].id === idPost) {
-				if (typeof this.data.posts[i].tags === 'undefined') return
-
-				for (var j = 0, l = this.data.posts[i].tags.length; j < l; j++) {
-					listTags.push(this.data.posts[i].tags[j].toLowerCase())
-				}
-
-				return listTags
-			} else {
-				if (i === lengthPost - 1) {
-					console.log('Unknown idPost')
-					return null
-				}
-			}
-		}
-	}
-
-	// Get tag of tagged page
-	getTagPage (e) {
-		if (this.checkPage() === 'tagged') {
-			var urlToCheck = ''
-
-			if (window.location.hash === '') {
-				urlToCheck = window.location.pathname
-			} else {
-				urlToCheck = window.location.hash
-			}
-
-			var pathName = urlToCheck.split('/')
-			var tagComponent = pathName[pathName.length - 1]
-			return decodeURIComponent(tagComponent.replace(/-/g, ' '))
-		}
-	}
-
-	// Get id of post in post page
-	getIdPostPage (e) {
-		var currentPostUrl = window.location.href
-		var currentIdPost = null
-
-		if (this.checkPage() === 'post') {
-			currentPostUrl.replace(/\/post\/([0-9]+)/g, (match, $1) => {
-				currentIdPost = $1
-			})
-			return currentIdPost
-		}
-	}
-
 	getPageType () {
 		const hash = this.getRoute()
 
@@ -525,25 +395,6 @@ export default class Tumblr {
 		} else if (hash.indexOf('/post/') !== -1) {
 			return 'post'
 		} else {
-			return 'home'
-		}
-	}
-
-	// Check page
-	checkPage (e) {
-		var urlToCheck = ''
-
-		if (window.location.hash === '') {
-			urlToCheck = window.location.pathname
-		} else {
-			urlToCheck = window.location.hash
-		}
-
-		if (urlToCheck.indexOf('tagged/') !== -1) {
-			return 'tagged'
-		} else if (urlToCheck.indexOf('post/') !== -1) {
-			return 'post'
-		} else if (urlToCheck === '/') {
 			return 'home'
 		}
 	}

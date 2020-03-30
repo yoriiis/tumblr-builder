@@ -1,13 +1,10 @@
 /* prettier-ignore */
-export default function TemplateAudio (datas) {
+export default function TemplateLink (datas) {
 	return `
-        <div class="card" data-type="audio" data-id="${datas.id_string}">
-            <div class="card-iframe">
-                ${datas.player}
-            </div>
+        <div class="card" data-type="link" data-id="${datas.id_string}">
             <div class="card-body">
-                <h5 class="card-title">${datas.summary}</h5>
-                <a class="btn" href="#/post/${datas.id_string}" title="See more">See more</a>
+                <a href="${datas.url}" class="card-link" title="${datas.title}">${datas.title}</a>
+                ${datas.description}
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>

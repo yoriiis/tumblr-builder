@@ -1,11 +1,10 @@
 /* prettier-ignore */
-export default function TemplatePhoto (datas) {
+export default function TemplateText (datas) {
 	return `
-        <div class="card" data-type="photo" data-id="${datas.id_string}">
+        <div class="card" data-type="text" data-id="${datas.id_string}">
             <div class="card-body">
-                <img class="card-picture" src="${datas.photos[0].original_size.url}" alt="${datas.summary}" />
-                <h5 class="card-title">${datas.summary}</h5>
-                <a class="btn" href="#/post/${datas.id_string}" title="See more">See more</a>
+                <a href="#/post/${datas.id_string}" class="card-title">${datas.title}</a>
+                ${datas.body}
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>

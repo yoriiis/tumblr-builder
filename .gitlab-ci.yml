@@ -1,0 +1,39 @@
+image: node:12.14.0
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - prepare
+  - test
+  - build
+
+prepare:dependencies:
+  stage: prepare
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - frontend/node_modules
+
+test:eslint:
+  stage: test
+  dependencies:
+    - prepare:dependencies
+  script:
+    - npm test:eslint
+
+test:stylelint:
+  stage: test
+  dependencies:
+    - prepare:dependencies
+  script:
+    - npm test:stylelint
+
+build:
+  stage: build
+  dependencies:
+    - prepare:dependencies
+  script:
+    - npm run build
