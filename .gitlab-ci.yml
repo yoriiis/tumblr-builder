@@ -22,14 +22,14 @@ test:eslint:
   dependencies:
     - prepare:dependencies
   script:
-    - npm test:eslint
+    - npm run test:eslint
 
 test:stylelint:
   stage: test
   dependencies:
     - prepare:dependencies
   script:
-    - npm test:stylelint
+    - npm run test:stylelint
 
 build:
   stage: build

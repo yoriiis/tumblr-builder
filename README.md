@@ -1,4 +1,4 @@
-Tumblr.js
+Tumblr.js v2 (wip)
 ==================================================
 
 New Tumblr class js which use Tumblr API and extend methods. Include infinite scroll, related posts and all tags.
