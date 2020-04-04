@@ -1,3 +1,6 @@
+variables:
+  DOCKER_DRIVER: overlay2
+
 image: node:12.14.0
 
 cache:
@@ -16,21 +19,29 @@ prepare:dependencies:
     - npm ci
   artifacts:
     paths:
-      - frontend/node_modules
+      - node_modules
 
-# test:eslint:
-#   stage: test
-#   dependencies:
-#     - prepare:dependencies
-#   script:
-#     - npm run test:eslint
+test:eslint:
+  stage: test
+  dependencies:
+    - prepare:dependencies
+  script:
+    - npm run test:eslint
+  only:
+    changes:
+      - src/**/*
+      - example/**/*
 
-# test:stylelint:
-#   stage: test
-#   dependencies:
-#     - prepare:dependencies
-#   script:
-#     - npm run test:stylelint
+test:stylelint:
+  stage: test
+  dependencies:
+    - prepare:dependencies
+  script:
+    - npm run test:stylelint
+  only:
+    changes:
+      - src/**/*
+      - example/**/*
 
 build:
   stage: build

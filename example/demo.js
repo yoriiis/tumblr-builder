@@ -1,4 +1,5 @@
 import { Tumblr } from '../dist/tumblr'
+import '../dist/tumblr.css'
 
 const tumblr = new Tumblr({
 	host: 'yoriiis.tumblr.com',

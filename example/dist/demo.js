@@ -86,6 +86,17 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./dist/tumblr.css":
+/*!*************************!*\
+  !*** ./dist/tumblr.css ***!
+  \*************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "./dist/tumblr.js":
 /*!************************!*\
   !*** ./dist/tumblr.js ***!
@@ -1156,6 +1167,9 @@ function getRandoms(numPicks, min, max) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dist_tumblr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dist/tumblr */ "./dist/tumblr.js");
 /* harmony import */ var _dist_tumblr__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_dist_tumblr__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dist/tumblr.css */ "./dist/tumblr.css");
+/* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1__);
+
 
 
 const tumblr = new _dist_tumblr__WEBPACK_IMPORTED_MODULE_0__["Tumblr"]({

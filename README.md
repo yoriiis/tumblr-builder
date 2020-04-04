@@ -1,5 +1,6 @@
-Tumblr.js v2 (wip)
-==================================================
+# Tumblr.js v2 (wip)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/cfe5ccb9-b063-4ca0-81d7-9492bfae8754/deploy-status)](https://app.netlify.com/sites/tumblrjs/deploys)
 
 New Tumblr class js which use Tumblr API and extend methods. Include infinite scroll, related posts and all tags.
 
