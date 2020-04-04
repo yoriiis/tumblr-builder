@@ -2,9 +2,7 @@
 
 .relatedPosts {
     &-title {
-        color: var(--white);
         margin-bottom: 24px;
-        border-top: 1px solid var(--white);
         padding-top: 20px;
     }
 }

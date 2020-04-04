@@ -43,12 +43,23 @@ test:stylelint:
       - src/**/*
       - example/**/*
 
+test:markdown:
+  stage: test
+  dependencies:
+    - prepare:dependencies
+  script:
+    - npm run test:markdown
+  only:
+    changes:
+      - README.md
+
 build:
   stage: build
   dependencies:
     - prepare:dependencies
   script:
     - npm run build
+    - npm run build:example
   artifacts:
     paths:
       - example

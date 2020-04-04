@@ -1,7 +1,7 @@
 /* prettier-ignore */
 export default function TemplateChat (datas) {
 	return `
-        <div class="card" data-type="chat" data-id="${datas.id_string}">
+        <div class="card card-chat" data-id="${datas.id_string}">
             <div class="card-body">
                 <a href="#/post/${datas.id_string}" class="card-title">${datas.title}</a>
                 <ul class="card-conversations">

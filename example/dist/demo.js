@@ -302,6 +302,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _styles_types_quote_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../styles/types/quote.css */ "./src/styles/types/quote.css");
 /* harmony import */ var _styles_types_quote_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_styles_types_quote_css__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _styles_types_photo_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../styles/types/photo.css */ "./src/styles/types/photo.css");
+/* harmony import */ var _styles_types_photo_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_styles_types_photo_css__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -426,7 +429,7 @@ __webpack_require__.r(__webpack_exports__);
 /* prettier-ignore */
 function TemplateAudio(datas) {
   return `
-        <div class="card" data-type="audio" data-id="${datas.id_string}">
+        <div class="card card-audio" data-id="${datas.id_string}">
             <div class="card-iframe">
                 ${datas.player}
             </div>
@@ -459,7 +462,7 @@ __webpack_require__.r(__webpack_exports__);
 /* prettier-ignore */
 function TemplateChat(datas) {
   return `
-        <div class="card" data-type="chat" data-id="${datas.id_string}">
+        <div class="card card-chat" data-id="${datas.id_string}">
             <div class="card-body">
                 <a href="#/post/${datas.id_string}" class="card-title">${datas.title}</a>
                 <ul class="card-conversations">
@@ -497,7 +500,7 @@ __webpack_require__.r(__webpack_exports__);
 /* prettier-ignore */
 function TemplateLink(datas) {
   return `
-        <div class="card" data-type="link" data-id="${datas.id_string}">
+        <div class="card card-link" data-id="${datas.id_string}">
             <div class="card-body">
                 <a href="${datas.url}" class="card-link" title="${datas.title}">${datas.title}</a>
                 ${datas.description}
@@ -527,11 +530,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplatePhoto; });
 /* prettier-ignore */
 function TemplatePhoto(datas) {
+  const isPhotoset = datas.photos.length > 1;
   return `
-        <div class="card" data-type="photo" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
+        <div class="card card-photo${isPhotoset ? ` photoset photos-${datas.photos.length}` : ''}" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}" data-key="${datas.reblog_key}">
             <div class="card-body">
-                <img class="card-picture" src="${datas.photos[0].original_size.url}" alt="${datas.summary}" />
-                <a href="#/post/${datas.id_string}" class="card-title">${datas.summary}</a>
+                <ul class="card-photos">
+                ${datas.photos.map(photo => `
+                        <li>
+                            <img class="card-picture" src="${photo.original_size.url}" alt="${datas.summary}" />
+                        </li>
+                `).join('')}
+                </ul>
+                ${datas.summary ? `<a href="#/post/${datas.id_string}" class="card-title">${datas.summary}</a>` : ''}
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
@@ -539,6 +549,7 @@ function TemplatePhoto(datas) {
                             </li>
                     `).join('')}
                 </ul>
+                <button class="card-link" data-button-like>Like</button>
             </div>
         </div>
     `;
@@ -559,7 +570,7 @@ __webpack_require__.r(__webpack_exports__);
 /* prettier-ignore */
 function TemplateQuote(datas) {
   return `
-        <div class="card" data-type="quote" data-id="${datas.id_string}">
+        <div class="card card-quote" data-id="${datas.id_string}">
             <div class="card-body">
                 <blockquote class="card-blockquote">
                     <p>${datas.text}</p>
@@ -592,7 +603,7 @@ __webpack_require__.r(__webpack_exports__);
 /* prettier-ignore */
 function TemplateText(datas) {
   return `
-        <div class="card" data-type="text" data-id="${datas.id_string}">
+        <div class="card card-text" data-id="${datas.id_string}">
             <div class="card-body">
                 <a href="#/post/${datas.id_string}" class="card-title">${datas.title}</a>
                 ${datas.body}
@@ -623,7 +634,7 @@ __webpack_require__.r(__webpack_exports__);
 /* prettier-ignore */
 function TemplateVideo(datas) {
   return `
-        <div class="card" data-type="video" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
+        <div class="card card-video" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
             <div class="card-iframe">
                 ${datas.player[2].embed_code}
             </div>
@@ -675,48 +686,21 @@ class Tumblr {
   constructor(options) {
     _defineProperty(this, "init", async () => {
       // Get JSON and push it in cache if option is active and if it's possible
-      if (this.options.useAPI) {
-        this.datas = await this.getAllDatas();
-        this.jsonComplete = true;
-        this.datas.tags = await this.getAllTags();
-        this.totalPages = Math.ceil(this.datas.totalPosts / this.options.elementPerPage);
+      this.datas = await this.getAllDatas();
+
+      if (this.datas.posts.length === 0) {
+        return false;
       }
 
-      console.log(this.datas);
+      this.jsonComplete = true;
+      this.datas.tags = await this.getAllTags();
+      this.totalPages = Math.ceil(this.datas.totalPosts / this.options.elementPerPage);
       this.addEvents();
       this.templates = await this.getTemplates(); // Get current route
 
       this.currentRoute = this.getRoute();
-      this.onHashChanged(); // this.buildPage(this.getDatasForHomePage())
-    });
-
-    _defineProperty(this, "getTemplates", async () => {
-      const templates = {};
-      const typeAvailable = this.types.filter(type => this.hasProperty(this.options.templates, type));
-      typeAvailable.forEach(type => {
-        templates[type] = this.options.templates[type];
-      });
-      const typeUnavailable = this.types.filter(type => !this.hasProperty(this.options.templates, type));
-      const requests = typeUnavailable.map(type => Promise.resolve().then(() => _interopRequireWildcard(__webpack_require__("./src/scripts sync recursive ^.*$")(`${'./templates/types/template-' + type}`))));
-      const responses = await Promise.all(requests);
-      responses.forEach((response, index) => {
-        templates[typeUnavailable[index]] = response.default;
-      });
-      return templates;
-    });
-
-    _defineProperty(this, "getDatasForTaggedPage", async tag => {
-      const datas = await this.requestAPI(this.getAPIUrl({
-        tag: tag
-      }));
-      return datas && datas.response ? datas.response.posts : [];
-    });
-
-    _defineProperty(this, "getDatasForPostPage", async id => {
-      const datas = await this.requestAPI(this.getAPIUrl({
-        id: id
-      }));
-      return datas && datas.response ? datas.response.posts : [];
+      this.onHashChanged();
+      return this.datas;
     });
 
     _defineProperty(this, "onHashChanged", async e => {
@@ -725,7 +709,7 @@ class Tumblr {
       const pageType = this.getPageType();
       let posts;
 
-      if (pageType === 'tagged' && currentTag && this.hashIsValid(currentTag)) {
+      if (pageType === 'tagged' && currentTag && this.isValidHash(currentTag)) {
         posts = await this.getDatasForTaggedPage(currentTag);
         this.buildPage({
           posts
@@ -783,6 +767,21 @@ class Tumblr {
       }));
     });
 
+    _defineProperty(this, "getTemplates", async () => {
+      const templates = {};
+      const typeAvailable = this.types.filter(type => this.hasProperty(this.options.templates, type));
+      typeAvailable.forEach(type => {
+        templates[type] = this.options.templates[type];
+      });
+      const typeUnavailable = this.types.filter(type => !this.hasProperty(this.options.templates, type));
+      const requests = typeUnavailable.map(type => Promise.resolve().then(() => _interopRequireWildcard(__webpack_require__("./src/scripts sync recursive ^.*$")(`${'./templates/types/template-' + type}`))));
+      const responses = await Promise.all(requests);
+      responses.forEach((response, index) => {
+        templates[typeUnavailable[index]] = response.default;
+      });
+      return templates;
+    });
+
     _defineProperty(this, "getAllDatas", async e => {
       let datas; // If cache is true
 
@@ -809,30 +808,52 @@ class Tumblr {
 
     _defineProperty(this, "getDataFromAPI", async () => {
       const datasFirstRequest = await this.requestAPI(this.getAPIUrl());
-      const totalPosts = datasFirstRequest.response.total_posts;
-      const nbLoop = this.getNumberOfRequest(totalPosts);
-      let posts = datasFirstRequest.response.posts;
 
-      if (datasFirstRequest.response.posts.length && nbLoop) {
-        const requests = []; // Else do multiple loop to get data in JSON (limit this.options.limitData)
+      if (this.isValidResponse(datasFirstRequest)) {
+        const totalPosts = datasFirstRequest.response.total_posts;
+        const nbLoop = this.getNumberOfRequest(totalPosts);
+        let posts = datasFirstRequest.response.posts;
 
-        for (var i = 0; i < nbLoop; i++) {
-          requests.push(this.requestAPI(this.getAPIUrl({
-            offset: this.nbPostPerRequest + this.nbPostPerRequest * i
-          })));
+        if (datasFirstRequest.response.posts.length && nbLoop) {
+          const requests = []; // Else do multiple loop to get data in JSON (limit this.options.limitData)
+
+          for (var i = 0; i < nbLoop; i++) {
+            requests.push(this.requestAPI(this.getAPIUrl({
+              offset: this.nbPostPerRequest + this.nbPostPerRequest * i
+            })));
+          }
+
+          await Promise.all(requests).then(responses => {
+            responses.forEach(response => {
+              posts = posts.concat(response.response.posts);
+            });
+          });
         }
 
-        await Promise.all(requests).then(responses => {
-          responses.forEach(response => {
-            posts = posts.concat(response.response.posts);
-          });
-        });
+        return {
+          totalPosts,
+          posts
+        };
+      } else {
+        return {
+          totalPosts: 0,
+          posts: []
+        };
       }
+    });
 
-      return {
-        totalPosts,
-        posts
-      };
+    _defineProperty(this, "getDatasForTaggedPage", async tag => {
+      const datas = await this.requestAPI(this.getAPIUrl({
+        tag: tag
+      }));
+      return datas && datas.response ? datas.response.posts : [];
+    });
+
+    _defineProperty(this, "getDatasForPostPage", async id => {
+      const datas = await this.requestAPI(this.getAPIUrl({
+        id: id
+      }));
+      return datas && datas.response ? datas.response.posts : [];
     });
 
     _defineProperty(this, "getPostsByPageNumber", async pageNumber => {
@@ -853,12 +874,11 @@ class Tumblr {
     const userOptions = options || {};
     const defaultOptions = {
       host: '',
-      useAPI: false,
       keyAPI: '',
       limitData: 250,
       cache: false,
       cacheMethod: 'sessionStorage',
-      element: '',
+      element: null,
       nearBottom: 350,
       elementPerPage: 20,
       templates: {}
@@ -866,7 +886,7 @@ class Tumblr {
 
     this.options = Object.assign(defaultOptions, userOptions); // No configurables params
 
-    this.browserStorageKey = `${this.options.host.split('.')[0]}TumblrJsonData`;
+    this.browserStorageKey = 'TumblrJsonData';
     this.infiniteScroll = true;
     this.endPage = false;
     this.isLoading = false;
@@ -877,29 +897,6 @@ class Tumblr {
     this.types = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video'];
     this.onScroll = this.onScroll.bind(this);
     this.onHashChanged = this.onHashChanged.bind(this);
-  }
-
-  hasProperty(element, attribute) {
-    return Object.prototype.hasOwnProperty.call(element, attribute);
-  }
-
-  getDatasForHomePage() {
-    const maxPosts = this.datas.totalPosts < this.options.elementPerPage ? this.datas.totalPosts : this.options.elementPerPage;
-    return this.datas.posts.slice(0, maxPosts);
-  }
-
-  hashIsValid(tag) {
-    return this.datas.tags.find(item => item === tag);
-  }
-  /**
-   * Set the route
-   *
-   * @returns {String} route New value for the route
-   */
-
-
-  setRoute(route) {
-    window.location.hash = route;
   }
 
   addEvents() {
@@ -930,6 +927,31 @@ class Tumblr {
 		`;
   }
 
+  /**
+   * Set the route
+   *
+   * @returns {String} route New value for the route
+   */
+  setRoute(route) {
+    window.location.hash = route;
+  }
+
+  requestAPI(url) {
+    return fetch(url).then(response => response.json());
+  }
+
+  isValidHash(tag) {
+    return this.datas.tags.find(item => item === tag);
+  }
+
+  isValidResponse(datas) {
+    return datas.meta.status === 200;
+  }
+
+  extractDatasFromLocalDatas(range) {
+    return this.datas.posts.slice(range.start, range.end + 1);
+  }
+
   getAPIUrl({
     id = false,
     offset = 0,
@@ -937,19 +959,28 @@ class Tumblr {
     tag = false
   } = {}) {
     return `//api.tumblr.com/v2/blog/${this.options.host}/posts/?api_key=${this.options.keyAPI}&limit=${limit}&notes_info=false&offset=${offset}${tag ? `&tag=${tag}` : ''}${id ? `&id=${id}` : ''}`;
-  }
+  } // Get the json and store it in cache if possible
 
-  requestAPI(url) {
-    return fetch(url).then(response => response.json());
-  }
 
   getNumberOfRequest(totalPosts) {
     return totalPosts <= this.options.limitData ? Math.ceil((totalPosts - this.nbPostPerRequest) / this.nbPostPerRequest) : Math.ceil((this.options.limitData - this.nbPostPerRequest) / this.nbPostPerRequest);
-  } // Get all the json with a limit
+  }
 
+  getDatasForHomePage() {
+    const maxPosts = this.datas.totalPosts < this.options.elementPerPage ? this.datas.totalPosts : this.options.elementPerPage;
+    return this.datas.posts.slice(0, maxPosts);
+  }
 
-  extractDatasFromLocalDatas(range) {
-    return this.datas.posts.slice(range.start, range.end + 1);
+  getPageType() {
+    const hash = this.getRoute();
+
+    if (hash.indexOf('/tagged/') !== -1) {
+      return 'tagged';
+    } else if (hash.indexOf('/post/') !== -1) {
+      return 'post';
+    } else {
+      return 'home';
+    }
   }
 
   getRange(pageNumber) {
@@ -1001,16 +1032,8 @@ class Tumblr {
     }).sort() : [];
   }
 
-  getPageType() {
-    const hash = this.getRoute();
-
-    if (hash.indexOf('/tagged/') !== -1) {
-      return 'tagged';
-    } else if (hash.indexOf('/post/') !== -1) {
-      return 'post';
-    } else {
-      return 'home';
-    }
+  hasProperty(element, attribute) {
+    return Object.prototype.hasOwnProperty.call(element, attribute);
   }
 
 }
@@ -1139,6 +1162,17 @@ function getRandoms(numPicks, min, max) {
 
 /***/ }),
 
+/***/ "./src/styles/types/photo.css":
+/*!************************************!*\
+  !*** ./src/styles/types/photo.css ***!
+  \************************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "./src/styles/types/quote.css":
 /*!************************************!*\
   !*** ./src/styles/types/quote.css ***!
@@ -1156,6 +1190,17 @@ function getRandoms(numPicks, min, max) {
 
 /***/ }),
 
+/***/ "./example/demo.css":
+/*!**************************!*\
+  !*** ./example/demo.css ***!
+  \**************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "./example/demo.js":
 /*!*************************!*\
   !*** ./example/demo.js ***!
@@ -1167,15 +1212,23 @@ function getRandoms(numPicks, min, max) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dist_tumblr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dist/tumblr */ "./dist/tumblr.js");
 /* harmony import */ var _dist_tumblr__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_dist_tumblr__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dist/tumblr.css */ "./dist/tumblr.css");
-/* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _demo_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./demo.css */ "./example/demo.css");
+/* harmony import */ var _demo_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_demo_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dist/tumblr.css */ "./dist/tumblr.css");
+/* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_dist_tumblr_css__WEBPACK_IMPORTED_MODULE_2__);
 
 
+
+
+// Get the host from the browser storage if available
+const host = window.sessionStorage.getItem('tumblr') || 'yoriiis'
+const formInputText = document.querySelector('#form-text')
+window.sessionStorage.setItem('tumblr', host)
+formInputText.value = host.split('.tumblr.com')[0]
 
 const tumblr = new _dist_tumblr__WEBPACK_IMPORTED_MODULE_0__["Tumblr"]({
-	host: 'yoriiis.tumblr.com',
+	host,
 	element: document.querySelector('#tumblr-app'),
-	useAPI: true,
 	keyAPI: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',
 	limitData: 250,
 	cache: true,
@@ -1186,12 +1239,12 @@ const tumblr = new _dist_tumblr__WEBPACK_IMPORTED_MODULE_0__["Tumblr"]({
 		audio: datas => {
 			/* prettier-ignore */
 			return `
-				<div class="card override" data-type="audio" data-id="${datas.id_string}">
+				<div class="card card-audio" data-id="${datas.id_string}">
 					<div class="card-iframe">
 						${datas.player}
 					</div>
 					<div class="card-body">
-						<h5 class="card-title">${datas.summary}</h5>
+						<a href="#/post/${datas.id_string}" class="card-title">${datas.summary}</a>
 						<ul class="card-tags">
 							${datas.tags.map(tag => `
 									<li>
@@ -1207,7 +1260,26 @@ const tumblr = new _dist_tumblr__WEBPACK_IMPORTED_MODULE_0__["Tumblr"]({
 })
 
 // Initialize the Tumblr from the instance
-tumblr.init()
+tumblr.init().then(response => {
+	console.log(response)
+
+	// No result, redirect to a fresh home with default host
+	if (response === false) {
+		window.sessionStorage.removeItem('tumblr')
+	}
+})
+
+// Update the host with the form
+document.querySelector('.form').addEventListener('submit', e => {
+	e.preventDefault()
+
+	const inputValue = formInputText.value || false
+	if (inputValue) {
+		window.sessionStorage.setItem('tumblr', `${inputValue}.tumblr.com`)
+		window.sessionStorage.removeItem('TumblrJsonData')
+		window.location.href = ''
+	}
+})
 
 
 /***/ })

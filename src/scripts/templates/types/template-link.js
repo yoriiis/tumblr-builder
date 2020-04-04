@@ -1,7 +1,7 @@
 /* prettier-ignore */
 export default function TemplateLink (datas) {
 	return `
-        <div class="card" data-type="link" data-id="${datas.id_string}">
+        <div class="card card-link" data-id="${datas.id_string}">
             <div class="card-body">
                 <a href="${datas.url}" class="card-link" title="${datas.title}">${datas.title}</a>
                 ${datas.description}

@@ -1,7 +1,7 @@
 /* prettier-ignore */
 export default function TemplateVideo (datas) {
 	return `
-        <div class="card" data-type="video" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
+        <div class="card card-video" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
             <div class="card-iframe">
                 ${datas.player[2].embed_code}
             </div>

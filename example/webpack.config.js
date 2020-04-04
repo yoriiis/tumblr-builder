@@ -35,7 +35,7 @@ module.exports = (env, argv) => {
 				},
 				{
 					test: /\.css$/,
-					include: [path.resolve(__dirname, './src'), path.resolve(__dirname, '../dist')],
+					include: [path.resolve(__dirname, './'), path.resolve(__dirname, '../dist')],
 					use: [
 						MiniCssExtractPlugin.loader,
 						{

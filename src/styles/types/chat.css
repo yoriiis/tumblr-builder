@@ -1,7 +1,7 @@
 @import "@commonVars";
 
-.card {
-    &-conversations {
+.card-chat {
+    .card-conversations {
         margin-bottom: 20px;
 
         li {

@@ -1,0 +1,35 @@
+@import "@commonVars";
+
+.card-photo {
+    .card-photos {
+        margin-bottom: 20px;
+    }
+
+    &.photoset {
+        .card-photos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-row-gap: 20px;
+            grid-column-gap: 20px;
+            align-items: center;
+
+            li {
+                display: none;
+            }
+
+            li:nth-child(3n + 1) {
+                grid-column: 1/3;
+            }
+
+            li:nth-child(-n + 3) {
+                display: block;
+            }
+        }
+    }
+
+    .card-picture {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+}

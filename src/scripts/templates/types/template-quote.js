@@ -1,7 +1,7 @@
 /* prettier-ignore */
 export default function TemplateQuote (datas) {
 	return `
-        <div class="card" data-type="quote" data-id="${datas.id_string}">
+        <div class="card card-quote" data-id="${datas.id_string}">
             <div class="card-body">
                 <blockquote class="card-blockquote">
                     <p>${datas.text}</p>

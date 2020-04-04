@@ -8,3 +8,4 @@ import '../styles/components/related-posts.css'
 
 import '../styles/types/chat.css'
 import '../styles/types/quote.css'
+import '../styles/types/photo.css'
