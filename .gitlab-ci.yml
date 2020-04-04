@@ -8,6 +8,7 @@ stages:
   - prepare
   - test
   - build
+  - deploy
 
 prepare:dependencies:
   stage: prepare
@@ -17,19 +18,19 @@ prepare:dependencies:
     paths:
       - frontend/node_modules
 
-test:eslint:
-  stage: test
-  dependencies:
-    - prepare:dependencies
-  script:
-    - npm run test:eslint
+# test:eslint:
+#   stage: test
+#   dependencies:
+#     - prepare:dependencies
+#   script:
+#     - npm run test:eslint
 
-test:stylelint:
-  stage: test
-  dependencies:
-    - prepare:dependencies
-  script:
-    - npm run test:stylelint
+# test:stylelint:
+#   stage: test
+#   dependencies:
+#     - prepare:dependencies
+#   script:
+#     - npm run test:stylelint
 
 build:
   stage: build
@@ -37,3 +38,20 @@ build:
     - prepare:dependencies
   script:
     - npm run build
+  artifacts:
+    paths:
+      - example
+
+deploy:
+  stage: deploy
+  environment:
+    name: production
+    url: $NETFLIFY_URL
+  dependencies:
+    - prepare:dependencies
+    - build
+  only:
+    - develop
+  script:
+    - npm i -g netlify-cli
+    - netlify deploy --site $NETLIFY_APP_ID --auth $NETLIFY_AUTH_TOKEN --prod
