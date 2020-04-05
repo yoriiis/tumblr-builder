@@ -1,3 +1,11 @@
+/**
+ * Template for link Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 export default function TemplateLink (datas) {
 	return `
@@ -8,7 +16,7 @@ export default function TemplateLink (datas) {
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
-                                <a href="${datas.blog.url}tagged/${tag}" title="#${tag}">#${tag}</a>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
                             </li>
                     `).join('')}
                 </ul>

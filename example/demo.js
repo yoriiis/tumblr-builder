@@ -1,4 +1,4 @@
-import { Tumblr } from '../dist/tumblr'
+import Tumblr from '../dist/tumblr'
 import './demo.css'
 import '../dist/tumblr.css'
 
@@ -9,14 +9,14 @@ window.sessionStorage.setItem('tumblr', host)
 formInputText.value = host.split('.tumblr.com')[0]
 
 const tumblr = new Tumblr({
-	host,
 	element: document.querySelector('#tumblr-app'),
-	keyAPI: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',
+	host,
+	apiKey: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',
 	limitData: 250,
 	cache: true,
 	cacheMethod: 'sessionStorage',
 	nearBottom: 350,
-	elementPerPage: 2,
+	elementsPerPage: 2,
 	templates: {
 		audio: datas => {
 			/* prettier-ignore */
@@ -51,7 +51,7 @@ tumblr.init().then(response => {
 	}
 })
 
-// Update the host with the form
+// Update the host from the form
 document.querySelector('.form').addEventListener('submit', e => {
 	e.preventDefault()
 
@@ -61,4 +61,19 @@ document.querySelector('.form').addEventListener('submit', e => {
 		window.sessionStorage.removeItem('TumblrJsonData')
 		window.location.href = ''
 	}
+})
+
+// Update the dark mode from the button
+const html = document.querySelector('html')
+html.querySelector('[data-button-darkmode]').addEventListener('click', e => {
+	e.preventDefault()
+
+	const darkMode = html.classList.contains('darkMode')
+	if (darkMode) {
+		html.classList.remove('darkMode')
+	} else {
+		html.classList.add('darkMode')
+	}
+
+	window.localStorage.setItem('tumblrDarkMode', !darkMode)
 })

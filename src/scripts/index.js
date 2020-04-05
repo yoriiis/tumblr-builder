@@ -1,1 +1,1 @@
-export { default as Tumblr } from './tumblr'
+export { default } from './tumblr'

@@ -1,3 +1,9 @@
+/**
+ * Template for the related posts
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 export default function TemplateRelatedPosts ({ posts = [], templates }) {
 	return `

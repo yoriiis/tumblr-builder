@@ -271,7 +271,7 @@ webpackContext.id = "./src/scripts sync recursive ^.*$";
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tumblr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tumblr */ "./src/scripts/tumblr.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Tumblr", function() { return _tumblr__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _tumblr__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
 
 
@@ -326,6 +326,12 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateNav; });
+/**
+ * Template for the navigation
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 function TemplateNav() {
   return `
@@ -352,12 +358,17 @@ function TemplateNav() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplatePosts; });
+/**
+ * Template for the posts list
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 function TemplatePosts({
   posts = [],
   templates
 }) {
-  // console.log(getTemplateByType('text'))
   return posts.map(post => templates[post.type](post)).join('');
 }
 
@@ -373,6 +384,12 @@ function TemplatePosts({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateRelatedPosts; });
+/**
+ * Template for the related posts
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 function TemplateRelatedPosts({
   posts = [],
@@ -398,6 +415,12 @@ function TemplateRelatedPosts({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateTags; });
+/**
+ * Template for the tags list
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 function TemplateTags(datas) {
   return `
@@ -426,6 +449,14 @@ function TemplateTags(datas) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateAudio; });
+/**
+ * Template for audio Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 function TemplateAudio(datas) {
   return `
@@ -438,7 +469,7 @@ function TemplateAudio(datas) {
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
-                                <a href="${datas.blog.url}tagged/${tag}" title="#${tag}">#${tag}</a>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
                             </li>
                     `).join('')}
                 </ul>
@@ -459,6 +490,14 @@ function TemplateAudio(datas) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateChat; });
+/**
+ * Template for chat Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 function TemplateChat(datas) {
   return `
@@ -476,7 +515,7 @@ function TemplateChat(datas) {
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
-                                <a href="${datas.blog.url}tagged/${tag}" title="#${tag}">#${tag}</a>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
                             </li>
                     `).join('')}
                 </ul>
@@ -497,6 +536,14 @@ function TemplateChat(datas) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateLink; });
+/**
+ * Template for link Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 function TemplateLink(datas) {
   return `
@@ -507,7 +554,7 @@ function TemplateLink(datas) {
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
-                                <a href="${datas.blog.url}tagged/${tag}" title="#${tag}">#${tag}</a>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
                             </li>
                     `).join('')}
                 </ul>
@@ -528,11 +575,19 @@ function TemplateLink(datas) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplatePhoto; });
+/**
+ * Template for photo/photoset Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 function TemplatePhoto(datas) {
   const isPhotoset = datas.photos.length > 1;
   return `
-        <div class="card card-photo${isPhotoset ? ` photoset photos-${datas.photos.length}` : ''}" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}" data-key="${datas.reblog_key}">
+        <div class="card card-photo${isPhotoset ? ` photoset photos-${datas.photos.length}` : ''}" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
             <div class="card-body">
                 <ul class="card-photos">
                 ${datas.photos.map(photo => `
@@ -545,11 +600,10 @@ function TemplatePhoto(datas) {
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
-                                <a href="${datas.blog.url}tagged/${tag}" title="#${tag}">#${tag}</a>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
                             </li>
                     `).join('')}
                 </ul>
-                <button class="card-link" data-button-like>Like</button>
             </div>
         </div>
     `;
@@ -567,6 +621,14 @@ function TemplatePhoto(datas) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateQuote; });
+/**
+ * Template for quote Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 function TemplateQuote(datas) {
   return `
@@ -579,7 +641,7 @@ function TemplateQuote(datas) {
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
-                                <a href="${datas.blog.url}tagged/${tag}" title="#${tag}">#${tag}</a>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
                             </li>
                     `).join('')}
                 </ul>
@@ -600,6 +662,14 @@ function TemplateQuote(datas) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateText; });
+/**
+ * Template for text Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 function TemplateText(datas) {
   return `
@@ -610,7 +680,7 @@ function TemplateText(datas) {
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
-                                <a href="${datas.blog.url}tagged/${tag}" title="#${tag}">#${tag}</a>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
                             </li>
                     `).join('')}
                 </ul>
@@ -631,6 +701,14 @@ function TemplateText(datas) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateVideo; });
+/**
+ * Template for video Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 function TemplateVideo(datas) {
   return `
@@ -643,7 +721,7 @@ function TemplateVideo(datas) {
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
                             <li>
-                                <a href="${datas.blog.url}tagged/${tag}" title="#${tag}">#${tag}</a>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
                             </li>
                     `).join('')}
                 </ul>
@@ -682,7 +760,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+/**
+ * @license MIT
+ * @name Tumblrjs
+ * @version 2.0.0
+ * @author: Yoriiis aka Joris DANIEL <joris.daniel@gmail.com>
+ * @description:
+ * {@link https://github.com/yoriiis/tumblr}
+ * @copyright 2020 Joris DANIEL
+ **/
+
 class Tumblr {
+  /**
+   * @param {options}
+   */
   constructor(options) {
     _defineProperty(this, "init", async () => {
       // Get JSON and push it in cache if option is active and if it's possible
@@ -694,22 +785,22 @@ class Tumblr {
 
       this.jsonComplete = true;
       this.datas.tags = await this.getAllTags();
-      this.totalPages = Math.ceil(this.datas.totalPosts / this.options.elementPerPage);
+      this.totalPages = Math.ceil(this.datas.totalPosts / this.options.elementsPerPage);
       this.addEvents();
       this.templates = await this.getTemplates(); // Get current route
 
       this.currentRoute = this.getRoute();
-      this.onHashChanged();
+      this.hashChanged();
       return this.datas;
     });
 
-    _defineProperty(this, "onHashChanged", async e => {
+    _defineProperty(this, "hashChanged", async e => {
       const currentTag = this.getHashTag();
       const currentPostId = this.getHashPostId();
       const pageType = this.getPageType();
       let posts;
 
-      if (pageType === 'tagged' && currentTag && this.isValidHash(currentTag)) {
+      if (pageType === 'tagged' && currentTag) {
         posts = await this.getDatasForTaggedPage(currentTag);
         this.buildPage({
           posts
@@ -744,7 +835,7 @@ class Tumblr {
     });
 
     _defineProperty(this, "onScroll", async e => {
-      if (!this.isLoading && this.infiniteScroll && !this.endPage && this.getPageType() === 'home') {
+      if (!this.isLoading && !this.endPage && this.getPageType() === 'home') {
         if (Object(_utils__WEBPACK_IMPORTED_MODULE_4__["getScrollTop"])() >= document.body.clientHeight - window.innerHeight - this.options.nearBottom) {
           this.isLoading = true;
 
@@ -760,7 +851,7 @@ class Tumblr {
       }
     });
 
-    _defineProperty(this, "loadNewPage", async datas => {
+    _defineProperty(this, "loadNewPage", async () => {
       this.options.element.querySelector('.posts').insertAdjacentHTML('beforeend', Object(_templates_components_template_posts__WEBPACK_IMPORTED_MODULE_2__["default"])({
         posts: await this.getPostsByPageNumber(this.currentPage + 1),
         templates: this.templates
@@ -783,23 +874,19 @@ class Tumblr {
     });
 
     _defineProperty(this, "getAllDatas", async e => {
-      let datas; // If cache is true
+      let datas;
 
       if (this.options.cache) {
-        // Try to get JSON in cache
-        var getDataFromCache = window[this.options.cacheMethod].getItem(this.browserStorageKey); // If doesn't exist, get the JSON with limit (this.options.limitData)
+        var getDataFromCache = window[this.options.cacheMethod].getItem(this.browserStorageKey);
 
         if (getDataFromCache === null) {
           datas = await this.getDataFromAPI();
           window[this.options.cacheMethod].setItem(this.browserStorageKey, JSON.stringify(datas));
         } else {
-          // If exist in web storage, get it
           datas = JSON.parse(window[this.options.cacheMethod].getItem(this.browserStorageKey));
         }
       } else {
-        // If cache is false or browser doesn't support web storage
-        datas = await this.getDataFromAPI(); // Remove data in web storage if already exist
-
+        datas = await this.getDataFromAPI();
         window[this.options.cacheMethod].removeItem(this.browserStorageKey);
       }
 
@@ -807,6 +894,7 @@ class Tumblr {
     });
 
     _defineProperty(this, "getDataFromAPI", async () => {
+      // Trigger the first request to get infos about totalPosts and calculate next requests
       const datasFirstRequest = await this.requestAPI(this.getAPIUrl());
 
       if (this.isValidResponse(datasFirstRequest)) {
@@ -815,7 +903,7 @@ class Tumblr {
         let posts = datasFirstRequest.response.posts;
 
         if (datasFirstRequest.response.posts.length && nbLoop) {
-          const requests = []; // Else do multiple loop to get data in JSON (limit this.options.limitData)
+          const requests = []; // Do multiple loop according to nbLoop and options.limitData
 
           for (var i = 0; i < nbLoop; i++) {
             requests.push(this.requestAPI(this.getAPIUrl({
@@ -835,6 +923,7 @@ class Tumblr {
           posts
         };
       } else {
+        // If the request failed, return empty results to prevent break the application
         return {
           totalPosts: 0,
           posts: []
@@ -865,7 +954,7 @@ class Tumblr {
       } else {
         const datas = await this.requestAPI(this.getAPIUrl({
           offset: range.start,
-          limit: this.options.elementPerPage
+          limit: this.options.elementsPerPage
         }));
         return datas.response.posts;
       }
@@ -873,21 +962,20 @@ class Tumblr {
 
     const userOptions = options || {};
     const defaultOptions = {
+      element: null,
       host: '',
-      keyAPI: '',
+      apiKey: '',
       limitData: 250,
       cache: false,
       cacheMethod: 'sessionStorage',
-      element: null,
       nearBottom: 350,
-      elementPerPage: 20,
+      elementsPerPage: 20,
       templates: {}
     }; // Merge default options with user options
 
     this.options = Object.assign(defaultOptions, userOptions); // No configurables params
 
     this.browserStorageKey = 'TumblrJsonData';
-    this.infiniteScroll = true;
     this.endPage = false;
     this.isLoading = false;
     this.jsonComplete = false;
@@ -896,19 +984,39 @@ class Tumblr {
     this.datas = {};
     this.types = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video'];
     this.onScroll = this.onScroll.bind(this);
-    this.onHashChanged = this.onHashChanged.bind(this);
+    this.hashChanged = this.hashChanged.bind(this);
   }
+  /**
+   * Function to initialize the app
+   */
 
+
+  /**
+   * Create event listeners
+   */
   addEvents() {
     window.addEventListener('scroll', this.onScroll, false);
-    window.addEventListener('hashchange', this.onHashChanged, false);
+    window.addEventListener('hashchange', this.hashChanged, false);
   }
+  /**
+   * On hash changed event listener
+   *
+   * @param {Object} e Event listener datas
+   */
 
+
+  /**
+   * Build the page
+   *
+   * @param {Array} posts List of posts for the current page
+   * @param {Array} relatedPosts List of related posts if available
+   */
   buildPage({
     posts,
     relatedPosts = []
   }) {
     const displayTags = this.getPageType() === 'home';
+    const displayRelatedPosts = this.getPageType() === 'post';
     /* prettier-ignore */
 
     this.options.element.innerHTML = `
@@ -920,57 +1028,135 @@ class Tumblr {
       templates: this.templates
     })}
 			</div>
-			${relatedPosts.length ? Object(_templates_components_template_related_posts__WEBPACK_IMPORTED_MODULE_3__["default"])({
+			${displayRelatedPosts && relatedPosts.length ? Object(_templates_components_template_related_posts__WEBPACK_IMPORTED_MODULE_3__["default"])({
       posts: relatedPosts,
       templates: this.templates
     }) : ''}
 		`;
   }
+  /**
+   * Load new page on infinite scroll
+   * Get next posts from the API
+   * Inject new content after current posts
+   */
+
 
   /**
    * Set the route
    *
-   * @returns {String} route New value for the route
+   * @param {String} route New value for the route
    */
   setRoute(route) {
     window.location.hash = route;
   }
+  /**
+   * Request datas from the API
+   *
+   * @param {String} url API url
+   *
+   * @returns {Promise<Object>} Promise results from the API
+   */
+
 
   requestAPI(url) {
     return fetch(url).then(response => response.json());
   }
+  /**
+   * Check if the Response from the API is valid
+   *
+   * @param {Object} datas Response datas
+   *
+   * @returns {Boolean} Is a valid Response
+   */
 
-  isValidHash(tag) {
-    return this.datas.tags.find(item => item === tag);
-  }
 
   isValidResponse(datas) {
     return datas.meta.status === 200;
   }
+  /**
+   * Extract a range of posts from browser storage if available
+   *
+   * @param {Object} range Start and end index for the range
+   *
+   * @returns {Array} List of corresponding posts
+   */
+
 
   extractDatasFromLocalDatas(range) {
     return this.datas.posts.slice(range.start, range.end + 1);
   }
+  /**
+   * Get templates from constructor options if available (options.templates[type])
+   * Else, dynamic import default template
+   *
+   * @returns {Object} List of template functions by type
+   */
 
+
+  /**
+   * Build the Tumblr API url
+   *
+   * @param {String||Boolean} id Post id
+   * @param {Integer} offset Offset for the query
+   * @param {Integer} limit Limit of results for the query
+   * @param {String} tag Filter by a unique post tag
+   *
+   * @returns {String} API url for the request
+   */
   getAPIUrl({
     id = false,
     offset = 0,
     limit = this.options.limitData < this.nbPostPerRequest ? this.options.limitData : this.nbPostPerRequest,
     tag = false
   } = {}) {
-    return `//api.tumblr.com/v2/blog/${this.options.host}/posts/?api_key=${this.options.keyAPI}&limit=${limit}&notes_info=false&offset=${offset}${tag ? `&tag=${tag}` : ''}${id ? `&id=${id}` : ''}`;
-  } // Get the json and store it in cache if possible
+    return `//api.tumblr.com/v2/blog/${this.options.host}/posts/?api_key=${this.options.apiKey}&limit=${limit}&notes_info=false&offset=${offset}${tag ? `&tag=${tag}` : ''}${id ? `&id=${id}` : ''}`;
+  }
+  /**
+   * Get all datas from the API
+   * Store datas in browser storage is option is enabled
+   *
+   * @returns {Object} Datas from the API
+   */
 
 
+  /**
+   * Get number of requests necessary to reach options.limitDatas
+   * without the first request datas
+   *
+   * @param {*} totalPosts Total of posts from the API
+   *
+   * @returns {Integer} Number of request to reach options.limitDatas
+   */
   getNumberOfRequest(totalPosts) {
     return totalPosts <= this.options.limitData ? Math.ceil((totalPosts - this.nbPostPerRequest) / this.nbPostPerRequest) : Math.ceil((this.options.limitData - this.nbPostPerRequest) / this.nbPostPerRequest);
   }
+  /**
+   * Get datas for the homepage (first page only)
+   * Datas are available in the class property
+   *
+   * @returns {Object} Posts datas for the homepage
+   */
+
 
   getDatasForHomePage() {
-    const maxPosts = this.datas.totalPosts < this.options.elementPerPage ? this.datas.totalPosts : this.options.elementPerPage;
+    const maxPosts = this.datas.totalPosts < this.options.elementsPerPage ? this.datas.totalPosts : this.options.elementsPerPage;
     return this.datas.posts.slice(0, maxPosts);
   }
+  /**
+   * Get datas for the tagged page
+   * Request the API to get posts
+   *
+   * @param {String} tag Tag to filter posts
+   *
+   * @returns {Object} Posts datas for the tagged page filter by tag
+   */
 
+
+  /**
+   * Get the type of the current page according to the hash
+   *
+   * @returns {String} Page type (tagged, post, home)
+   */
   getPageType() {
     const hash = this.getRoute();
 
@@ -982,26 +1168,64 @@ class Tumblr {
       return 'home';
     }
   }
+  /**
+   * Get range index (start, end) to extract posts from local datas
+   * according to the current page position and elements per page
+   *
+   * @param {Integer} pageNumber Pagz number
+   *
+   * @returns {Object} Start and end index for the range
+   */
+
 
   getRange(pageNumber) {
     const previousPage = pageNumber > 1 ? pageNumber - 1 : pageNumber;
     return {
-      start: previousPage * this.options.elementPerPage,
-      end: pageNumber * this.options.elementPerPage - 1
+      start: previousPage * this.options.elementsPerPage,
+      end: pageNumber * this.options.elementsPerPage - 1
     };
   }
+  /**
+   * Get tag from the hash
+   *
+   * @returns {String} Current tag
+   */
+
 
   getHashTag() {
     return this.getRoute().split('/tagged/')[1];
   }
+  /**
+   * Get post id from the hash
+   *
+   * @returns {String} Current post id
+   */
+
 
   getHashPostId() {
     return this.getRoute().split('/post/')[1];
   }
+  /**
+   * Get the current route (hash)
+   *
+   * @returns {String} Current hash
+   */
+
 
   getRoute() {
     return window.location.hash.substr(1);
   } // Get a related posts
+
+  /**
+   * Get related posts
+   *
+   * @param {String} postId Pot id
+   * @param {Integer} limit Limit of related posts results
+   * @param {Array} tags Tags list of the current post
+   * @param {Array} ignoreTags Ignore specific list of tags
+   *
+   * @returns {Array} List of related posts associated to the current post
+   */
 
 
   getRelatedPosts({
@@ -1023,17 +1247,33 @@ class Tumblr {
       // Extract random related posts
       return randomKeys.map(key => relatedPosts[key]);
     }
-  } // Get a sort tab of all tags
+  }
+  /**
+   * Get all tags from local datas
+   * Tags are sorted alphabetical
+   * Tags are search only from local datas according to options.limitData posts
+   *
+   * @returns {Array} List of tags
+   */
 
 
-  getAllTags(e) {
+  getAllTags() {
     return this.jsonComplete ? this.datas.posts.filter(post => post.tags.length).flatMap(post => post.tags).map(tag => tag.toLowerCase()).filter((elem, pos, arr) => {
       return arr.indexOf(elem) === pos;
     }).sort() : [];
   }
+  /**
+   * Custom hasOwnProperty to prevent security issue (ESLint no-prototype-builtins)
+   *
+   * @param {Object} objectSource Object source to search the key
+   * @param {String} key The key to search inside the object
+   *
+   * @returns {Boolean} Is the key present inside the object
+   */
 
-  hasProperty(element, attribute) {
-    return Object.prototype.hasOwnProperty.call(element, attribute);
+
+  hasProperty(objectSource, key) {
+    return Object.prototype.hasOwnProperty.call(objectSource, key);
   }
 
 }
@@ -1051,9 +1291,23 @@ class Tumblr {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getScrollTop", function() { return getScrollTop; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRandoms", function() { return getRandoms; });
+/**
+ * Get current scroll position
+ *
+ * @returns {Integer} Scroll position
+ */
 function getScrollTop() {
   return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-} // Get a unique random number between min/max
+}
+/**
+ * Get a unique random number between min/max
+ *
+ * @param {*} numPicks Number of items to returns
+ * @param {*} min Minimal value to start the random
+ * @param {*} max Maximal value to end the random
+ *
+ * @returns {Array} Array of random numbers
+ */
 
 function getRandoms(numPicks, min, max) {
   var len = max - min + 1;
@@ -1226,20 +1480,20 @@ const formInputText = document.querySelector('#form-text')
 window.sessionStorage.setItem('tumblr', host)
 formInputText.value = host.split('.tumblr.com')[0]
 
-const tumblr = new _dist_tumblr__WEBPACK_IMPORTED_MODULE_0__["Tumblr"]({
-	host,
+const tumblr = new _dist_tumblr__WEBPACK_IMPORTED_MODULE_0___default.a({
 	element: document.querySelector('#tumblr-app'),
-	keyAPI: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',
+	host,
+	apiKey: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',
 	limitData: 250,
 	cache: true,
 	cacheMethod: 'sessionStorage',
 	nearBottom: 350,
-	elementPerPage: 2,
+	elementsPerPage: 2,
 	templates: {
 		audio: datas => {
 			/* prettier-ignore */
 			return `
-				<div class="card card-audio" data-id="${datas.id_string}">
+				<div class="card card-audio override" data-id="${datas.id_string}">
 					<div class="card-iframe">
 						${datas.player}
 					</div>
@@ -1269,7 +1523,7 @@ tumblr.init().then(response => {
 	}
 })
 
-// Update the host with the form
+// Update the host from the form
 document.querySelector('.form').addEventListener('submit', e => {
 	e.preventDefault()
 
@@ -1279,6 +1533,21 @@ document.querySelector('.form').addEventListener('submit', e => {
 		window.sessionStorage.removeItem('TumblrJsonData')
 		window.location.href = ''
 	}
+})
+
+// Update the dark mode from the button
+const html = document.querySelector('html')
+html.querySelector('[data-button-darkmode]').addEventListener('click', e => {
+	e.preventDefault()
+
+	const darkMode = html.classList.contains('darkMode')
+	if (darkMode) {
+		html.classList.remove('darkMode')
+	} else {
+		html.classList.add('darkMode')
+	}
+
+	window.localStorage.setItem('tumblrDarkMode', !darkMode)
 })
 
 

@@ -226,7 +226,7 @@ strong {
             flex-direction: column;
     word-wrap: break-word;
     border-radius: 4px;
-    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
     .card:last-child {

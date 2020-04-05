@@ -1,3 +1,9 @@
+/**
+ * Template for the tags list
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 export default function TemplateTags (datas) {
 	return `

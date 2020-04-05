@@ -1,8 +1,21 @@
+/**
+ * Get current scroll position
+ *
+ * @returns {Integer} Scroll position
+ */
 export function getScrollTop () {
 	return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
 }
 
-// Get a unique random number between min/max
+/**
+ * Get a unique random number between min/max
+ *
+ * @param {*} numPicks Number of items to returns
+ * @param {*} min Minimal value to start the random
+ * @param {*} max Maximal value to end the random
+ *
+ * @returns {Array} Array of random numbers
+ */
 export function getRandoms (numPicks, min, max) {
 	var len = max - min + 1
 	var nums = new Array(len)

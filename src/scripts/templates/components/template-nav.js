@@ -1,3 +1,9 @@
+/**
+ * Template for the navigation
+ *
+ * @returns {String} HTML string for the template
+ */
+
 /* prettier-ignore */
 export default function TemplateNav () {
 	return `

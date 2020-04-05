@@ -3,20 +3,34 @@ import TemplateTags from './templates/components/template-tags'
 import TemplatePosts from './templates/components/template-posts'
 import TemplateRelatedPosts from './templates/components/template-related-posts'
 import { getScrollTop, getRandoms } from './utils'
+
 import './styles'
 
+/**
+ * @license MIT
+ * @name Tumblrjs
+ * @version 2.0.0
+ * @author: Yoriiis aka Joris DANIEL <joris.daniel@gmail.com>
+ * @description:
+ * {@link https://github.com/yoriiis/tumblr}
+ * @copyright 2020 Joris DANIEL
+ **/
+
 export default class Tumblr {
+	/**
+	 * @param {options}
+	 */
 	constructor (options) {
 		const userOptions = options || {}
 		const defaultOptions = {
+			element: null,
 			host: '',
-			keyAPI: '',
+			apiKey: '',
 			limitData: 250,
 			cache: false,
 			cacheMethod: 'sessionStorage',
-			element: null,
 			nearBottom: 350,
-			elementPerPage: 20,
+			elementsPerPage: 20,
 			templates: {}
 		}
 
@@ -25,7 +39,6 @@ export default class Tumblr {
 
 		// No configurables params
 		this.browserStorageKey = 'TumblrJsonData'
-		this.infiniteScroll = true
 		this.endPage = false
 		this.isLoading = false
 		this.jsonComplete = false
@@ -35,9 +48,12 @@ export default class Tumblr {
 		this.types = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video']
 
 		this.onScroll = this.onScroll.bind(this)
-		this.onHashChanged = this.onHashChanged.bind(this)
+		this.hashChanged = this.hashChanged.bind(this)
 	}
 
+	/**
+	 * Function to initialize the app
+	 */
 	init = async () => {
 		// Get JSON and push it in cache if option is active and if it's possible
 		this.datas = await this.getAllDatas()
@@ -47,7 +63,7 @@ export default class Tumblr {
 		}
 		this.jsonComplete = true
 		this.datas.tags = await this.getAllTags()
-		this.totalPages = Math.ceil(this.datas.totalPosts / this.options.elementPerPage)
+		this.totalPages = Math.ceil(this.datas.totalPosts / this.options.elementsPerPage)
 
 		this.addEvents()
 		this.templates = await this.getTemplates()
@@ -55,23 +71,31 @@ export default class Tumblr {
 		// Get current route
 		this.currentRoute = this.getRoute()
 
-		this.onHashChanged()
+		this.hashChanged()
 
 		return this.datas
 	}
 
+	/**
+	 * Create event listeners
+	 */
 	addEvents () {
 		window.addEventListener('scroll', this.onScroll, false)
-		window.addEventListener('hashchange', this.onHashChanged, false)
+		window.addEventListener('hashchange', this.hashChanged, false)
 	}
 
-	onHashChanged = async e => {
+	/**
+	 * On hash changed event listener
+	 *
+	 * @param {Object} e Event listener datas
+	 */
+	hashChanged = async e => {
 		const currentTag = this.getHashTag()
 		const currentPostId = this.getHashPostId()
 		const pageType = this.getPageType()
 		let posts
 
-		if (pageType === 'tagged' && currentTag && this.isValidHash(currentTag)) {
+		if (pageType === 'tagged' && currentTag) {
 			posts = await this.getDatasForTaggedPage(currentTag)
 			this.buildPage({ posts })
 		} else if (pageType === 'post' && currentPostId) {
@@ -99,13 +123,13 @@ export default class Tumblr {
 		this.currentPage = 1
 	}
 
+	/**
+	 * On scroll event listener
+	 *
+	 * @param {Object} e Event listener datas
+	 */
 	onScroll = async e => {
-		if (
-			!this.isLoading &&
-			this.infiniteScroll &&
-			!this.endPage &&
-			this.getPageType() === 'home'
-		) {
+		if (!this.isLoading && !this.endPage && this.getPageType() === 'home') {
 			if (
 				getScrollTop() >=
 				document.body.clientHeight - window.innerHeight - this.options.nearBottom
@@ -122,8 +146,15 @@ export default class Tumblr {
 		}
 	}
 
+	/**
+	 * Build the page
+	 *
+	 * @param {Array} posts List of posts for the current page
+	 * @param {Array} relatedPosts List of related posts if available
+	 */
 	buildPage ({ posts, relatedPosts = [] }) {
 		const displayTags = this.getPageType() === 'home'
+		const displayRelatedPosts = this.getPageType() === 'post'
 
 		/* prettier-ignore */
 		this.options.element.innerHTML = `
@@ -135,7 +166,7 @@ export default class Tumblr {
 			templates: this.templates
 		})}
 			</div>
-			${relatedPosts.length
+			${displayRelatedPosts && relatedPosts.length
 				? TemplateRelatedPosts({
 					posts: relatedPosts,
 					templates: this.templates
@@ -144,7 +175,12 @@ export default class Tumblr {
 		`
 	}
 
-	loadNewPage = async datas => {
+	/**
+	 * Load new page on infinite scroll
+	 * Get next posts from the API
+	 * Inject new content after current posts
+	 */
+	loadNewPage = async () => {
 		this.options.element.querySelector('.posts').insertAdjacentHTML(
 			'beforeend',
 			TemplatePosts({
@@ -157,28 +193,51 @@ export default class Tumblr {
 	/**
 	 * Set the route
 	 *
-	 * @returns {String} route New value for the route
+	 * @param {String} route New value for the route
 	 */
 	setRoute (route) {
 		window.location.hash = route
 	}
 
+	/**
+	 * Request datas from the API
+	 *
+	 * @param {String} url API url
+	 *
+	 * @returns {Promise<Object>} Promise results from the API
+	 */
 	requestAPI (url) {
 		return fetch(url).then(response => response.json())
 	}
 
-	isValidHash (tag) {
-		return this.datas.tags.find(item => item === tag)
-	}
-
+	/**
+	 * Check if the Response from the API is valid
+	 *
+	 * @param {Object} datas Response datas
+	 *
+	 * @returns {Boolean} Is a valid Response
+	 */
 	isValidResponse (datas) {
 		return datas.meta.status === 200
 	}
 
+	/**
+	 * Extract a range of posts from browser storage if available
+	 *
+	 * @param {Object} range Start and end index for the range
+	 *
+	 * @returns {Array} List of corresponding posts
+	 */
 	extractDatasFromLocalDatas (range) {
 		return this.datas.posts.slice(range.start, range.end + 1)
 	}
 
+	/**
+	 * Get templates from constructor options if available (options.templates[type])
+	 * Else, dynamic import default template
+	 *
+	 * @returns {Object} List of template functions by type
+	 */
 	getTemplates = async () => {
 		const templates = {}
 
@@ -204,6 +263,16 @@ export default class Tumblr {
 		return templates
 	}
 
+	/**
+	 * Build the Tumblr API url
+	 *
+	 * @param {String||Boolean} id Post id
+	 * @param {Integer} offset Offset for the query
+	 * @param {Integer} limit Limit of results for the query
+	 * @param {String} tag Filter by a unique post tag
+	 *
+	 * @returns {String} API url for the request
+	 */
 	getAPIUrl ({
 		id = false,
 		offset = 0,
@@ -213,21 +282,24 @@ export default class Tumblr {
 		tag = false
 	} = {}) {
 		return `//api.tumblr.com/v2/blog/${this.options.host}/posts/?api_key=${
-			this.options.keyAPI
+			this.options.apiKey
 		}&limit=${limit}&notes_info=false&offset=${offset}${tag ? `&tag=${tag}` : ''}${
 			id ? `&id=${id}` : ''
 		}`
 	}
 
-	// Get the json and store it in cache if possible
+	/**
+	 * Get all datas from the API
+	 * Store datas in browser storage is option is enabled
+	 *
+	 * @returns {Object} Datas from the API
+	 */
 	getAllDatas = async e => {
 		let datas
-		// If cache is true
+
 		if (this.options.cache) {
-			// Try to get JSON in cache
 			var getDataFromCache = window[this.options.cacheMethod].getItem(this.browserStorageKey)
 
-			// If doesn't exist, get the JSON with limit (this.options.limitData)
 			if (getDataFromCache === null) {
 				datas = await this.getDataFromAPI()
 
@@ -236,22 +308,23 @@ export default class Tumblr {
 					JSON.stringify(datas)
 				)
 			} else {
-				// If exist in web storage, get it
 				datas = JSON.parse(window[this.options.cacheMethod].getItem(this.browserStorageKey))
 			}
 		} else {
-			// If cache is false or browser doesn't support web storage
 			datas = await this.getDataFromAPI()
-
-			// Remove data in web storage if already exist
 			window[this.options.cacheMethod].removeItem(this.browserStorageKey)
 		}
 
 		return datas
 	}
 
-	// Get all the json with a limit
+	/**
+	 * Get datas from the API
+	 *
+	 * @returns {Object} Datas from the API
+	 */
 	getDataFromAPI = async () => {
+		// Trigger the first request to get infos about totalPosts and calculate next requests
 		const datasFirstRequest = await this.requestAPI(this.getAPIUrl())
 
 		if (this.isValidResponse(datasFirstRequest)) {
@@ -262,7 +335,7 @@ export default class Tumblr {
 			if (datasFirstRequest.response.posts.length && nbLoop) {
 				const requests = []
 
-				// Else do multiple loop to get data in JSON (limit this.options.limitData)
+				// Do multiple loop according to nbLoop and options.limitData
 				for (var i = 0; i < nbLoop; i++) {
 					requests.push(
 						this.requestAPI(
@@ -281,25 +354,48 @@ export default class Tumblr {
 			}
 			return { totalPosts, posts }
 		} else {
+			// If the request failed, return empty results to prevent break the application
 			return { totalPosts: 0, posts: [] }
 		}
 	}
 
+	/**
+	 * Get number of requests necessary to reach options.limitDatas
+	 * without the first request datas
+	 *
+	 * @param {*} totalPosts Total of posts from the API
+	 *
+	 * @returns {Integer} Number of request to reach options.limitDatas
+	 */
 	getNumberOfRequest (totalPosts) {
 		return totalPosts <= this.options.limitData
 			? Math.ceil((totalPosts - this.nbPostPerRequest) / this.nbPostPerRequest)
 			: Math.ceil((this.options.limitData - this.nbPostPerRequest) / this.nbPostPerRequest)
 	}
 
+	/**
+	 * Get datas for the homepage (first page only)
+	 * Datas are available in the class property
+	 *
+	 * @returns {Object} Posts datas for the homepage
+	 */
 	getDatasForHomePage () {
 		const maxPosts =
-			this.datas.totalPosts < this.options.elementPerPage
+			this.datas.totalPosts < this.options.elementsPerPage
 				? this.datas.totalPosts
-				: this.options.elementPerPage
+				: this.options.elementsPerPage
 
 		return this.datas.posts.slice(0, maxPosts)
 	}
 
+	/**
+	 * Get datas for the tagged page
+	 * Request the API to get posts
+	 *
+	 * @param {String} tag Tag to filter posts
+	 *
+	 * @returns {Object} Posts datas for the tagged page filter by tag
+	 */
 	getDatasForTaggedPage = async tag => {
 		const datas = await this.requestAPI(
 			this.getAPIUrl({
@@ -310,6 +406,14 @@ export default class Tumblr {
 		return datas && datas.response ? datas.response.posts : []
 	}
 
+	/**
+	 * Get datas for the post page
+	 * Request the API to get posts
+	 *
+	 * @param {String} id Id of the current post
+	 *
+	 * @returns {Object} Posts datas for the post page filter by post id
+	 */
 	getDatasForPostPage = async id => {
 		const datas = await this.requestAPI(
 			this.getAPIUrl({
@@ -320,7 +424,15 @@ export default class Tumblr {
 		return datas && datas.response ? datas.response.posts : []
 	}
 
-	// GetpostsBypageNumber, use by infinite scroll
+	/**
+	 * Get datas by page number, use by the infinite scroll
+	 * Request the local datas in priority
+	 * If no datas are available, request the API to get posts
+	 *
+	 * @param {Integer} pageNumber Page number
+	 *
+	 * @returns {Object} Posts datas for the homepage filter by page number
+	 */
 	getPostsByPageNumber = async pageNumber => {
 		const range = this.getRange(pageNumber)
 		const datas = this.extractDatasFromLocalDatas(range)
@@ -331,13 +443,18 @@ export default class Tumblr {
 			const datas = await this.requestAPI(
 				this.getAPIUrl({
 					offset: range.start,
-					limit: this.options.elementPerPage
+					limit: this.options.elementsPerPage
 				})
 			)
 			return datas.response.posts
 		}
 	}
 
+	/**
+	 * Get the type of the current page according to the hash
+	 *
+	 * @returns {String} Page type (tagged, post, home)
+	 */
 	getPageType () {
 		const hash = this.getRoute()
 
@@ -350,27 +467,60 @@ export default class Tumblr {
 		}
 	}
 
+	/**
+	 * Get range index (start, end) to extract posts from local datas
+	 * according to the current page position and elements per page
+	 *
+	 * @param {Integer} pageNumber Pagz number
+	 *
+	 * @returns {Object} Start and end index for the range
+	 */
 	getRange (pageNumber) {
 		const previousPage = pageNumber > 1 ? pageNumber - 1 : pageNumber
 		return {
-			start: previousPage * this.options.elementPerPage,
-			end: pageNumber * this.options.elementPerPage - 1
+			start: previousPage * this.options.elementsPerPage,
+			end: pageNumber * this.options.elementsPerPage - 1
 		}
 	}
 
+	/**
+	 * Get tag from the hash
+	 *
+	 * @returns {String} Current tag
+	 */
 	getHashTag () {
 		return this.getRoute().split('/tagged/')[1]
 	}
 
+	/**
+	 * Get post id from the hash
+	 *
+	 * @returns {String} Current post id
+	 */
 	getHashPostId () {
 		return this.getRoute().split('/post/')[1]
 	}
 
+	/**
+	 * Get the current route (hash)
+	 *
+	 * @returns {String} Current hash
+	 */
 	getRoute () {
 		return window.location.hash.substr(1)
 	}
 
 	// Get a related posts
+	/**
+	 * Get related posts
+	 *
+	 * @param {String} postId Pot id
+	 * @param {Integer} limit Limit of related posts results
+	 * @param {Array} tags Tags list of the current post
+	 * @param {Array} ignoreTags Ignore specific list of tags
+	 *
+	 * @returns {Array} List of related posts associated to the current post
+	 */
 	getRelatedPosts ({ postId, limit = 3, tags = [], ignoreTags = [] }) {
 		// Get all tags from current post without ignore tags
 		const tagsSource = tags.filter(tag => !ignoreTags.includes(tag))
@@ -391,8 +541,14 @@ export default class Tumblr {
 		}
 	}
 
-	// Get a sort tab of all tags
-	getAllTags (e) {
+	/**
+	 * Get all tags from local datas
+	 * Tags are sorted alphabetical
+	 * Tags are search only from local datas according to options.limitData posts
+	 *
+	 * @returns {Array} List of tags
+	 */
+	getAllTags () {
 		return this.jsonComplete
 			? this.datas.posts
 				.filter(post => post.tags.length)
@@ -405,7 +561,15 @@ export default class Tumblr {
 			: []
 	}
 
-	hasProperty (element, attribute) {
-		return Object.prototype.hasOwnProperty.call(element, attribute)
+	/**
+	 * Custom hasOwnProperty to prevent security issue (ESLint no-prototype-builtins)
+	 *
+	 * @param {Object} objectSource Object source to search the key
+	 * @param {String} key The key to search inside the object
+	 *
+	 * @returns {Boolean} Is the key present inside the object
+	 */
+	hasProperty (objectSource, key) {
+		return Object.prototype.hasOwnProperty.call(objectSource, key)
 	}
 }

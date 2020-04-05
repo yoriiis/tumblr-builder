@@ -7,7 +7,7 @@
     flex-direction: column;
     word-wrap: break-word;
     border-radius: 4px;
-    background-color: var(--white);
+    border: 1px solid var(--gray-10);
 
     &:last-child {
         margin-bottom: 0;

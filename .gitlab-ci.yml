@@ -1,6 +1,3 @@
-variables:
-  DOCKER_DRIVER: overlay2
-
 image: node:12.14.0
 
 cache:
@@ -63,17 +60,3 @@ build:
   artifacts:
     paths:
       - example
-
-deploy:
-  stage: deploy
-  environment:
-    name: production
-    url: $NETFLIFY_URL
-  dependencies:
-    - prepare:dependencies
-    - build
-  only:
-    - develop
-  script:
-    - npm i -g netlify-cli
-    - netlify deploy --site $NETLIFY_APP_ID --auth $NETLIFY_AUTH_TOKEN --prod

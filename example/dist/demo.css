@@ -1,12 +1,26 @@
-.form {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 150px;
-    text-align: right;
+:root {
+
+    /* Darkmode */
 }
 
-    .form input {
+.container {
+    padding: 10px 10px 0;
+}
+
+/* Form to update Tumblr host */
+
+.form {
+    text-align: right;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
+.form input {
         width: 100%;
         height: 38px;
         padding: 6px 12px;
@@ -14,37 +28,80 @@
         font-size: 16px;
         border: 0;
         background-color: inherit;
-        border: 1px solid #5f6368;
+        border: 1px solid rgba(0, 0, 0, 0.1);
     }
 
-    .form .form-text {
+.form .form-text {
         margin-bottom: 10px;
+        margin-right: 10px;
         color: #80868b;
     }
 
-    .form .form-submit {
+.form .form-submit {
         cursor: pointer;
         color: #80868b;
         width: auto;
     }
 
-body {
-    background-color: #202124;
+/* Dark mode */
+
+html {
+    -webkit-transition: background 250ms ease-out;
+    transition: background 250ms ease-out;
 }
 
-#tumblr-app,
-    #tumblr-app a {
+.card  {
+    -webkit-transition: border 250ms ease-out;
+    transition: border 250ms ease-out;
+}
+
+.darkMode {
+    background-color: #202124;
+    color: #80868b;
+}
+
+.darkMode .button-darkMode svg {
+        fill: #ffe300;
+    }
+
+.darkMode .card-tags a,
+    .darkMode .tags a,
+    .darkMode a {
         color: #80868b;
     }
 
-#tumblr-app .card {
-        background-color: inherit;
+.darkMode .card,
+    .darkMode .card-link,
+    .darkMode .form input {
         border: 1px solid #5f6368;
     }
 
-#tumblr-app .card-link {
-        border: 1px solid #5f6368;
+.button-darkMode {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.button-darkMode:focus {
+        outline: none;
     }
+
+.button-darkMode svg {
+        fill: #000;
+        -webkit-transition: fill 250ms ease-out;
+        transition: fill 250ms ease-out;
+    }
+
+@media screen and (min-width: 750px) {
+    .form {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 300px;
+    }
+}
 
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
@@ -274,7 +331,7 @@ strong {
             flex-direction: column;
     word-wrap: break-word;
     border-radius: 4px;
-    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .card:last-child {
