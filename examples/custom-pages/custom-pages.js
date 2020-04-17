@@ -33,7 +33,7 @@ const tumblr = new Tumblr({
 						<li></li>
 					</ul>
 				</div>
-				<div class="posts">
+				<div class="posts" data-infinite-scroll>
 					${posts.map(post => templates[post.type](post)).join('')}
 				</div>
 			`
@@ -76,7 +76,7 @@ const tumblr = new Tumblr({
 						${relatedPosts.map(post => templates[post.type](post)).join('')}
 					</div>
 				` : ''}
-    `
+    		`
 		}
 	}
 })

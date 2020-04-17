@@ -27,7 +27,7 @@ export default function TemplateHome ({ templates, tags, posts }) {
                 <li></li>
             </ul>
         </div>
-        <div class="posts">
+        <div class="posts" data-infinite-scroll>
             ${posts.map(post => templates[post.type](post)).join('')}
         </div>
     `

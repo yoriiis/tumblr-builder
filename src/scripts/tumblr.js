@@ -46,8 +46,8 @@ export default class Tumblr {
 		this.nbPostPerRequest = 50
 		this.datas = {}
 
-		this.keysPageTemplate = ['home', 'post', 'tagged']
-		this.keysPostTemplate = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video']
+		this.keysTemplatesPage = ['home', 'post', 'tagged']
+		this.keysTemplatePosts = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video']
 
 		this.onScroll = this.onScroll.bind(this)
 		this.hashChanged = this.hashChanged.bind(this)
@@ -180,7 +180,7 @@ export default class Tumblr {
 	loadNewPage = async () => {
 		const posts = await this.getPostsByPageNumber(this.currentPage + 1)
 		this.options.element
-			.querySelector('.posts')
+			.querySelector('[data-infinite-scroll]')
 			.insertAdjacentHTML(
 				'beforeend',
 				`${posts.map(post => this.templates.posts[post.type](post)).join('')}`
@@ -238,12 +238,12 @@ export default class Tumblr {
 	getTemplates = async () => {
 		return {
 			pages: await this.getTemplatesByType({
-				keys: this.keysPageTemplate,
+				keys: this.keysTemplatesPage,
 				path: './templates/pages/',
 				custom: this.options.templatesPages
 			}),
 			posts: await this.getTemplatesByType({
-				keys: this.keysPostTemplate,
+				keys: this.keysTemplatePosts,
 				path: './templates/posts/',
 				custom: this.options.templatesPosts
 			})

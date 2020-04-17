@@ -288,21 +288,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_reset_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_styles_reset_css__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _styles_base_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles/base.css */ "./src/styles/base.css");
 /* harmony import */ var _styles_base_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_styles_base_css__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _styles_components_nav_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../styles/components/nav.css */ "./src/styles/components/nav.css");
-/* harmony import */ var _styles_components_nav_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_styles_components_nav_css__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _styles_components_tags_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../styles/components/tags.css */ "./src/styles/components/tags.css");
-/* harmony import */ var _styles_components_tags_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_styles_components_tags_css__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _styles_components_card_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../styles/components/card.css */ "./src/styles/components/card.css");
-/* harmony import */ var _styles_components_card_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_styles_components_card_css__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _styles_components_related_posts_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../styles/components/related-posts.css */ "./src/styles/components/related-posts.css");
-/* harmony import */ var _styles_components_related_posts_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_styles_components_related_posts_css__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _styles_types_photo_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../styles/types/photo.css */ "./src/styles/types/photo.css");
-/* harmony import */ var _styles_types_photo_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_styles_types_photo_css__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _styles_types_quote_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../styles/types/quote.css */ "./src/styles/types/quote.css");
-/* harmony import */ var _styles_types_quote_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_styles_types_quote_css__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _styles_types_chat_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../styles/types/chat.css */ "./src/styles/types/chat.css");
-/* harmony import */ var _styles_types_chat_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_styles_types_chat_css__WEBPACK_IMPORTED_MODULE_8__);
-
+/* harmony import */ var _styles_components_tags_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../styles/components/tags.css */ "./src/styles/components/tags.css");
+/* harmony import */ var _styles_components_tags_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_styles_components_tags_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _styles_components_card_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../styles/components/card.css */ "./src/styles/components/card.css");
+/* harmony import */ var _styles_components_card_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_styles_components_card_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _styles_types_photo_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../styles/types/photo.css */ "./src/styles/types/photo.css");
+/* harmony import */ var _styles_types_photo_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_styles_types_photo_css__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _styles_types_quote_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../styles/types/quote.css */ "./src/styles/types/quote.css");
+/* harmony import */ var _styles_types_quote_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_styles_types_quote_css__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../styles/types/chat.css */ "./src/styles/types/chat.css");
+/* harmony import */ var _styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _styles_types_link_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../styles/types/link.css */ "./src/styles/types/link.css");
+/* harmony import */ var _styles_types_link_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_styles_types_link_css__WEBPACK_IMPORTED_MODULE_7__);
 
 
 
@@ -357,7 +354,7 @@ function TemplateHome({
                 <li></li>
             </ul>
         </div>
-        <div class="posts">
+        <div class="posts" data-infinite-scroll>
             ${posts.map(post => templates[post.type](post)).join('')}
         </div>
     `;
@@ -563,7 +560,7 @@ function TemplateLink(datas) {
   return `
         <div class="card card-link" data-id="${datas.id_string}">
             <div class="card-body">
-                <a href="${datas.url}" class="card-link" title="${datas.title}">${datas.title}</a>
+                <a href="${datas.url}" class="card-linkItem" title="${datas.title}">${datas.title}</a>
                 ${datas.description}
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `
@@ -867,18 +864,18 @@ class Tumblr {
 
     _defineProperty(this, "loadNewPage", async () => {
       const posts = await this.getPostsByPageNumber(this.currentPage + 1);
-      this.options.element.querySelector('.posts').insertAdjacentHTML('beforeend', `${posts.map(post => this.templates.posts[post.type](post)).join('')}`);
+      this.options.element.querySelector('[data-infinite-scroll]').insertAdjacentHTML('beforeend', `${posts.map(post => this.templates.posts[post.type](post)).join('')}`);
     });
 
     _defineProperty(this, "getTemplates", async () => {
       return {
         pages: await this.getTemplatesByType({
-          keys: this.keysPageTemplate,
+          keys: this.keysTemplatesPage,
           path: './templates/pages/',
           custom: this.options.templatesPages
         }),
         posts: await this.getTemplatesByType({
-          keys: this.keysPostTemplate,
+          keys: this.keysTemplatePosts,
           path: './templates/posts/',
           custom: this.options.templatesPosts
         })
@@ -1014,8 +1011,8 @@ class Tumblr {
     this.currentPage = 1;
     this.nbPostPerRequest = 50;
     this.datas = {};
-    this.keysPageTemplate = ['home', 'post', 'tagged'];
-    this.keysPostTemplate = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video'];
+    this.keysTemplatesPage = ['home', 'post', 'tagged'];
+    this.keysTemplatePosts = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video'];
     this.onScroll = this.onScroll.bind(this);
     this.hashChanged = this.hashChanged.bind(this);
   }
@@ -1374,28 +1371,6 @@ function getRandoms(numPicks, min, max) {
 
 /***/ }),
 
-/***/ "./src/styles/components/nav.css":
-/*!***************************************!*\
-  !*** ./src/styles/components/nav.css ***!
-  \***************************************/
-/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "./src/styles/components/related-posts.css":
-/*!*************************************************!*\
-  !*** ./src/styles/components/related-posts.css ***!
-  \*************************************************/
-/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "./src/styles/components/tags.css":
 /*!****************************************!*\
   !*** ./src/styles/components/tags.css ***!
@@ -1421,6 +1396,17 @@ function getRandoms(numPicks, min, max) {
 /***/ "./src/styles/types/chat.css":
 /*!***********************************!*\
   !*** ./src/styles/types/chat.css ***!
+  \***********************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./src/styles/types/link.css":
+/*!***********************************!*\
+  !*** ./src/styles/types/link.css ***!
   \***********************************/
 /*! ModuleConcatenation bailout: Module is not an ECMAScript module */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1508,7 +1494,7 @@ const tumblr = new _dist_tumblr__WEBPACK_IMPORTED_MODULE_0___default.a({
 						<li></li>
 					</ul>
 				</div>
-				<div class="posts">
+				<div class="posts" data-infinite-scroll>
 					${posts.map(post => templates[post.type](post)).join('')}
 				</div>
 			`;
@@ -1559,7 +1545,7 @@ const tumblr = new _dist_tumblr__WEBPACK_IMPORTED_MODULE_0___default.a({
 						${relatedPosts.map(post => templates[post.type](post)).join('')}
 					</div>
 				` : ''}
-    `;
+    		`;
     }
   }
 }); // Initialize the Tumblr from the instance

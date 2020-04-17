@@ -161,6 +161,15 @@ body {
     padding: 10px 10px 0;
 }
 
+.nav {
+    margin: 20px 0;
+}
+
+.relatedPosts-title {
+        margin-bottom: 24px;
+        padding-top: 20px;
+    }
+
 .posts {
     margin-bottom: 20px;
 }
@@ -176,10 +185,6 @@ a:hover {
 
 strong {
     font-weight: 500;
-}
-
-.nav {
-    margin: 20px 0;
 }
 
 .tags {
@@ -256,13 +261,6 @@ strong {
             left: 0;
         }
 
-.card-link {
-        display: block;
-        padding: 16px 12px;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-
 .card-tags {
         margin-top: 10px;
     }
@@ -281,11 +279,6 @@ strong {
 .card-tags a {
             color: rgba(0, 0, 0, 0.65);
         }
-
-.relatedPosts-title {
-        margin-bottom: 24px;
-        padding-top: 20px;
-    }
 
 .card-photo .card-photos {
         margin-bottom: 20px;
@@ -334,5 +327,12 @@ strong {
 .card-chat .card-conversations li:last-child {
                 margin-bottom: 0;
             }
+
+.card-link .card-linkItem {
+        display: block;
+        padding: 16px 12px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
 
 /*# sourceMappingURL=custom-pages.css.map*/

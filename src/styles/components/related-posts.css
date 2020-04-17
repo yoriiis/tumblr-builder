@@ -1,8 +1,0 @@
-@import "@commonVars";
-
-.relatedPosts {
-    &-title {
-        margin-bottom: 24px;
-        padding-top: 20px;
-    }
-}

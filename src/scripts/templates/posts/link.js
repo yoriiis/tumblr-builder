@@ -11,7 +11,7 @@ export default function TemplateLink (datas) {
 	return `
         <div class="card card-link" data-id="${datas.id_string}">
             <div class="card-body">
-                <a href="${datas.url}" class="card-link" title="${datas.title}">${datas.title}</a>
+                <a href="${datas.url}" class="card-linkItem" title="${datas.title}">${datas.title}</a>
                 ${datas.description}
                 <ul class="card-tags">
                     ${datas.tags.map(tag => `

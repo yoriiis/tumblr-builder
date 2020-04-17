@@ -13,6 +13,8 @@
 	"scripts": {
 		"build": "webpack --mode=production",
 		"build:example": "webpack --config=./examples/webpack.config.js --mode=production",
+		"docs:build": "vuepress build docs",
+		"docs:dev": "vuepress dev docs --host localhost",
 		"start": "webpack --mode=development",
 		"start:example": "webpack --config=./examples/webpack.config.js --mode=development",
 		"test": "jest",
@@ -141,6 +143,7 @@
 		"stylelint-config-standard": "19.0.0",
 		"svg-inline-loader": "0.8.2",
 		"terser-webpack-plugin": "2.3.2",
+		"vuepress": "1.4.1",
 		"webpack": "4.41.5",
 		"webpack-cli": "3.3.10",
 		"webpack-manifest-plugin": "2.2.0"

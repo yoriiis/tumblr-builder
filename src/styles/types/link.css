@@ -1,0 +1,10 @@
+@import "@commonVars";
+
+.card-link {
+    .card-linkItem {
+        display: block;
+        padding: 16px 12px;
+        border: 1px solid var(--gray-10);
+        margin-bottom: 20px;
+    }
+}

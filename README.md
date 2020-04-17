@@ -88,7 +88,7 @@ Number of posts get from the API. Theses posts are used to generate following fe
 
 #### `cache`
 
-`Integer = false`
+`Boolean = false`
 
 Tells the library whether to store API datas in the browser storage. This option improve performance, because application retrieves datas from the browser storage and no requests are executed on the first page.
 
