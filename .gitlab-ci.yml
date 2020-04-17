@@ -57,9 +57,11 @@ build:
   script:
     - npm run build
     - npm run build:example
+    - npm run docs:build
   artifacts:
     paths:
       - examples
+      - docs/site
 
 deploy:staging:
   stage: deploy
@@ -71,7 +73,8 @@ deploy:staging:
   except:
     - master
   script:
-    - mv examples/dist/ examples/netlify/dist/
+    - mv examples/netlify/ docs/site/netlify/
+    - mv examples/dist/ docs/site/dist/
     - npm i -g netlify-cli
     - netlify deploy --site $NETLIFY_APP_ID --auth $NETLIFY_AUTH_TOKEN
 
@@ -79,13 +82,13 @@ deploy:prod:
   stage: deploy
   environment:
     name: production
-    url: $NETFLIFY_URL
+    url: $NETLIFY_URL
   dependencies:
     - prepare:dependencies
     - build
   only:
     - master
   script:
-    - mv examples/dist/ examples/netlify/dist/
+    # - mv examples/dist/ examples/netlify/dist/
     - npm i -g netlify-cli
     - netlify deploy --site $NETLIFY_APP_ID --auth $NETLIFY_AUTH_TOKEN --prod
