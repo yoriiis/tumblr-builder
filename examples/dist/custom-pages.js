@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./example/demo.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./examples/custom-pages/custom-pages.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -211,28 +211,26 @@ var map = {
 	"./index.js": "./src/scripts/index.js",
 	"./styles": "./src/scripts/styles.js",
 	"./styles.js": "./src/scripts/styles.js",
-	"./templates/components/template-nav": "./src/scripts/templates/components/template-nav.js",
-	"./templates/components/template-nav.js": "./src/scripts/templates/components/template-nav.js",
-	"./templates/components/template-posts": "./src/scripts/templates/components/template-posts.js",
-	"./templates/components/template-posts.js": "./src/scripts/templates/components/template-posts.js",
-	"./templates/components/template-related-posts": "./src/scripts/templates/components/template-related-posts.js",
-	"./templates/components/template-related-posts.js": "./src/scripts/templates/components/template-related-posts.js",
-	"./templates/components/template-tags": "./src/scripts/templates/components/template-tags.js",
-	"./templates/components/template-tags.js": "./src/scripts/templates/components/template-tags.js",
-	"./templates/types/template-audio": "./src/scripts/templates/types/template-audio.js",
-	"./templates/types/template-audio.js": "./src/scripts/templates/types/template-audio.js",
-	"./templates/types/template-chat": "./src/scripts/templates/types/template-chat.js",
-	"./templates/types/template-chat.js": "./src/scripts/templates/types/template-chat.js",
-	"./templates/types/template-link": "./src/scripts/templates/types/template-link.js",
-	"./templates/types/template-link.js": "./src/scripts/templates/types/template-link.js",
-	"./templates/types/template-photo": "./src/scripts/templates/types/template-photo.js",
-	"./templates/types/template-photo.js": "./src/scripts/templates/types/template-photo.js",
-	"./templates/types/template-quote": "./src/scripts/templates/types/template-quote.js",
-	"./templates/types/template-quote.js": "./src/scripts/templates/types/template-quote.js",
-	"./templates/types/template-text": "./src/scripts/templates/types/template-text.js",
-	"./templates/types/template-text.js": "./src/scripts/templates/types/template-text.js",
-	"./templates/types/template-video": "./src/scripts/templates/types/template-video.js",
-	"./templates/types/template-video.js": "./src/scripts/templates/types/template-video.js",
+	"./templates/pages/home": "./src/scripts/templates/pages/home.js",
+	"./templates/pages/home.js": "./src/scripts/templates/pages/home.js",
+	"./templates/pages/post": "./src/scripts/templates/pages/post.js",
+	"./templates/pages/post.js": "./src/scripts/templates/pages/post.js",
+	"./templates/pages/tagged": "./src/scripts/templates/pages/tagged.js",
+	"./templates/pages/tagged.js": "./src/scripts/templates/pages/tagged.js",
+	"./templates/posts/audio": "./src/scripts/templates/posts/audio.js",
+	"./templates/posts/audio.js": "./src/scripts/templates/posts/audio.js",
+	"./templates/posts/chat": "./src/scripts/templates/posts/chat.js",
+	"./templates/posts/chat.js": "./src/scripts/templates/posts/chat.js",
+	"./templates/posts/link": "./src/scripts/templates/posts/link.js",
+	"./templates/posts/link.js": "./src/scripts/templates/posts/link.js",
+	"./templates/posts/photo": "./src/scripts/templates/posts/photo.js",
+	"./templates/posts/photo.js": "./src/scripts/templates/posts/photo.js",
+	"./templates/posts/quote": "./src/scripts/templates/posts/quote.js",
+	"./templates/posts/quote.js": "./src/scripts/templates/posts/quote.js",
+	"./templates/posts/text": "./src/scripts/templates/posts/text.js",
+	"./templates/posts/text.js": "./src/scripts/templates/posts/text.js",
+	"./templates/posts/video": "./src/scripts/templates/posts/video.js",
+	"./templates/posts/video.js": "./src/scripts/templates/posts/video.js",
 	"./tumblr": "./src/scripts/tumblr.js",
 	"./tumblr.js": "./src/scripts/tumblr.js",
 	"./utils": "./src/scripts/utils.js",
@@ -298,12 +296,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_components_card_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_styles_components_card_css__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _styles_components_related_posts_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../styles/components/related-posts.css */ "./src/styles/components/related-posts.css");
 /* harmony import */ var _styles_components_related_posts_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_styles_components_related_posts_css__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../styles/types/chat.css */ "./src/styles/types/chat.css");
-/* harmony import */ var _styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _styles_types_photo_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../styles/types/photo.css */ "./src/styles/types/photo.css");
+/* harmony import */ var _styles_types_photo_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_styles_types_photo_css__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _styles_types_quote_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../styles/types/quote.css */ "./src/styles/types/quote.css");
 /* harmony import */ var _styles_types_quote_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_styles_types_quote_css__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _styles_types_photo_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../styles/types/photo.css */ "./src/styles/types/photo.css");
-/* harmony import */ var _styles_types_photo_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_styles_types_photo_css__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _styles_types_chat_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../styles/types/chat.css */ "./src/styles/types/chat.css");
+/* harmony import */ var _styles_types_chat_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_styles_types_chat_css__WEBPACK_IMPORTED_MODULE_8__);
 
 
 
@@ -316,24 +314,30 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/scripts/templates/components/template-nav.js":
-/*!**********************************************************!*\
-  !*** ./src/scripts/templates/components/template-nav.js ***!
-  \**********************************************************/
+/***/ "./src/scripts/templates/pages/home.js":
+/*!*********************************************!*\
+  !*** ./src/scripts/templates/pages/home.js ***!
+  \*********************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateNav; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateHome; });
 /**
- * Template for the navigation
+ * Template for audio Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
  *
  * @returns {String} HTML string for the template
  */
 
 /* prettier-ignore */
-function TemplateNav() {
+function TemplateHome({
+  templates,
+  tags,
+  posts
+}) {
   return `
         <nav class="nav">
                 <ul>
@@ -343,90 +347,9 @@ function TemplateNav() {
                 </ul>
             </ul>
         </nav>
-    `;
-}
-
-/***/ }),
-
-/***/ "./src/scripts/templates/components/template-posts.js":
-/*!************************************************************!*\
-  !*** ./src/scripts/templates/components/template-posts.js ***!
-  \************************************************************/
-/*! ModuleConcatenation bailout: Module exports are unknown */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplatePosts; });
-/**
- * Template for the posts list
- *
- * @returns {String} HTML string for the template
- */
-
-/* prettier-ignore */
-function TemplatePosts({
-  posts = [],
-  templates
-}) {
-  return posts.map(post => templates[post.type](post)).join('');
-}
-
-/***/ }),
-
-/***/ "./src/scripts/templates/components/template-related-posts.js":
-/*!********************************************************************!*\
-  !*** ./src/scripts/templates/components/template-related-posts.js ***!
-  \********************************************************************/
-/*! ModuleConcatenation bailout: Module exports are unknown */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateRelatedPosts; });
-/**
- * Template for the related posts
- *
- * @returns {String} HTML string for the template
- */
-
-/* prettier-ignore */
-function TemplateRelatedPosts({
-  posts = [],
-  templates
-}) {
-  return `
-        <div class="relatedPosts">
-            <h5 class="relatedPosts-title">Related posts</h5>
-            ${posts.map(post => templates[post.type](post)).join('')}
-        </div>
-    `;
-}
-
-/***/ }),
-
-/***/ "./src/scripts/templates/components/template-tags.js":
-/*!***********************************************************!*\
-  !*** ./src/scripts/templates/components/template-tags.js ***!
-  \***********************************************************/
-/*! ModuleConcatenation bailout: Module exports are unknown */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateTags; });
-/**
- * Template for the tags list
- *
- * @returns {String} HTML string for the template
- */
-
-/* prettier-ignore */
-function TemplateTags(datas) {
-  return `
         <div class="tags card">
             <ul class="card-body">
-                ${datas.map(tag => `
+                ${tags.map(tag => `
                     <li>
                         <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
                     </li>
@@ -434,15 +357,106 @@ function TemplateTags(datas) {
                 <li></li>
             </ul>
         </div>
+        <div class="posts">
+            ${posts.map(post => templates[post.type](post)).join('')}
+        </div>
     `;
 }
 
 /***/ }),
 
-/***/ "./src/scripts/templates/types/template-audio.js":
-/*!*******************************************************!*\
-  !*** ./src/scripts/templates/types/template-audio.js ***!
-  \*******************************************************/
+/***/ "./src/scripts/templates/pages/post.js":
+/*!*********************************************!*\
+  !*** ./src/scripts/templates/pages/post.js ***!
+  \*********************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplatePost; });
+/**
+ * Template for audio Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
+/* prettier-ignore */
+function TemplatePost({
+  templates,
+  posts,
+  relatedPosts
+}) {
+  return `
+        <nav class="nav">
+                <ul>
+                    <li>
+                        <a class="btn" href="#_" title="Home">Home</a>
+                    </li>
+                </ul>
+            </ul>
+        </nav>
+        <div class="posts">
+            ${posts.map(post => templates[post.type](post)).join('')}
+        </div>
+        ${relatedPosts.length ? `
+            <div class="relatedPosts">
+                <h5 class="relatedPosts-title">Related posts</h5>
+                ${relatedPosts.map(post => templates[post.type](post)).join('')}
+            </div>
+        ` : ''}
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/pages/tagged.js":
+/*!***********************************************!*\
+  !*** ./src/scripts/templates/pages/tagged.js ***!
+  \***********************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateTagged; });
+/**
+ * Template for audio Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
+/* prettier-ignore */
+function TemplateTagged({
+  templates,
+  tags,
+  posts
+}) {
+  return `
+        <nav class="nav">
+                <ul>
+                    <li>
+                        <a class="btn" href="#_" title="Home">Home</a>
+                    </li>
+                </ul>
+            </ul>
+        </nav>
+        <div class="posts">
+            ${posts.map(post => templates[post.type](post)).join('')}
+        </div>
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/posts/audio.js":
+/*!**********************************************!*\
+  !*** ./src/scripts/templates/posts/audio.js ***!
+  \**********************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -480,10 +494,10 @@ function TemplateAudio(datas) {
 
 /***/ }),
 
-/***/ "./src/scripts/templates/types/template-chat.js":
-/*!******************************************************!*\
-  !*** ./src/scripts/templates/types/template-chat.js ***!
-  \******************************************************/
+/***/ "./src/scripts/templates/posts/chat.js":
+/*!*********************************************!*\
+  !*** ./src/scripts/templates/posts/chat.js ***!
+  \*********************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -526,10 +540,10 @@ function TemplateChat(datas) {
 
 /***/ }),
 
-/***/ "./src/scripts/templates/types/template-link.js":
-/*!******************************************************!*\
-  !*** ./src/scripts/templates/types/template-link.js ***!
-  \******************************************************/
+/***/ "./src/scripts/templates/posts/link.js":
+/*!*********************************************!*\
+  !*** ./src/scripts/templates/posts/link.js ***!
+  \*********************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -565,10 +579,10 @@ function TemplateLink(datas) {
 
 /***/ }),
 
-/***/ "./src/scripts/templates/types/template-photo.js":
-/*!*******************************************************!*\
-  !*** ./src/scripts/templates/types/template-photo.js ***!
-  \*******************************************************/
+/***/ "./src/scripts/templates/posts/photo.js":
+/*!**********************************************!*\
+  !*** ./src/scripts/templates/posts/photo.js ***!
+  \**********************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -611,10 +625,10 @@ function TemplatePhoto(datas) {
 
 /***/ }),
 
-/***/ "./src/scripts/templates/types/template-quote.js":
-/*!*******************************************************!*\
-  !*** ./src/scripts/templates/types/template-quote.js ***!
-  \*******************************************************/
+/***/ "./src/scripts/templates/posts/quote.js":
+/*!**********************************************!*\
+  !*** ./src/scripts/templates/posts/quote.js ***!
+  \**********************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -652,10 +666,10 @@ function TemplateQuote(datas) {
 
 /***/ }),
 
-/***/ "./src/scripts/templates/types/template-text.js":
-/*!******************************************************!*\
-  !*** ./src/scripts/templates/types/template-text.js ***!
-  \******************************************************/
+/***/ "./src/scripts/templates/posts/text.js":
+/*!*********************************************!*\
+  !*** ./src/scripts/templates/posts/text.js ***!
+  \*********************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -691,10 +705,10 @@ function TemplateText(datas) {
 
 /***/ }),
 
-/***/ "./src/scripts/templates/types/template-video.js":
-/*!*******************************************************!*\
-  !*** ./src/scripts/templates/types/template-video.js ***!
-  \*******************************************************/
+/***/ "./src/scripts/templates/posts/video.js":
+/*!**********************************************!*\
+  !*** ./src/scripts/templates/posts/video.js ***!
+  \**********************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -742,22 +756,18 @@ function TemplateVideo(datas) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Tumblr; });
-/* harmony import */ var _templates_components_template_nav__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./templates/components/template-nav */ "./src/scripts/templates/components/template-nav.js");
-/* harmony import */ var _templates_components_template_tags__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./templates/components/template-tags */ "./src/scripts/templates/components/template-tags.js");
-/* harmony import */ var _templates_components_template_posts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./templates/components/template-posts */ "./src/scripts/templates/components/template-posts.js");
-/* harmony import */ var _templates_components_template_related_posts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./templates/components/template-related-posts */ "./src/scripts/templates/components/template-related-posts.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
-/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./styles */ "./src/scripts/styles.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
+/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styles */ "./src/scripts/styles.js");
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-
-
-
-
+// import TemplateNav from './templates/components/template-nav'
+// import TemplateTags from './templates/components/template-tags'
+// import TemplatePageHome from './templates/pages/home'
+// import TemplateRelatedPosts from './templates/components/template-related-posts'
 
 
 /**
@@ -802,9 +812,10 @@ class Tumblr {
 
       if (pageType === 'tagged' && currentTag) {
         posts = await this.getDatasForTaggedPage(currentTag);
-        this.buildPage({
+        this.buildPage(this.templates.pages.tagged({
+          templates: this.templates.posts,
           posts
-        });
+        }));
       } else if (pageType === 'post' && currentPostId) {
         posts = await this.getDatasForPostPage(currentPostId);
 
@@ -818,15 +829,18 @@ class Tumblr {
           tags: posts[0].tags,
           limit: 3
         });
-        this.buildPage({
+        this.buildPage(this.templates.pages.post({
+          templates: this.templates.posts,
           posts,
           relatedPosts
-        });
+        }));
       } else {
         posts = await this.getDatasForHomePage();
-        this.buildPage({
+        this.buildPage(this.templates.pages.home({
+          templates: this.templates.posts,
+          tags: this.datas.tags,
           posts
-        });
+        }));
       } // Reset class properties on page changes
 
 
@@ -836,7 +850,7 @@ class Tumblr {
 
     _defineProperty(this, "onScroll", async e => {
       if (!this.isLoading && !this.endPage && this.getPageType() === 'home') {
-        if (Object(_utils__WEBPACK_IMPORTED_MODULE_4__["getScrollTop"])() >= document.body.clientHeight - window.innerHeight - this.options.nearBottom) {
+        if (Object(_utils__WEBPACK_IMPORTED_MODULE_0__["getScrollTop"])() >= document.body.clientHeight - window.innerHeight - this.options.nearBottom) {
           this.isLoading = true;
 
           if (this.currentPage >= this.totalPages) {
@@ -852,23 +866,40 @@ class Tumblr {
     });
 
     _defineProperty(this, "loadNewPage", async () => {
-      this.options.element.querySelector('.posts').insertAdjacentHTML('beforeend', Object(_templates_components_template_posts__WEBPACK_IMPORTED_MODULE_2__["default"])({
-        posts: await this.getPostsByPageNumber(this.currentPage + 1),
-        templates: this.templates
-      }));
+      const posts = await this.getPostsByPageNumber(this.currentPage + 1);
+      this.options.element.querySelector('.posts').insertAdjacentHTML('beforeend', `${posts.map(post => this.templates.posts[post.type](post)).join('')}`);
     });
 
     _defineProperty(this, "getTemplates", async () => {
+      return {
+        pages: await this.getTemplatesByType({
+          keys: this.keysPageTemplate,
+          path: './templates/pages/',
+          custom: this.options.templatesPages
+        }),
+        posts: await this.getTemplatesByType({
+          keys: this.keysPostTemplate,
+          path: './templates/posts/',
+          custom: this.options.templatesPosts
+        })
+      };
+    });
+
+    _defineProperty(this, "getTemplatesByType", async ({
+      keys,
+      path,
+      custom
+    }) => {
       const templates = {};
-      const typeAvailable = this.types.filter(type => this.hasProperty(this.options.templates, type));
-      typeAvailable.forEach(type => {
-        templates[type] = this.options.templates[type];
+      const customTemplates = keys.filter(name => this.hasProperty(custom, name));
+      customTemplates.forEach(name => {
+        templates[name] = custom[name];
       });
-      const typeUnavailable = this.types.filter(type => !this.hasProperty(this.options.templates, type));
-      const requests = typeUnavailable.map(type => Promise.resolve().then(() => _interopRequireWildcard(__webpack_require__("./src/scripts sync recursive ^.*$")(`${'./templates/types/template-' + type}`))));
-      const responses = await Promise.all(requests);
+      const defaultTemplates = keys.filter(name => !this.hasProperty(custom, name));
+      const requestsDefaultTemplates = defaultTemplates.map(name => Promise.resolve().then(() => _interopRequireWildcard(__webpack_require__("./src/scripts sync recursive ^.*$")(`${path + name}`))));
+      const responses = await Promise.all(requestsDefaultTemplates);
       responses.forEach((response, index) => {
-        templates[typeUnavailable[index]] = response.default;
+        templates[defaultTemplates[index]] = response.default;
       });
       return templates;
     });
@@ -970,7 +1001,8 @@ class Tumblr {
       cacheMethod: 'sessionStorage',
       nearBottom: 350,
       elementsPerPage: 20,
-      templates: {}
+      templatesPages: {},
+      templatesPosts: {}
     }; // Merge default options with user options
 
     this.options = Object.assign(defaultOptions, userOptions); // No configurables params
@@ -982,7 +1014,8 @@ class Tumblr {
     this.currentPage = 1;
     this.nbPostPerRequest = 50;
     this.datas = {};
-    this.types = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video'];
+    this.keysPageTemplate = ['home', 'post', 'tagged'];
+    this.keysPostTemplate = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video'];
     this.onScroll = this.onScroll.bind(this);
     this.hashChanged = this.hashChanged.bind(this);
   }
@@ -1011,28 +1044,8 @@ class Tumblr {
    * @param {Array} posts List of posts for the current page
    * @param {Array} relatedPosts List of related posts if available
    */
-  buildPage({
-    posts,
-    relatedPosts = []
-  }) {
-    const displayTags = this.getPageType() === 'home';
-    const displayRelatedPosts = this.getPageType() === 'post';
-    /* prettier-ignore */
-
-    this.options.element.innerHTML = `
-			${Object(_templates_components_template_nav__WEBPACK_IMPORTED_MODULE_0__["default"])()}
-			${displayTags ? Object(_templates_components_template_tags__WEBPACK_IMPORTED_MODULE_1__["default"])(this.datas.tags) : ''}
-			<div class="posts">
-				${Object(_templates_components_template_posts__WEBPACK_IMPORTED_MODULE_2__["default"])({
-      posts: posts,
-      templates: this.templates
-    })}
-			</div>
-			${displayRelatedPosts && relatedPosts.length ? Object(_templates_components_template_related_posts__WEBPACK_IMPORTED_MODULE_3__["default"])({
-      posts: relatedPosts,
-      templates: this.templates
-    }) : ''}
-		`;
+  buildPage(html) {
+    this.options.element.innerHTML = html;
   }
   /**
    * Load new page on infinite scroll
@@ -1239,7 +1252,7 @@ class Tumblr {
 
     const relatedPosts = this.datas.posts.filter(post => post.tags.some(tag => tagsSource.includes(tag) && post.id_string !== postId)); // Get random keys
 
-    const randomKeys = Object(_utils__WEBPACK_IMPORTED_MODULE_4__["getRandoms"])(limit, 0, relatedPosts.length - 1) || [];
+    const randomKeys = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["getRandoms"])(limit, 0, relatedPosts.length - 1) || [];
 
     if (relatedPosts.length < limit) {
       return relatedPosts;
@@ -1444,10 +1457,10 @@ function getRandoms(numPicks, min, max) {
 
 /***/ }),
 
-/***/ "./example/demo.css":
-/*!**************************!*\
-  !*** ./example/demo.css ***!
-  \**************************/
+/***/ "./examples/assets/demo.css":
+/*!**********************************!*\
+  !*** ./examples/assets/demo.css ***!
+  \**********************************/
 /*! ModuleConcatenation bailout: Module is not an ECMAScript module */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1455,103 +1468,173 @@ function getRandoms(numPicks, min, max) {
 
 /***/ }),
 
-/***/ "./example/demo.js":
-/*!*************************!*\
-  !*** ./example/demo.js ***!
-  \*************************/
+/***/ "./examples/assets/demo.js":
+/*!*********************************!*\
+  !*** ./examples/assets/demo.js ***!
+  \*********************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _dist_tumblr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dist/tumblr */ "./dist/tumblr.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getHost", function() { return getHost; });
+/* harmony import */ var _assets_demo_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../assets/demo.css */ "./examples/assets/demo.css");
+/* harmony import */ var _assets_demo_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_assets_demo_css__WEBPACK_IMPORTED_MODULE_0__);
+ // Get the host from the browser storage if available
+
+function getHost() {
+  return window.sessionStorage.getItem('tumblr') || 'yoriiis';
+}
+const host = getHost();
+const formInputText = document.querySelector('#form-text');
+window.sessionStorage.setItem('tumblr', host);
+formInputText.value = host.split('.tumblr.com')[0]; // Update the host from the form
+
+document.querySelector('.form').addEventListener('submit', e => {
+  e.preventDefault();
+  const inputValue = formInputText.value || false;
+
+  if (inputValue) {
+    window.sessionStorage.setItem('tumblr', `${inputValue}.tumblr.com`);
+    window.sessionStorage.removeItem('TumblrJsonData');
+    window.location.href = '';
+  }
+}); // Update the dark mode from the button
+
+const html = document.querySelector('html');
+html.querySelector('[data-button-darkmode]').addEventListener('click', e => {
+  e.preventDefault();
+  const darkMode = html.classList.contains('darkMode');
+
+  if (darkMode) {
+    html.classList.remove('darkMode');
+  } else {
+    html.classList.add('darkMode');
+  }
+
+  window.localStorage.setItem('tumblrDarkMode', !darkMode);
+});
+
+/***/ }),
+
+/***/ "./examples/custom-pages/custom-pages.js":
+/*!***********************************************!*\
+  !*** ./examples/custom-pages/custom-pages.js ***!
+  \***********************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _dist_tumblr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dist/tumblr */ "./dist/tumblr.js");
 /* harmony import */ var _dist_tumblr__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_dist_tumblr__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _demo_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./demo.css */ "./example/demo.css");
-/* harmony import */ var _demo_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_demo_css__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dist/tumblr.css */ "./dist/tumblr.css");
-/* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_dist_tumblr_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../dist/tumblr.css */ "./dist/tumblr.css");
+/* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _assets_demo_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../assets/demo.js */ "./examples/assets/demo.js");
 
 
-
-
-// Get the host from the browser storage if available
-const host = window.sessionStorage.getItem('tumblr') || 'yoriiis'
-const formInputText = document.querySelector('#form-text')
-window.sessionStorage.setItem('tumblr', host)
-formInputText.value = host.split('.tumblr.com')[0]
 
 const tumblr = new _dist_tumblr__WEBPACK_IMPORTED_MODULE_0___default.a({
-	element: document.querySelector('#tumblr-app'),
-	host,
-	apiKey: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',
-	limitData: 250,
-	cache: true,
-	cacheMethod: 'sessionStorage',
-	nearBottom: 350,
-	elementsPerPage: 2,
-	templates: {
-		audio: datas => {
-			/* prettier-ignore */
-			return `
-				<div class="card card-audio override" data-id="${datas.id_string}">
-					<div class="card-iframe">
-						${datas.player}
-					</div>
-					<div class="card-body">
-						<a href="#/post/${datas.id_string}" class="card-title">${datas.summary}</a>
-						<ul class="card-tags">
-							${datas.tags.map(tag => `
-									<li>
-										<a href="${datas.blog.url}tagged/${tag}" title="#${tag}">#${tag}</a>
-									</li>
-							`).join('')}
+  element: document.querySelector('#tumblr-app'),
+  host: Object(_assets_demo_js__WEBPACK_IMPORTED_MODULE_2__["getHost"])(),
+  apiKey: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',
+  limitData: 250,
+  cache: true,
+  cacheMethod: 'sessionStorage',
+  nearBottom: 350,
+  elementsPerPage: 2,
+  templatesPages: {
+    home: ({
+      templates,
+      tags,
+      posts
+    }) => {
+      /* prettier-ignore */
+      return `
+				Custom home page
+				<nav class="nav">
+						<ul>
+							<li>
+								<a class="btn" href="#_" title="Home">Home</a>
+							</li>
 						</ul>
-					</div>
+					</ul>
+				</nav>
+				<div class="tags card">
+					<ul class="card-body">
+						${tags.map(tag => `
+							<li>
+								<a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
+							</li>
+						`).join('')}
+						<li></li>
+					</ul>
 				</div>
-			`
-		}
-	}
-})
+				<div class="posts">
+					${posts.map(post => templates[post.type](post)).join('')}
+				</div>
+			`;
+    },
+    tagged: ({
+      templates,
+      tags,
+      posts
+    }) => {
+      /* prettier-ignore */
+      return `
+				Custom tagged page
+				<nav class="nav">
+						<ul>
+							<li>
+								<a class="btn" href="#_" title="Home">Home</a>
+							</li>
+						</ul>
+					</ul>
+				</nav>
+				<div class="posts">
+					${posts.map(post => templates[post.type](post)).join('')}
+				</div>
+			`;
+    },
+    post: ({
+      templates,
+      posts,
+      relatedPosts
+    }) => {
+      /* prettier-ignore */
+      return `
+				Custom post pages
+				<nav class="nav">
+						<ul>
+							<li>
+								<a class="btn" href="#_" title="Home">Home</a>
+							</li>
+						</ul>
+					</ul>
+				</nav>
+				<div class="posts">
+					${posts.map(post => templates[post.type](post)).join('')}
+				</div>
+				${relatedPosts.length ? `
+					<div class="relatedPosts">
+						<h5 class="relatedPosts-title">My related posts</h5>
+						${relatedPosts.map(post => templates[post.type](post)).join('')}
+					</div>
+				` : ''}
+    `;
+    }
+  }
+}); // Initialize the Tumblr from the instance
 
-// Initialize the Tumblr from the instance
 tumblr.init().then(response => {
-	console.log(response)
+  console.log(response); // No result, redirect to a fresh home with default host
 
-	// No result, redirect to a fresh home with default host
-	if (response === false) {
-		window.sessionStorage.removeItem('tumblr')
-	}
-})
-
-// Update the host from the form
-document.querySelector('.form').addEventListener('submit', e => {
-	e.preventDefault()
-
-	const inputValue = formInputText.value || false
-	if (inputValue) {
-		window.sessionStorage.setItem('tumblr', `${inputValue}.tumblr.com`)
-		window.sessionStorage.removeItem('TumblrJsonData')
-		window.location.href = ''
-	}
-})
-
-// Update the dark mode from the button
-const html = document.querySelector('html')
-html.querySelector('[data-button-darkmode]').addEventListener('click', e => {
-	e.preventDefault()
-
-	const darkMode = html.classList.contains('darkMode')
-	if (darkMode) {
-		html.classList.remove('darkMode')
-	} else {
-		html.classList.add('darkMode')
-	}
-
-	window.localStorage.setItem('tumblrDarkMode', !darkMode)
-})
-
+  if (response === false) {
+    window.sessionStorage.removeItem('tumblr');
+  }
+});
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=demo.js.map
+//# sourceMappingURL=custom-pages.js.map

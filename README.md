@@ -2,7 +2,6 @@
 
 ![Tumblrjs](https://img.shields.io/badge/tumblr-v2.0.0-546e7a.svg?style=for-the-badge) [![GitlabCI](https://img.shields.io/gitlab/pipeline/yoriiis/tumblr/develop?style=for-the-badge)](https://gitlab.com/yoriiis/tumblr/pipelines) [![Netlify Status](https://img.shields.io/netlify/cfe5ccb9-b063-4ca0-81d7-9492bfae8754?style=for-the-badge)](https://app.netlify.com/sites/tumblrjs/deploys)
 
-
 `Tumblr-app` is a client Javascript library works with Tumblr to expand these capabilities and add somes fun and powerfull features such as lists of tags, related posts and outside of the box capability and off course, infinite scroll.
 
 ## Installation

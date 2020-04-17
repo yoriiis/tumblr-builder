@@ -1,11 +1,13 @@
 /**
- * Template for the navigation
+ * Template for audio Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
  *
  * @returns {String} HTML string for the template
  */
 
 /* prettier-ignore */
-export default function TemplateNav () {
+export default function TemplateTagged ({ templates, tags, posts }) {
 	return `
         <nav class="nav">
                 <ul>
@@ -15,5 +17,8 @@ export default function TemplateNav () {
                 </ul>
             </ul>
         </nav>
+        <div class="posts">
+            ${posts.map(post => templates[post.type](post)).join('')}
+        </div>
     `
 }

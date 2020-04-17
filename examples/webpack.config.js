@@ -11,7 +11,9 @@ module.exports = (env, argv) => {
 	return {
 		watch: !isProduction,
 		entry: {
-			demo: `${path.resolve(__dirname, './demo.js')}`
+			'basic-usage': `${path.resolve(__dirname, './basic-usage/basic-usage.js')}`,
+			'custom-pages': `${path.resolve(__dirname, './custom-pages/custom-pages.js')}`,
+			'custom-posts': `${path.resolve(__dirname, './custom-posts/custom-posts.js')}`
 		},
 		watchOptions: {
 			ignored: /node_modules/
@@ -26,7 +28,7 @@ module.exports = (env, argv) => {
 			rules: [
 				{
 					test: /\.js$/,
-					include: [path.resolve(__dirname, './src')],
+					include: [path.resolve(__dirname, './')],
 					use: [
 						{
 							loader: 'babel-loader'

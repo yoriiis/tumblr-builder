@@ -11,10 +11,10 @@
 		"web"
 	],
 	"scripts": {
-		"build": "rm -rf ./web/dist/ && webpack --mode=production",
-		"build:example": "rm -rf ./example/dist/ && webpack --config=./example/webpack.config.js --mode=production",
-		"start": "rm -rf ./web/dist/ && webpack --mode=development",
-		"start:example": "rm -rf ./example/dist/ && webpack --config=./example/webpack.config.js --mode=development",
+		"build": "webpack --mode=production",
+		"build:example": "webpack --config=./examples/webpack.config.js --mode=production",
+		"start": "webpack --mode=development",
+		"start:example": "webpack --config=./examples/webpack.config.js --mode=development",
 		"test": "jest",
 		"test:coverage": "jest --coverage",
 		"test:eslint": "eslint . --ignore-pattern dist",

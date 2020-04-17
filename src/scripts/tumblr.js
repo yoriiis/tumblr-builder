@@ -1,7 +1,7 @@
-import TemplateNav from './templates/components/template-nav'
-import TemplateTags from './templates/components/template-tags'
-import TemplatePosts from './templates/components/template-posts'
-import TemplateRelatedPosts from './templates/components/template-related-posts'
+// import TemplateNav from './templates/components/template-nav'
+// import TemplateTags from './templates/components/template-tags'
+// import TemplatePageHome from './templates/pages/home'
+// import TemplateRelatedPosts from './templates/components/template-related-posts'
 import { getScrollTop, getRandoms } from './utils'
 
 import './styles'
@@ -15,7 +15,6 @@ import './styles'
  * {@link https://github.com/yoriiis/tumblr}
  * @copyright 2020 Joris DANIEL
  **/
-
 export default class Tumblr {
 	/**
 	 * @param {options}
@@ -31,7 +30,8 @@ export default class Tumblr {
 			cacheMethod: 'sessionStorage',
 			nearBottom: 350,
 			elementsPerPage: 20,
-			templates: {}
+			templatesPages: {},
+			templatesPosts: {}
 		}
 
 		// Merge default options with user options
@@ -45,7 +45,9 @@ export default class Tumblr {
 		this.currentPage = 1
 		this.nbPostPerRequest = 50
 		this.datas = {}
-		this.types = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video']
+
+		this.keysPageTemplate = ['home', 'post', 'tagged']
+		this.keysPostTemplate = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video']
 
 		this.onScroll = this.onScroll.bind(this)
 		this.hashChanged = this.hashChanged.bind(this)
@@ -97,7 +99,12 @@ export default class Tumblr {
 
 		if (pageType === 'tagged' && currentTag) {
 			posts = await this.getDatasForTaggedPage(currentTag)
-			this.buildPage({ posts })
+			this.buildPage(
+				this.templates.pages.tagged({
+					templates: this.templates.posts,
+					posts
+				})
+			)
 		} else if (pageType === 'post' && currentPostId) {
 			posts = await this.getDatasForPostPage(currentPostId)
 			if (posts.length > 1) {
@@ -109,13 +116,22 @@ export default class Tumblr {
 				tags: posts[0].tags,
 				limit: 3
 			})
-			this.buildPage({
-				posts,
-				relatedPosts
-			})
+			this.buildPage(
+				this.templates.pages.post({
+					templates: this.templates.posts,
+					posts,
+					relatedPosts
+				})
+			)
 		} else {
 			posts = await this.getDatasForHomePage()
-			this.buildPage({ posts })
+			this.buildPage(
+				this.templates.pages.home({
+					templates: this.templates.posts,
+					tags: this.datas.tags,
+					posts
+				})
+			)
 		}
 
 		// Reset class properties on page changes
@@ -152,27 +168,8 @@ export default class Tumblr {
 	 * @param {Array} posts List of posts for the current page
 	 * @param {Array} relatedPosts List of related posts if available
 	 */
-	buildPage ({ posts, relatedPosts = [] }) {
-		const displayTags = this.getPageType() === 'home'
-		const displayRelatedPosts = this.getPageType() === 'post'
-
-		/* prettier-ignore */
-		this.options.element.innerHTML = `
-			${TemplateNav()}
-			${displayTags ? TemplateTags(this.datas.tags) : ''}
-			<div class="posts">
-				${TemplatePosts({
-			posts: posts,
-			templates: this.templates
-		})}
-			</div>
-			${displayRelatedPosts && relatedPosts.length
-				? TemplateRelatedPosts({
-					posts: relatedPosts,
-					templates: this.templates
-				})
-			: ''}
-		`
+	buildPage (html) {
+		this.options.element.innerHTML = html
 	}
 
 	/**
@@ -181,13 +178,13 @@ export default class Tumblr {
 	 * Inject new content after current posts
 	 */
 	loadNewPage = async () => {
-		this.options.element.querySelector('.posts').insertAdjacentHTML(
-			'beforeend',
-			TemplatePosts({
-				posts: await this.getPostsByPageNumber(this.currentPage + 1),
-				templates: this.templates
-			})
-		)
+		const posts = await this.getPostsByPageNumber(this.currentPage + 1)
+		this.options.element
+			.querySelector('.posts')
+			.insertAdjacentHTML(
+				'beforeend',
+				`${posts.map(post => this.templates.posts[post.type](post)).join('')}`
+			)
 	}
 
 	/**
@@ -239,25 +236,35 @@ export default class Tumblr {
 	 * @returns {Object} List of template functions by type
 	 */
 	getTemplates = async () => {
+		return {
+			pages: await this.getTemplatesByType({
+				keys: this.keysPageTemplate,
+				path: './templates/pages/',
+				custom: this.options.templatesPages
+			}),
+			posts: await this.getTemplatesByType({
+				keys: this.keysPostTemplate,
+				path: './templates/posts/',
+				custom: this.options.templatesPosts
+			})
+		}
+	}
+
+	getTemplatesByType = async ({ keys, path, custom }) => {
 		const templates = {}
 
-		const typeAvailable = this.types.filter(type =>
-			this.hasProperty(this.options.templates, type)
-		)
-
-		typeAvailable.forEach(type => {
-			templates[type] = this.options.templates[type]
+		const customTemplates = keys.filter(name => this.hasProperty(custom, name))
+		customTemplates.forEach(name => {
+			templates[name] = custom[name]
 		})
+		const defaultTemplates = keys.filter(name => !this.hasProperty(custom, name))
 
-		const typeUnavailable = this.types.filter(
-			type => !this.hasProperty(this.options.templates, type)
-		)
+		const requestsDefaultTemplates = defaultTemplates.map(name => import(path + name))
 
-		const requests = typeUnavailable.map(type => import('./templates/types/template-' + type))
+		const responses = await Promise.all(requestsDefaultTemplates)
 
-		const responses = await Promise.all(requests)
 		responses.forEach((response, index) => {
-			templates[typeUnavailable[index]] = response.default
+			templates[defaultTemplates[index]] = response.default
 		})
 
 		return templates
