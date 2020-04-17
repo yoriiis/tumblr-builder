@@ -1,31 +1,33 @@
 # Custom posts
 
-Need to customize HTML for all post types (audio, chat, link, photo, quote, text, video)? The `templatesPosts` option is for you.
+Need to customize HTML for article types (audio, chat, link, photo, quote, text, video)? The `templatesPosts` option is for you.
 
-During initialization, add the `templatesPosts` parameter with all pages you need to customize.
+On app initialize, add the `templatesPosts` parameter with all pages you need to customize. The others article type will automatically used their default template.
 
-More informations about available fields on the [Tumblr API documentation](https://www.tumblr.com/docs/en/api/v2#posts--retrieve-published-posts).
-
-## Default templates
-
-::: tip Prettier ignore comment
-To prevent issue with formatter tools and template literals indents, following examples are preceded by `/* prettier-ignore */` [Prettier ignore comment](https://prettier.io/docs/en/ignore.html).
+::: tip Override default templates
+To simply override the default template for a spacific article type use `templatesPosts.<post>`. `<post>` placeholder must be replaced by following values: `audio` `chat` `link` `photo` `quote` `text` `video`.
 :::
 
-### Function parameters
+::: details Prettier ignore comment
+To prevent issue with Prettier and template literals indents, following examples are preceded by `/* prettier-ignore */`. [More information on Prettier](https://prettier.io/docs/en/ignore.html).
+:::
+
+## Function parameters
 
 All functions exposes following parameters:
 
-#### datas
+### datas
 
 - Type: `Object`
 - Default: `{}`
 
-All datas available from the Tumblr API for the post with type current type`.
+All datas available from the Tumblr API for this type of article. Fields depends on article type. More informations about available fields on the [Tumblr API documentation](https://www.tumblr.com/docs/en/api/v2#posts--retrieve-published-posts).
+
+## Audio post
 
 ### Default audio post
 
-The default template used for the homepage. The function can be override with `templatesPosts.audio` options.
+The default template used for the audio post is described below. The function can be override with the `templatesPosts.audio` option.
 
 ```javascript
 function audio (datas) => {
@@ -47,11 +49,36 @@ function audio (datas) => {
             </div>
         </div>
     `;
+}
 ```
+
+### Custom audio post
+
+To customize the audio post template, write your own `customAudioPost` function inspired by the `audio` function above.
+
+```javascript
+function customAudioPost (datas) {
+    return `
+        <!-- Write the HTML for the custom audio post here -->
+    `;
+}
+```
+
+Next, use the `templatesPosts.audio` option to passed the new audio post function.
+
+```javascript
+const tumblr = new Tumblr({
+    templatesPosts: {
+        audio: customAudioPost
+    }
+});
+```
+
+## Chat post
 
 ### Default chat post
 
-The default template used for the homepage. The function can be override with `templatesPosts.chat` options.
+The default template used for the chat post is described below. The function can be override with the `templatesPosts.chat` option.
 
 ```javascript
 function chat (datas) => {
@@ -73,11 +100,36 @@ function chat (datas) => {
             </div>
         </div>
     `;
+}
 ```
+
+### Custom chat post
+
+To customize the chat post template, write your own `customChatPost` function inspired by the `chat` function above.
+
+```javascript
+function customChatPost (datas) {
+    return `
+        <!-- Write the HTML for the custom chat post here -->
+    `;
+}
+```
+
+Next, use the `templatesPosts.chat` option to passed the new chat post function.
+
+```javascript
+const tumblr = new Tumblr({
+    templatesPosts: {
+        chat: customChatPost
+    }
+});
+```
+
+## Link post
 
 ### Default link post
 
-The default template used for the homepage. The function can be override with `templatesPosts.link` options.
+The default template used for the link post is described below. The function can be override with the `templatesPosts.link` option.
 
 ```javascript
 function link (datas) => {
@@ -97,11 +149,36 @@ function link (datas) => {
             </div>
         </div>
     `;
+}
 ```
+
+### Custom link post
+
+To customize the link post template, write your own `customLinkPost` function inspired by the `link` function above.
+
+```javascript
+function customLinkPost (datas) {
+    return `
+        <!-- Write the HTML for the custom link post here -->
+    `;
+}
+```
+
+Next, use the `templatesPosts.link` option to passed the new link post function.
+
+```javascript
+const tumblr = new Tumblr({
+    templatesPosts: {
+        link: customLinkPost
+    }
+});
+```
+
+## Photo post
 
 ### Default photo post
 
-The default template used for the homepage. The function can be override with `templatesPosts.photo` options.
+The default template used for the photo post is described below. The function can be override with the `templatesPosts.photo` option.
 
 ```javascript
 function photo (datas) => {
@@ -130,11 +207,36 @@ function photo (datas) => {
             </div>
         </div>
     `;
+}
 ```
+
+### Custom photo post
+
+To customize the photo post template, write your own `customPhotoPost` function inspired by the `photo` function above.
+
+```javascript
+function customPhotoPost (datas) {
+    return `
+        <!-- Write the HTML for the custom photo post here -->
+    `;
+}
+```
+
+Next, use the `templatesPosts.photo` option to passed the new photo post function.
+
+```javascript
+const tumblr = new Tumblr({
+    templatesPosts: {
+        photo: customPhotoPost
+    }
+});
+```
+
+## Quote post
 
 ### Default quote post
 
-The default template used for the homepage. The function can be override with `templatesPosts.quote` options.
+The default template used for the quote post is described below. The function can be override with the `templatesPosts.quote` option.
 
 ```javascript
 function quote (datas) => {
@@ -156,11 +258,36 @@ function quote (datas) => {
             </div>
         </div>
     `;
+}
 ```
+
+### Custom quote post
+
+To customize the quote post template, write your own `customQuotePost` function inspired by the `quote` function above.
+
+```javascript
+function customQuotePost (datas) {
+    return `
+        <!-- Write the HTML for the custom quote post here -->
+    `;
+}
+```
+
+Next, use the `templatesPosts.quote` option to passed the new quote post function.
+
+```javascript
+const tumblr = new Tumblr({
+    templatesPosts: {
+        quote: customQuotePost
+    }
+});
+```
+
+## Text post
 
 ### Default text post
 
-The default template used for the homepage. The function can be override with `templatesPosts.text` options.
+The default template used for the text post is described below. The function can be override with the `templatesPosts.text` option.
 
 ```javascript
 function text (datas) => {
@@ -180,11 +307,36 @@ function text (datas) => {
             </div>
         </div>
     `;
+}
 ```
+
+### Custom text post
+
+To customize the text post template, write your own `customTextPost` function inspired by the `text` function above.
+
+```javascript
+function customTextPost (datas) {
+    return `
+        <!-- Write the HTML for the custom text post here -->
+    `;
+}
+```
+
+Next, use the `templatesPosts.text` option to passed the new text post function.
+
+```javascript
+const tumblr = new Tumblr({
+    templatesPosts: {
+        text: customTextPost
+    }
+});
+```
+
+## Video post
 
 ### Default video post
 
-The default template used for the homepage. The function can be override with `templatesPosts.video` options.
+The default template used for the video post is described below. The function can be override with the `templatesPosts.video` option.
 
 ```javascript
 function video (datas) => {
@@ -206,164 +358,27 @@ function video (datas) => {
             </div>
         </div>
     `;
-```
-
-## Custom templates
-
-::: tip Override default template
-Default template will not be used when `templatesPosts.<key>` is used. `<key>` accept `audio`, `chat`, `link`, `photo`, `quote`, `text` and `video` values.
-:::
-
-### Custom audio post
-
-To customize the homepage template, write your own `customAudioPost` function inspired by the `audio` function above.
-
-```javascript
-function customAudioPost (datas) {
-    return `
-        <!-- Write the HTML of the custom audio post here -->
-    `
 }
-```
-
-Next, use the `templatesPosts.audio` option to passed the new home template.
-
-```javascript
-const tumblr = new Tumblr({
-    templatesPosts: {
-        audio: customAudioPost
-    }
-})
-```
-
-### Custom chat post
-
-To customize the homepage template, write your own `customChatPost` function inspired by the `chat` function above.
-
-```javascript
-function customChatPost (datas) {
-    return `
-        <!-- Write the HTML of the custom chat post here -->
-    `
-}
-```
-
-Next, use the `templatesPosts.chat` option to passed the new home template.
-
-```javascript
-const tumblr = new Tumblr({
-    templatesPosts: {
-        chat: customChatPost
-    }
-})
-```
-
-### Custom link post
-
-To customize the homepage template, write your own `customLinkPost` function inspired by the `link` function above.
-
-```javascript
-function customLinkPost (datas) {
-    return `
-        <!-- Write the HTML of the custom link post here -->
-    `
-}
-```
-
-Next, use the `templatesPosts.link` option to passed the new home template.
-
-```javascript
-const tumblr = new Tumblr({
-    templatesPosts: {
-        link: customLinkPost
-    }
-})
-```
-
-### Custom photo post
-
-To customize the homepage template, write your own `customPhotoPost` function inspired by the `photo` function above.
-
-```javascript
-function customPhotoPost (datas) {
-    return `
-        <!-- Write the HTML of the custom photo post here -->
-    `
-}
-```
-
-Next, use the `templatesPosts.photo` option to passed the new home template.
-
-```javascript
-const tumblr = new Tumblr({
-    templatesPosts: {
-        photo: customPhotoPost
-    }
-})
-```
-
-### Custom quote post
-
-To customize the homepage template, write your own `customQuotePost` function inspired by the `quote` function above.
-
-```javascript
-function customQuotePost (datas) {
-    return `
-        <!-- Write the HTML of the custom quote post here -->
-    `
-}
-```
-
-Next, use the `templatesPosts.quote` option to passed the new home template.
-
-```javascript
-const tumblr = new Tumblr({
-    templatesPosts: {
-        quote: customQuotePost
-    }
-})
-```
-
-### Custom text post
-
-To customize the homepage template, write your own `customTextPost` function inspired by the `text` function above.
-
-```javascript
-function customTextPost (datas) {
-    return `
-        <!-- Write the HTML of the custom text post here -->
-    `
-}
-```
-
-Next, use the `templatesPosts.text` option to passed the new home template.
-
-```javascript
-const tumblr = new Tumblr({
-    templatesPosts: {
-        text: customTextPost
-    }
-})
 ```
 
 ### Custom video post
 
-To customize the homepage template, write your own `customVideoPost` function inspired by the `video` function above.
+To customize the video post template, write your own `customVideoPost` function inspired by the `video` function above.
 
 ```javascript
 function customVideoPost (datas) {
     return `
-        <!-- Write the HTML of the custom video post here -->
-    `
+        <!-- Write the HTML for the custom video post here -->
+    `;
 }
 ```
 
-Next, use the `templatesPosts.video` option to passed the new home template.
+Next, use the `templatesPosts.video` option to passed the new video post function.
 
 ```javascript
 const tumblr = new Tumblr({
     templatesPosts: {
         video: customVideoPost
     }
-})
+});
 ```

@@ -1,16 +1,16 @@
 ---
 home: true
-heroText: Tumblr Builder
-tagline: Javascript library to build custom Tumblr
+heroText: TumblrBuilder
+tagline: Javascript library to build custom Tumblr from API
 actionText: Get Started →
 actionLink: /guide/
 features:
 - title: Default and custom theme
-  details: All pages and post types have a minimalist default theme with popular fields and can individually be overrides
+  details: All pages and article types have a minimalist and functionnal default theme with popular fields and can individually be overrides
 - title: Extra features
-  details: Native infinite scroll on the homepage, list of all tags (cloud tags),related posts and cache browser for better performance
-- title: Out of the box capabilities
-  details: Tumblr can works inside Tumblr ecosystem and out of the box thanks to the API
+  details: Home and tagged page have a native infinite scroll, get the list of all hashtags used by your articles, get related posts and use browser cache to increase load performance
+- title: Inside or outside of Tumblr
+  details: TumblrBuilder can works inside Tumblr blog and outside in your personal website, thanks to the API
 footer: MIT Licensed | Copyright © 2020 Yoriiis
 ---
 
@@ -19,7 +19,3 @@ footer: MIT Licensed | Copyright © 2020 Yoriiis
 ```bash
 npm install tumblr-builder
 ```
-
-::: warning Tumblr API usage
-`tumblr-builder` use Tumblr [API v2](https://www.tumblr.com/docs/en/api/v2) and need a valid `apiKey`. More information in the guide.
-:::

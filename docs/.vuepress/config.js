@@ -1,16 +1,16 @@
 module.exports = {
-	base: '/tumblr/docs/site/',
+	base: '/',
 	dest: 'docs/site',
 	markdown: {
 		lineNumbers: true
 	},
-	title: 'Tumblr',
+	title: 'TumblrBuilder',
 	description: '',
 	themeConfig: {
 		repo: 'yoriiis/tumblr',
 		repoLabel: 'Github',
 		docsDir: 'docs',
-		docsBranch: 'master',
+		docsBranch: 'develop',
 		editLinks: true,
 		editLinkText: 'Help us improve this page!',
 		smoothScroll: true,
@@ -29,7 +29,16 @@ module.exports = {
 		nav: [
 			// { text: 'Home', link: '/' },
 			{ text: 'Guide', link: '/guide/' },
-			{ text: 'Demo', link: '/netlify/' },
+			{
+				text: 'Demo',
+				items: [
+					{ text: 'Demo outside Tumblr', link: '/demo/' },
+					{
+						text: 'Demo inside Tumblr',
+						link: 'http://tmblr-builder.tumblr.com'
+					}
+				]
+			},
 			{
 				text: 'Learn more',
 

@@ -1,66 +1,58 @@
 # Available methods
 
-The library exposes following functions.
+List of functions exposed by the instance.
 
 ## Initialize function
 
 ### init
 
-The function initialize and build the Tumblr application.
+The function initialize and build the app.
 
 ```javascript
 tumblr.init().then(response => {
-    // Tumblr is ready
+    // App is render and ready
 })
 ```
 
-The function exposes a `response` object with all datas from the API `totalPosts`, `posts` and `tags`.
-
-```json
-{
-    "totalPosts": 0,
-    "posts": [{}],
-    "tags": []
-}
-```
+The function exposes a `response` object with datas from the API including `totalPosts`, `posts` and `tags`.
 
 #### response.totalPosts
 
 - Type: `Integer`
 - Default: `0`
 
-The total of posts available on the Tumblr site, according to the Tumblr [host](how-it-works.html#host) options.
+The total of articles available on the Tumblr blog, according to the [host](how-it-works.html#host) option.
 
 #### response.posts
 
 - Type: `Array<Object>`
 - Default: `[]`
 
-List of posts datas returns by the application, according to the [limitData](how-it-works.html#limitdata) options.
+List of articles datas returns by the app, according to the [limitData](how-it-works.html#limitdata) option.
 
 #### response.tags
 
 - Type: `Array`
 - Default: `[]`
 
-List of all tags for all posts requested by the application, according to the [limitData](how-it-works.html#limitdata) options.
+List of all hashtags for all articles requested by the app, according to the [limitData](how-it-works.html#limitdata) option.
 
 ## API dependent function
 
-All next functions must be wrapped inside the `init()` Promise returns.
+All next functions must be wrapped inside the `init()` Promise return.
 
 ::: warning Limitations
-All api dependent functions executed research in the collection of posts get from the API according to the [limitData](how-it-works.html#limitdata) options. The limit can be adjust to fit your need.
+All API dependent functions executes research in the collection of articles get from the API according to the [limitData](how-it-works.html#limitdata) option. The limit can be adjust to fit your need.
 :::
 
 ### getAllTags
 
-The function get the list of all tags associates to posts.
+The function get the list of all hashtags from all available articles, according to the [limitData](how-it-works.html#limitdata) option.
 
 ```javascript
 tumblr.init().then(function(response) {
-    const tags = this.getAllTags()
-})
+    const tags = this.getAllTags();
+});
 ```
 
 ### getRelatedPosts
@@ -74,25 +66,25 @@ tumblr.init().then(function(response) {
         tags: ['picture', 'gallery'],
         limit: 3,
         ignoreTags: ['gif']
-    }
-})
+    };
+});
 ```
 
-The function has a object with 4 properties:
+The function has an object parameter with following properties:
 
 #### postId
 
 - Type: `String`
 - Default: `''`
 
-Tells the function the id of the associated post.
+Tells the function the id of the associated article.
 
 #### tags
 
 - Type: `Array`
 - Default: `[]`
 
-Tells the function the list of tags of the associated post.
+Tells the function the list of hashtags for the associated article.
 
 #### limit
 
@@ -106,4 +98,4 @@ Tells the function the limit of results to return.
 - Type: `Array`
 - Default: `[]`
 
-Tells the function the list of tags to ignore for the research.
+Tells the function the list of hashtags to ignore for the research.

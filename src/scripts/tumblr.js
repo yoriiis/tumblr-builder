@@ -1,7 +1,3 @@
-// import TemplateNav from './templates/components/template-nav'
-// import TemplateTags from './templates/components/template-tags'
-// import TemplatePageHome from './templates/pages/home'
-// import TemplateRelatedPosts from './templates/components/template-related-posts'
 import { getScrollTop, getRandoms } from './utils'
 
 import './styles'

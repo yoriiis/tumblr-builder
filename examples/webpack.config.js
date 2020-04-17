@@ -11,7 +11,7 @@ module.exports = (env, argv) => {
 	return {
 		watch: !isProduction,
 		entry: {
-			netlify: `${path.resolve(__dirname, './netlify/netlify.js')}`,
+			demo: `${path.resolve(__dirname, './demo/demo.js')}`,
 			'basic-usage': `${path.resolve(__dirname, './basic-usage/basic-usage.js')}`,
 			'custom-pages': `${path.resolve(__dirname, './custom-pages/custom-pages.js')}`,
 			'custom-posts': `${path.resolve(__dirname, './custom-posts/custom-posts.js')}`
