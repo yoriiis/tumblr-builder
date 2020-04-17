@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./examples/custom-pages/custom-pages.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./examples/netlify/netlify.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1457,10 +1457,21 @@ function getRandoms(numPicks, min, max) {
 
 /***/ }),
 
-/***/ "./examples/custom-pages/custom-pages.js":
-/*!***********************************************!*\
-  !*** ./examples/custom-pages/custom-pages.js ***!
-  \***********************************************/
+/***/ "./examples/netlify/netlify.css":
+/*!**************************************!*\
+  !*** ./examples/netlify/netlify.css ***!
+  \**************************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./examples/netlify/netlify.js":
+/*!*************************************!*\
+  !*** ./examples/netlify/netlify.js ***!
+  \*************************************/
 /*! ModuleConcatenation bailout: Module exports are unknown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1470,98 +1481,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dist_tumblr__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_dist_tumblr__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../dist/tumblr.css */ "./dist/tumblr.css");
 /* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _netlify_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./netlify.css */ "./examples/netlify/netlify.css");
+/* harmony import */ var _netlify_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_netlify_css__WEBPACK_IMPORTED_MODULE_2__);
 
 
+
+const host = window.sessionStorage.getItem('tumblr') || 'yoriiis';
 const tumblr = new _dist_tumblr__WEBPACK_IMPORTED_MODULE_0___default.a({
   element: document.querySelector('#tumblr-app'),
-  host: 'yoriiis',
+  host,
   apiKey: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',
   limitData: 250,
   cache: true,
   cacheMethod: 'sessionStorage',
   nearBottom: 350,
-  elementsPerPage: 2,
-  templatesPages: {
-    home: ({
-      templates,
-      tags,
-      posts
-    }) => {
-      /* prettier-ignore */
-      return `
-				Custom home page
-				<nav class="nav">
-						<ul>
-							<li>
-								<a class="btn" href="#_" title="Home">Home</a>
-							</li>
-						</ul>
-					</ul>
-				</nav>
-				<div class="tags card">
-					<ul class="card-body">
-						${tags.map(tag => `
-							<li>
-								<a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
-							</li>
-						`).join('')}
-						<li></li>
-					</ul>
-				</div>
-				<div class="posts">
-					${posts.map(post => templates[post.type](post)).join('')}
-				</div>
-			`;
-    },
-    tagged: ({
-      templates,
-      tags,
-      posts
-    }) => {
-      /* prettier-ignore */
-      return `
-				Custom tagged page
-				<nav class="nav">
-						<ul>
-							<li>
-								<a class="btn" href="#_" title="Home">Home</a>
-							</li>
-						</ul>
-					</ul>
-				</nav>
-				<div class="posts">
-					${posts.map(post => templates[post.type](post)).join('')}
-				</div>
-			`;
-    },
-    post: ({
-      templates,
-      posts,
-      relatedPosts
-    }) => {
-      /* prettier-ignore */
-      return `
-				Custom post pages
-				<nav class="nav">
-						<ul>
-							<li>
-								<a class="btn" href="#_" title="Home">Home</a>
-							</li>
-						</ul>
-					</ul>
-				</nav>
-				<div class="posts">
-					${posts.map(post => templates[post.type](post)).join('')}
-				</div>
-				${relatedPosts.length ? `
-					<div class="relatedPosts">
-						<h5 class="relatedPosts-title">My related posts</h5>
-						${relatedPosts.map(post => templates[post.type](post)).join('')}
-					</div>
-				` : ''}
-    `;
-    }
-  }
+  elementsPerPage: 2
 }); // Initialize the Tumblr from the instance
 
 tumblr.init().then(response => {
@@ -1571,8 +1505,36 @@ tumblr.init().then(response => {
     window.sessionStorage.removeItem('tumblr');
   }
 });
+const formInputText = document.querySelector('#form-text');
+window.sessionStorage.setItem('tumblr', host);
+formInputText.value = host.split('.tumblr.com')[0]; // Update the host from the form
+
+document.querySelector('.form').addEventListener('submit', e => {
+  e.preventDefault();
+  const inputValue = formInputText.value || false;
+
+  if (inputValue) {
+    window.sessionStorage.setItem('tumblr', `${inputValue}.tumblr.com`);
+    window.sessionStorage.removeItem('TumblrJsonData');
+    window.location.href = '';
+  }
+}); // Update the dark mode from the button
+
+const html = document.querySelector('html');
+html.querySelector('[data-button-darkmode]').addEventListener('click', e => {
+  e.preventDefault();
+  const darkMode = html.classList.contains('darkMode');
+
+  if (darkMode) {
+    html.classList.remove('darkMode');
+  } else {
+    html.classList.add('darkMode');
+  }
+
+  window.localStorage.setItem('tumblrDarkMode', !darkMode);
+});
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=custom-pages.js.map
+//# sourceMappingURL=netlify.js.map

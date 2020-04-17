@@ -1,22 +1,13 @@
 @import "@commonVars";
 
 body {
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        "Helvetica Neue",
-        Arial,
-        sans-serif,
-        "Apple Color Emoji",
-        "Segoe UI Emoji",
-        "Segoe UI Symbol";
+    font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
 .container {
     max-width: 500px;
     margin: 0 auto;
+    padding: 10px 10px 0;
 }
 
 .posts {

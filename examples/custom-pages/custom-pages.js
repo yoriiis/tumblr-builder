@@ -1,10 +1,9 @@
 import Tumblr from '../../dist/tumblr'
 import '../../dist/tumblr.css'
-import { getHost } from '../assets/demo.js'
 
 const tumblr = new Tumblr({
 	element: document.querySelector('#tumblr-app'),
-	host: getHost(),
+	host: 'yoriiis',
 	apiKey: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',
 	limitData: 250,
 	cache: true,

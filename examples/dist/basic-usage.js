@@ -1457,66 +1457,6 @@ function getRandoms(numPicks, min, max) {
 
 /***/ }),
 
-/***/ "./examples/assets/demo.css":
-/*!**********************************!*\
-  !*** ./examples/assets/demo.css ***!
-  \**********************************/
-/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "./examples/assets/demo.js":
-/*!*********************************!*\
-  !*** ./examples/assets/demo.js ***!
-  \*********************************/
-/*! ModuleConcatenation bailout: Module exports are unknown */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getHost", function() { return getHost; });
-/* harmony import */ var _assets_demo_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../assets/demo.css */ "./examples/assets/demo.css");
-/* harmony import */ var _assets_demo_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_assets_demo_css__WEBPACK_IMPORTED_MODULE_0__);
- // Get the host from the browser storage if available
-
-function getHost() {
-  return window.sessionStorage.getItem('tumblr') || 'yoriiis';
-}
-const host = getHost();
-const formInputText = document.querySelector('#form-text');
-window.sessionStorage.setItem('tumblr', host);
-formInputText.value = host.split('.tumblr.com')[0]; // Update the host from the form
-
-document.querySelector('.form').addEventListener('submit', e => {
-  e.preventDefault();
-  const inputValue = formInputText.value || false;
-
-  if (inputValue) {
-    window.sessionStorage.setItem('tumblr', `${inputValue}.tumblr.com`);
-    window.sessionStorage.removeItem('TumblrJsonData');
-    window.location.href = '';
-  }
-}); // Update the dark mode from the button
-
-const html = document.querySelector('html');
-html.querySelector('[data-button-darkmode]').addEventListener('click', e => {
-  e.preventDefault();
-  const darkMode = html.classList.contains('darkMode');
-
-  if (darkMode) {
-    html.classList.remove('darkMode');
-  } else {
-    html.classList.add('darkMode');
-  }
-
-  window.localStorage.setItem('tumblrDarkMode', !darkMode);
-});
-
-/***/ }),
-
 /***/ "./examples/basic-usage/basic-usage.js":
 /*!*********************************************!*\
   !*** ./examples/basic-usage/basic-usage.js ***!
@@ -1530,13 +1470,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dist_tumblr__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_dist_tumblr__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../dist/tumblr.css */ "./dist/tumblr.css");
 /* harmony import */ var _dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_dist_tumblr_css__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _assets_demo_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../assets/demo.js */ "./examples/assets/demo.js");
-
 
 
 const tumblr = new _dist_tumblr__WEBPACK_IMPORTED_MODULE_0___default.a({
   element: document.querySelector('#tumblr-app'),
-  host: Object(_assets_demo_js__WEBPACK_IMPORTED_MODULE_2__["getHost"])(),
+  host: 'yoriiis',
   apiKey: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',
   limitData: 250,
   cache: true,

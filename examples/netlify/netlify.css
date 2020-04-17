@@ -9,10 +9,6 @@
     --yellow: #ffe300;
 }
 
-.container {
-    padding: 10px 10px 0;
-}
-
 /* Form to update Tumblr host */
 .form {
     text-align: right;

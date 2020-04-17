@@ -18,37 +18,37 @@ prepare:dependencies:
     paths:
       - node_modules
 
-test:eslint:
-  stage: test
-  dependencies:
-    - prepare:dependencies
-  script:
-    - npm run test:eslint
-  only:
-    changes:
-      - src/**/*
-      - example/**/*
+# test:eslint:
+#   stage: test
+#   dependencies:
+#     - prepare:dependencies
+#   script:
+#     - npm run test:eslint
+#   only:
+#     changes:
+#       - src/**/*
+#       - example/**/*
 
-test:stylelint:
-  stage: test
-  dependencies:
-    - prepare:dependencies
-  script:
-    - npm run test:stylelint
-  only:
-    changes:
-      - src/**/*
-      - example/**/*
+# test:stylelint:
+#   stage: test
+#   dependencies:
+#     - prepare:dependencies
+#   script:
+#     - npm run test:stylelint
+#   only:
+#     changes:
+#       - src/**/*
+#       - example/**/*
 
-test:markdown:
-  stage: test
-  dependencies:
-    - prepare:dependencies
-  script:
-    - npm run test:markdown
-  only:
-    changes:
-      - README.md
+# test:markdown:
+#   stage: test
+#   dependencies:
+#     - prepare:dependencies
+#   script:
+#     - npm run test:markdown
+#   only:
+#     changes:
+#       - README.md
 
 build:
   stage: build
@@ -59,4 +59,33 @@ build:
     - npm run build:example
   artifacts:
     paths:
-      - example
+      - examples
+
+deploy:staging:
+  stage: deploy
+  environment:
+    name: staging
+  dependencies:
+    - prepare:dependencies
+    - build
+  except:
+    - master
+  script:
+    - mv examples/dist/ examples/netlify/dist/
+    - npm i -g netlify-cli
+    - netlify deploy --site $NETLIFY_APP_ID --auth $NETLIFY_AUTH_TOKEN
+
+deploy:prod:
+  stage: deploy
+  environment:
+    name: production
+    url: $NETFLIFY_URL
+  dependencies:
+    - prepare:dependencies
+    - build
+  only:
+    - master
+  script:
+    - mv examples/dist/ examples/netlify/dist/
+    - npm i -g netlify-cli
+    - netlify deploy --site $NETLIFY_APP_ID --auth $NETLIFY_AUTH_TOKEN --prod
