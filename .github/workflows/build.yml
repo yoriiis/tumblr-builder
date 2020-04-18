@@ -76,6 +76,8 @@ jobs:
         with:
           target_branch: gh-pages
           build_dir: docs
+          keep_history: true
+          committer_name: GH Pages Bot
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
