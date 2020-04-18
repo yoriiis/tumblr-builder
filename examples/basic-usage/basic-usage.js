@@ -1,7 +1,4 @@
-import Tumblr from '../../dist/tumblr'
-import '../../dist/tumblr.css'
-
-const tumblr = new Tumblr({
+const tumblr = new TumblrBuilder({
 	element: document.querySelector('#tumblr-app'),
 	host: 'yoriiis',
 	apiKey: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',

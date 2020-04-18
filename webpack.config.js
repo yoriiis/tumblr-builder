@@ -24,7 +24,8 @@ module.exports = (env, argv) => {
 			filename: '[name].js',
 			sourceMapFilename: '[file].map',
 			libraryTarget: 'umd',
-			library: 'tumblr'
+			libraryExport: 'default',
+			library: 'TumblrBuilder'
 		},
 		module: {
 			rules: [

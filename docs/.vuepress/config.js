@@ -27,7 +27,6 @@ module.exports = {
 		// 	indexName: '<INDEX_NAME>'
 		// },
 		nav: [
-			// { text: 'Home', link: '/' },
 			{ text: 'Guide', link: '/guide/' },
 			{
 				text: 'Demo',
@@ -41,14 +40,26 @@ module.exports = {
 			},
 			{
 				text: 'Learn more',
-
 				items: [
+					{
+						text: 'Tumblr',
+						items: [
+							{
+								text: 'API',
+								link: 'https://www.tumblr.com/docs/en/api/v2'
+							},
+							{
+								text: 'Custom theme',
+								link: 'https://www.tumblr.com/docs/en/custom_themes'
+							}
+						]
+					},
 					{
 						text: 'Miscellaneous',
 						items: [
 							{
 								text: 'Changelog',
-								link: 'http://github.com/yoriiis/jsx/CHANGELOG.md'
+								link: 'http://github.com/yoriiis/tumblr/CHANGELOG.md'
 							}
 						]
 					}
@@ -66,6 +77,14 @@ module.exports = {
 						['getting-started', 'Getting started'],
 						['how-it-works', 'How it works'],
 						['available-methods', 'Available methods'],
+						['deploying', 'Deploying']
+					]
+				},
+				{
+					title: 'Advanced',
+					collapsable: false,
+					sidebarDepth: 3,
+					children: [
 						['custom-pages', 'Custom pages'],
 						['custom-posts', 'Custom posts']
 					]
