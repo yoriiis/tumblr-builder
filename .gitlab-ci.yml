@@ -73,7 +73,7 @@ deploy:staging:
   except:
     - master
   script:
-    - mv examples/netlify/ docs/site/netlify/
+    - mv examples/demo/ docs/site/demo/
     - mv examples/dist/ docs/site/dist/
     - npm i -g netlify-cli
     - netlify deploy --site $NETLIFY_APP_ID --auth $NETLIFY_AUTH_TOKEN
