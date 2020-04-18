@@ -19,9 +19,9 @@
 		"start:example": "webpack --config=./examples/webpack.config.js --mode=development",
 		"test": "jest",
 		"test:coverage": "jest --coverage",
-		"test:eslint": "eslint . --ignore-pattern dist",
+		"test:eslint": "eslint . --ignore-pattern dist --ignore-pattern docs",
 		"test:markdown": "markdownlint '**/*.md' --ignore node_modules",
-		"test:stylelint": "stylelint './src/**/*.css'",
+		"test:stylelint": "stylelint './src/**/*.css' './examples/**/*.css' --ignore-pattern examples/dist",
 		"test:watch": "jest --watch --coverage"
 	},
 	"babel": {

@@ -22,7 +22,6 @@
         padding: 6px 12px;
         border-radius: 4px;
         font-size: 16px;
-        border: 0;
         background-color: inherit;
         border: 1px solid var(--gray-10);
     }
@@ -49,27 +48,6 @@ html {
     transition: border var(--transition-darkMode);
 }
 
-.darkMode {
-    background-color: var(--dark);
-    color: var(--gray);
-
-    .button-darkMode svg {
-        fill: var(--yellow);
-    }
-
-    .card-tags a,
-    .tags a,
-    a {
-        color: var(--gray);
-    }
-
-    .card,
-    .card-linkItem,
-    .form input {
-        border: 1px solid var(--gray-darkMode);
-    }
-}
-
 .button-darkMode {
     width: 40px;
     height: 40px;
@@ -84,6 +62,27 @@ html {
     svg {
         fill: #000;
         transition: fill var(--transition-darkMode);
+    }
+}
+
+.darkMode {
+    background-color: var(--dark);
+    color: var(--gray);
+
+    .button-darkMode svg {
+        fill: var(--yellow);
+    }
+
+    a,
+    .card-tags a,
+    .tags a {
+        color: var(--gray);
+    }
+
+    .card,
+    .card-linkItem,
+    .form input {
+        border: 1px solid var(--gray-darkMode);
     }
 }
 
