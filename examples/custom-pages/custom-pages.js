@@ -1,4 +1,4 @@
-const tumblr = new TumblrBuilder({
+const tumblr = new window.TumblrBuilder({
 	element: document.querySelector('#tumblr-app'),
 	host: 'yoriiis',
 	apiKey: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',

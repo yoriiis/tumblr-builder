@@ -1,11 +1,11 @@
-import Tumblr from '../../dist/tumblr'
+import TumblrBuilder from '../../dist/tumblr'
 import '../../dist/tumblr.css'
 
 import './demo.css'
 
 const host = window.sessionStorage.getItem('tumblr') || 'yoriiis'
 
-const tumblr = new Tumblr({
+const tumblr = new TumblrBuilder({
 	element: document.querySelector('#tumblr-app'),
 	host,
 	apiKey: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',

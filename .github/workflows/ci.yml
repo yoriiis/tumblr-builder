@@ -35,3 +35,10 @@ jobs:
           npm run build
           npm run build:example
           npm run docs:build
+
+      - name: Deploy to Netlify
+        run: |
+          mv examples/demo/ docs/site/demo/
+          mv examples/dist/ docs/site/dist/
+          npm i -g netlify-cli
+          netlify deploy --site ${{ secrets.NETLIFY_APP_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
