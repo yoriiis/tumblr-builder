@@ -1,5 +1,5 @@
 module.exports = {
-	base: '/',
+	base: '/tumblr/',
 	dest: 'docs/site',
 	markdown: {
 		lineNumbers: true
@@ -31,11 +31,11 @@ module.exports = {
 			{
 				text: 'Demo',
 				items: [
-					{ text: 'Demo outside Tumblr', link: '/demo/' },
 					{
-						text: 'Demo inside Tumblr',
+						text: 'Tumblr',
 						link: 'http://tmblr-builder.tumblr.com'
-					}
+					},
+					{ text: 'Netlify', link: 'https://tumblrjs.netlify.app' }
 				]
 			},
 			{
