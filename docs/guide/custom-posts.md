@@ -57,8 +57,8 @@ function audio (datas) => {
 To customize the audio post template, write your own `customAudioPost` function inspired by the `audio` function above.
 
 ```javascript
-function customAudioPost (datas) {
-    return `
+function customAudioPost(datas) {
+  return `
         <!-- Write the HTML for the custom audio post here -->
     `;
 }
@@ -68,9 +68,9 @@ Next, use the `templatesPosts.audio` option to passed the new audio post functio
 
 ```javascript
 const tumblr = new Tumblr({
-    templatesPosts: {
-        audio: customAudioPost
-    }
+  templatesPosts: {
+    audio: customAudioPost
+  }
 });
 ```
 
@@ -108,8 +108,8 @@ function chat (datas) => {
 To customize the chat post template, write your own `customChatPost` function inspired by the `chat` function above.
 
 ```javascript
-function customChatPost (datas) {
-    return `
+function customChatPost(datas) {
+  return `
         <!-- Write the HTML for the custom chat post here -->
     `;
 }
@@ -119,9 +119,9 @@ Next, use the `templatesPosts.chat` option to passed the new chat post function.
 
 ```javascript
 const tumblr = new Tumblr({
-    templatesPosts: {
-        chat: customChatPost
-    }
+  templatesPosts: {
+    chat: customChatPost
+  }
 });
 ```
 
@@ -157,8 +157,8 @@ function link (datas) => {
 To customize the link post template, write your own `customLinkPost` function inspired by the `link` function above.
 
 ```javascript
-function customLinkPost (datas) {
-    return `
+function customLinkPost(datas) {
+  return `
         <!-- Write the HTML for the custom link post here -->
     `;
 }
@@ -168,9 +168,9 @@ Next, use the `templatesPosts.link` option to passed the new link post function.
 
 ```javascript
 const tumblr = new Tumblr({
-    templatesPosts: {
-        link: customLinkPost
-    }
+  templatesPosts: {
+    link: customLinkPost
+  }
 });
 ```
 
@@ -215,8 +215,8 @@ function photo (datas) => {
 To customize the photo post template, write your own `customPhotoPost` function inspired by the `photo` function above.
 
 ```javascript
-function customPhotoPost (datas) {
-    return `
+function customPhotoPost(datas) {
+  return `
         <!-- Write the HTML for the custom photo post here -->
     `;
 }
@@ -226,9 +226,9 @@ Next, use the `templatesPosts.photo` option to passed the new photo post functio
 
 ```javascript
 const tumblr = new Tumblr({
-    templatesPosts: {
-        photo: customPhotoPost
-    }
+  templatesPosts: {
+    photo: customPhotoPost
+  }
 });
 ```
 
@@ -266,8 +266,8 @@ function quote (datas) => {
 To customize the quote post template, write your own `customQuotePost` function inspired by the `quote` function above.
 
 ```javascript
-function customQuotePost (datas) {
-    return `
+function customQuotePost(datas) {
+  return `
         <!-- Write the HTML for the custom quote post here -->
     `;
 }
@@ -277,9 +277,9 @@ Next, use the `templatesPosts.quote` option to passed the new quote post functio
 
 ```javascript
 const tumblr = new Tumblr({
-    templatesPosts: {
-        quote: customQuotePost
-    }
+  templatesPosts: {
+    quote: customQuotePost
+  }
 });
 ```
 
@@ -315,8 +315,8 @@ function text (datas) => {
 To customize the text post template, write your own `customTextPost` function inspired by the `text` function above.
 
 ```javascript
-function customTextPost (datas) {
-    return `
+function customTextPost(datas) {
+  return `
         <!-- Write the HTML for the custom text post here -->
     `;
 }
@@ -326,9 +326,9 @@ Next, use the `templatesPosts.text` option to passed the new text post function.
 
 ```javascript
 const tumblr = new Tumblr({
-    templatesPosts: {
-        text: customTextPost
-    }
+  templatesPosts: {
+    text: customTextPost
+  }
 });
 ```
 
@@ -366,8 +366,8 @@ function video (datas) => {
 To customize the video post template, write your own `customVideoPost` function inspired by the `video` function above.
 
 ```javascript
-function customVideoPost (datas) {
-    return `
+function customVideoPost(datas) {
+  return `
         <!-- Write the HTML for the custom video post here -->
     `;
 }
@@ -377,8 +377,8 @@ Next, use the `templatesPosts.video` option to passed the new video post functio
 
 ```javascript
 const tumblr = new Tumblr({
-    templatesPosts: {
-        video: customVideoPost
-    }
+  templatesPosts: {
+    video: customVideoPost
+  }
 });
 ```

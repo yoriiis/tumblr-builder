@@ -10,8 +10,8 @@ The function initialize and build the app.
 
 ```javascript
 tumblr.init().then(response => {
-    // App is render and ready
-})
+  // App is render and ready
+});
 ```
 
 The function exposes a `response` object with datas from the API including `totalPosts`, `posts` and `tags`.
@@ -51,7 +51,7 @@ The function get the list of all hashtags from all available articles, according
 
 ```javascript
 tumblr.init().then(function(response) {
-    const tags = this.getAllTags();
+  const tags = this.getAllTags();
 });
 ```
 
@@ -61,12 +61,12 @@ The function get related posts according to a specific post.
 
 ```javascript
 tumblr.init().then(function(response) {
-    const relatedPosts = this.getRelatedPosts({
-        postId: '614498886036422656',
-        tags: ['picture', 'gallery'],
-        limit: 3,
-        ignoreTags: ['gif']
-    };
+  const relatedPosts = this.getRelatedPosts({
+    postId: "614498886036422656",
+    tags: ["picture", "gallery"],
+    limit: 3,
+    ignoreTags: ["gif"]
+  });
 });
 ```
 

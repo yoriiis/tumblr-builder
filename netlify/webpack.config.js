@@ -11,9 +11,7 @@ module.exports = (env, argv) => {
 	return {
 		watch: !isProduction,
 		entry: {
-			'basic-usage': `${path.resolve(__dirname, './basic-usage/basic-usage.js')}`,
-			'custom-pages': `${path.resolve(__dirname, './custom-pages/custom-pages.js')}`,
-			'custom-posts': `${path.resolve(__dirname, './custom-posts/custom-posts.js')}`
+			netlify: `${path.resolve(__dirname, './netlify.js')}`
 		},
 		watchOptions: {
 			ignored: /node_modules/

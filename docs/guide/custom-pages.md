@@ -75,8 +75,8 @@ List of all articles to display on the first page (before the first infinite scr
 To customize the home page template, write your own `customHomePage` function inspired by the `home` function above.
 
 ```javascript
-function customHomePage ({ templates, tags, posts }) {
-    return `
+function customHomePage({ templates, tags, posts }) {
+  return `
         <!-- Write the HTML for the custom home page here -->
     `;
 }
@@ -86,9 +86,9 @@ Next, use the `templatesPages.home` option to passed the new home page function.
 
 ```javascript
 const tumblr = new Tumblr({
-    templatesPages: {
-        home: customHomePage
-    }
+  templatesPages: {
+    home: customHomePage
+  }
 });
 ```
 
@@ -124,8 +124,8 @@ The tagged page is simply the homepage filtered with a unique tag. The function 
 To customize the tagged page template, write your own `customTaggedPage` function inspired by the `home` function above.
 
 ```javascript
-function customTaggedPage ({ templates, tags, posts }) {
-    return `
+function customTaggedPage({ templates, tags, posts }) {
+  return `
         <!-- Write the HTML for the custom tagged page here -->
     `;
 }
@@ -135,9 +135,9 @@ Next, use the `templatesPages.tagged` option to passed the new tagged page funct
 
 ```javascript
 const tumblr = new Tumblr({
-    templatesPages: {
-        tagged: customTaggedPage
-    }
+  templatesPages: {
+    tagged: customTaggedPage
+  }
 });
 ```
 
@@ -188,8 +188,8 @@ List of related posts for the associated article, according to the [getRelatedPo
 To customize the post page template, write your own `customPostPage` function inspired by the `home` function above.
 
 ```javascript
-function customPostPage ({ templates, posts, relatedPosts }) {
-    return `
+function customPostPage({ templates, posts, relatedPosts }) {
+  return `
         <!-- Write the HTML for the custom post page here -->
     `;
 }
@@ -199,8 +199,8 @@ Next, use the `templatesPages.post` option to passed the new post page function.
 
 ```javascript
 const tumblr = new Tumblr({
-    templatesPages: {
-        post: customPostPage
-    }
+  templatesPages: {
+    post: customPostPage
+  }
 });
 ```

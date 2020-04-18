@@ -8,7 +8,7 @@ Create the container for the app with a selector easily accessible.
 
 ```html
 <div id="tumblr-app">
-    <!-- App will be render here -->
+  <!-- App will be render here -->
 </div>
 ```
 
@@ -18,16 +18,16 @@ Then, we will create the Tumblr app. Highlight lines are mandatory parameters.
 
 ```javascript{2,3,4}
 const tumblr = new Tumblr({
-    element: null,
-    host: '',
-    apiKey: '',
-    limitData: 250,
-    cache: false,
-    cacheMethod: 'sessionStorage',
-    nearBottom: 350,
-    elementsPerPage: 20,
-    templatesPages: {},
-    templatesPosts: {}
+  element: null,
+  host: "",
+  apiKey: "",
+  limitData: 250,
+  cache: false,
+  cacheMethod: "sessionStorage",
+  nearBottom: 350,
+  elementsPerPage: 20,
+  templatesPages: {},
+  templatesPosts: {}
 });
 ```
 

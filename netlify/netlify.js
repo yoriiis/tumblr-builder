@@ -1,7 +1,7 @@
-import TumblrBuilder from '../../dist/tumblr'
-import '../../dist/tumblr.css'
+import TumblrBuilder from '../dist/tumblr'
+import '../dist/tumblr.css'
 
-import './demo.css'
+import './netlify.css'
 
 const host = window.sessionStorage.getItem('tumblr') || 'yoriiis'
 

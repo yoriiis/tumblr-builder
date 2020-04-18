@@ -1,2 +1,2 @@
 [build]
-  publish = "docs/site"
+  publish = "netlify"
