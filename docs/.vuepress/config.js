@@ -35,7 +35,7 @@ module.exports = {
 						text: 'Tumblr',
 						link: 'http://tmblr-builder.tumblr.com'
 					},
-					{ text: 'Netlify', link: 'https://tumblrjs.netlify.app' }
+					{ text: 'Netlify', link: 'https://tumblr-builder.netlify.app' }
 				]
 			},
 			{

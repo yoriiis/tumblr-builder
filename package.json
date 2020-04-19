@@ -12,9 +12,9 @@
 	],
 	"main": "dist/tumblr.js",
 	"scripts": {
-		"build": "webpack --mode=production",
-		"build:examples": "webpack --config=./examples/webpack.config.js --mode=production",
-		"build:netlify": "webpack --config=./netlify/webpack.config.js --mode=production",
+		"build": "rm -rf ./dist && webpack --mode=production",
+		"build:examples": "rm -rf ./examples/dist && webpack --config=./examples/webpack.config.js --mode=production",
+		"build:netlify": "rm -rf ./netlify/dist && webpack --config=./netlify/webpack.config.js --mode=production",
 		"docs:build": "vuepress build docs",
 		"docs:dev": "vuepress dev docs --host localhost",
 		"start": "webpack --mode=development",

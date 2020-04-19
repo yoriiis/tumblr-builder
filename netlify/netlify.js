@@ -37,7 +37,7 @@ document.querySelector('.form').addEventListener('submit', e => {
 	const inputValue = formInputText.value || false
 	if (inputValue) {
 		window.sessionStorage.setItem('tumblr', `${inputValue}.tumblr.com`)
-		window.sessionStorage.removeItem('TumblrJsonData')
+		window.sessionStorage.removeItem('TumblrBuilderJsonData')
 		window.location.href = ''
 	}
 })

@@ -30,7 +30,7 @@ export default class TumblrBuilder {
 		this.options = Object.assign(defaultOptions, userOptions)
 
 		// No configurables params
-		this.browserStorageKey = 'TumblrJsonData'
+		this.browserStorageKey = 'TumblrBuilderJsonData'
 		this.endPage = false
 		this.isLoading = false
 		this.jsonComplete = false
