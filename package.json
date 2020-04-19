@@ -10,6 +10,7 @@
 	"files": [
 		"web"
 	],
+	"main": "dist/tumblr.js",
 	"scripts": {
 		"build": "webpack --mode=production",
 		"build:examples": "webpack --config=./examples/webpack.config.js --mode=production",
@@ -17,7 +18,7 @@
 		"docs:build": "vuepress build docs",
 		"docs:dev": "vuepress dev docs --host localhost",
 		"start": "webpack --mode=development",
-		"start:example": "webpack --config=./examples/webpack.config.js --mode=development",
+		"start:examples": "webpack --config=./examples/webpack.config.js --mode=development",
 		"start:netlify": "webpack --config=./netlify/webpack.config.js --mode=development",
 		"test": "jest",
 		"test:coverage": "jest --coverage",
@@ -43,7 +44,7 @@
 		]
 	},
 	"browserslist": [
-		"last 2 version"
+		"last 5 version"
 	],
 	"prettier": {
 		"printWidth": 100,

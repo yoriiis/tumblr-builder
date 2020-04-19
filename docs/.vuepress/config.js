@@ -71,7 +71,7 @@ module.exports = {
 				{
 					title: 'Guide',
 					collapsable: false,
-					sidebarDepth: 3,
+					sidebarDepth: 2,
 					children: [
 						'',
 						['getting-started', 'Getting started'],
@@ -83,7 +83,7 @@ module.exports = {
 				{
 					title: 'Advanced',
 					collapsable: false,
-					sidebarDepth: 3,
+					sidebarDepth: 2,
 					children: [
 						['custom-pages', 'Custom pages'],
 						['custom-posts', 'Custom posts']
