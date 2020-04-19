@@ -14,7 +14,7 @@ Create the container for the app with a selector easily accessible.
 
 ## Initialize
 
-Then, we will create the Tumblr app. Highlight lines are mandatory parameters.
+Then, we will initialize the constructor. **Highlight lines are mandatory parameters.**
 
 ```javascript{2,3,4}
 const tumblr = new Tumblr({
@@ -29,6 +29,12 @@ const tumblr = new Tumblr({
   templatesPages: {},
   templatesPosts: {}
 });
+```
+
+Next, create the Tumblr app.
+
+```javascript
+tumblr.init();
 ```
 
 ## Options

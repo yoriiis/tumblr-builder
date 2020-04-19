@@ -14,7 +14,7 @@ In the following example we will use `npm` but `yarn` also work :heart:
 npm install --save-dev tumblr-builder
 ```
 
-## Get an API Key
+## Get an API Key <Badge type="warning" vertical="middle" text="Mandatory"/>
 
 TumblrBuilder use [Tumblr API v2](https://www.tumblr.com/docs/en/api/v2), to use it you must have an API key. The API key is a unique identifier that is used to authenticate requests associated with your project.
 
