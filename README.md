@@ -18,6 +18,6 @@ Check out the docs at [yoriiis.github.io/tumblr-builder](https://yoriiis.github.
 
 ## License
 
-TumblrBuilder and his documentation are licensed under the [MIT License](http://opensource.org/licenses/MIT).
+TumblrBuilder and his documentation are under the [MIT License](http://opensource.org/licenses/MIT).
 
 Created with ♥ by [@yoriiis](http://github.com/yoriiis).
