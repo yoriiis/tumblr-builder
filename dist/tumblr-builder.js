@@ -1,6 +1,1324 @@
-!function(t,s){"object"==typeof exports&&"object"==typeof module?module.exports=s():"function"==typeof define&&define.amd?define([],s):"object"==typeof exports?exports.TumblrBuilder=s():t.TumblrBuilder=s()}(window,(function(){return function(t){var s={};function e(a){if(s[a])return s[a].exports;var n=s[a]={i:a,l:!1,exports:{}};return t[a].call(n.exports,n,n.exports,e),n.l=!0,n.exports}return e.m=t,e.c=s,e.d=function(t,s,a){e.o(t,s)||Object.defineProperty(t,s,{enumerable:!0,get:a})},e.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},e.t=function(t,s){if(1&s&&(t=e(t)),8&s)return t;if(4&s&&"object"==typeof t&&t&&t.__esModule)return t;var a=Object.create(null);if(e.r(a),Object.defineProperty(a,"default",{enumerable:!0,value:t}),2&s&&"string"!=typeof t)for(var n in t)e.d(a,n,function(s){return t[s]}.bind(null,n));return a},e.n=function(t){var s=t&&t.__esModule?function(){return t.default}:function(){return t};return e.d(s,"a",s),s},e.o=function(t,s){return Object.prototype.hasOwnProperty.call(t,s)},e.p="/dist/",e(e.s="./src/scripts/tumblr-builder.js")}({"./src/scripts sync recursive ^.*$":function(t,s,e){var a={"./styles":"./src/scripts/styles.js","./styles.js":"./src/scripts/styles.js","./templates/pages/home":"./src/scripts/templates/pages/home.js","./templates/pages/home.js":"./src/scripts/templates/pages/home.js","./templates/pages/post":"./src/scripts/templates/pages/post.js","./templates/pages/post.js":"./src/scripts/templates/pages/post.js","./templates/pages/tagged":"./src/scripts/templates/pages/tagged.js","./templates/pages/tagged.js":"./src/scripts/templates/pages/tagged.js","./templates/posts/audio":"./src/scripts/templates/posts/audio.js","./templates/posts/audio.js":"./src/scripts/templates/posts/audio.js","./templates/posts/chat":"./src/scripts/templates/posts/chat.js","./templates/posts/chat.js":"./src/scripts/templates/posts/chat.js","./templates/posts/link":"./src/scripts/templates/posts/link.js","./templates/posts/link.js":"./src/scripts/templates/posts/link.js","./templates/posts/photo":"./src/scripts/templates/posts/photo.js","./templates/posts/photo.js":"./src/scripts/templates/posts/photo.js","./templates/posts/quote":"./src/scripts/templates/posts/quote.js","./templates/posts/quote.js":"./src/scripts/templates/posts/quote.js","./templates/posts/text":"./src/scripts/templates/posts/text.js","./templates/posts/text.js":"./src/scripts/templates/posts/text.js","./templates/posts/video":"./src/scripts/templates/posts/video.js","./templates/posts/video.js":"./src/scripts/templates/posts/video.js","./tumblr-builder":"./src/scripts/tumblr-builder.js","./tumblr-builder.js":"./src/scripts/tumblr-builder.js","./utils":"./src/scripts/utils.js","./utils.js":"./src/scripts/utils.js"};function n(t){var s=i(t);return e(s)}function i(t){if(!e.o(a,t)){var s=new Error("Cannot find module '"+t+"'");throw s.code="MODULE_NOT_FOUND",s}return a[t]}n.keys=function(){return Object.keys(a)},n.resolve=i,t.exports=n,n.id="./src/scripts sync recursive ^.*$"},"./src/scripts/styles.js":function(t,s,e){"use strict";e.r(s);e("./src/styles/reset.css"),e("./src/styles/base.css"),e("./src/styles/components/tags.css"),e("./src/styles/components/card.css"),e("./src/styles/types/photo.css"),e("./src/styles/types/quote.css"),e("./src/styles/types/chat.css"),e("./src/styles/types/link.css")},"./src/scripts/templates/pages/home.js":function(t,s,e){"use strict";function a({templates:t,tags:s,posts:e}){return`\n        <nav class="nav">\n                <ul>\n                    <li>\n                        <a class="btn" href="#_" title="Home">Home</a>\n                    </li>\n                </ul>\n            </ul>\n        </nav>\n        <div class="tags card">\n            <ul class="card-body">\n                ${s.map(t=>`\n                    <li>\n                        <a href="#/tagged/${t}" title="#${t}">#${t}</a>\n                    </li>\n                `).join("")}\n                <li></li>\n            </ul>\n        </div>\n        <div class="posts" data-infinite-scroll>\n            ${e.map(s=>t[s.type](s)).join("")}\n        </div>\n    `}e.r(s),e.d(s,"default",(function(){return a}))},"./src/scripts/templates/pages/post.js":function(t,s,e){"use strict";function a({templates:t,posts:s,relatedPosts:e}){return`\n        <nav class="nav">\n                <ul>\n                    <li>\n                        <a class="btn" href="#_" title="Home">Home</a>\n                    </li>\n                </ul>\n            </ul>\n        </nav>\n        <div class="posts">\n            ${s.map(s=>t[s.type](s)).join("")}\n        </div>\n        ${e.length?`\n            <div class="relatedPosts">\n                <h5 class="relatedPosts-title">Related posts</h5>\n                ${e.map(s=>t[s.type](s)).join("")}\n            </div>\n        `:""}\n    `}e.r(s),e.d(s,"default",(function(){return a}))},"./src/scripts/templates/pages/tagged.js":function(t,s,e){"use strict";function a({templates:t,tags:s,posts:e}){return`\n        <nav class="nav">\n                <ul>\n                    <li>\n                        <a class="btn" href="#_" title="Home">Home</a>\n                    </li>\n                </ul>\n            </ul>\n        </nav>\n        <div class="posts" data-infinite-scroll>\n            ${e.map(s=>t[s.type](s)).join("")}\n        </div>\n    `}e.r(s),e.d(s,"default",(function(){return a}))},"./src/scripts/templates/posts/audio.js":function(t,s,e){"use strict";function a(t){return`\n        <div class="card card-audio" data-id="${t.id_string}">\n            <div class="card-iframe">\n                ${t.player}\n            </div>\n            <div class="card-body">\n                <a href="#/post/${t.id_string}" class="card-title">${t.summary}</a>\n                <ul class="card-tags">\n                    ${t.tags.map(t=>`\n                            <li>\n                                <a href="#/tagged/${t}" title="#${t}">#${t}</a>\n                            </li>\n                    `).join("")}\n                </ul>\n            </div>\n        </div>\n    `}e.r(s),e.d(s,"default",(function(){return a}))},"./src/scripts/templates/posts/chat.js":function(t,s,e){"use strict";function a(t){return`\n        <div class="card card-chat" data-id="${t.id_string}">\n            <div class="card-body">\n                <a href="#/post/${t.id_string}" class="card-title">${t.title}</a>\n                <ul class="card-conversations">\n                    ${t.dialogue.map(t=>`\n                            <li>\n                                <strong>${t.label}</strong>&nbsp;&nbsp;\n                                ${t.phrase}\n                            </li>\n                    `).join("")}\n                </ul>\n                <ul class="card-tags">\n                    ${t.tags.map(t=>`\n                            <li>\n                                <a href="#/tagged/${t}" title="#${t}">#${t}</a>\n                            </li>\n                    `).join("")}\n                </ul>\n            </div>\n        </div>\n    `}e.r(s),e.d(s,"default",(function(){return a}))},"./src/scripts/templates/posts/link.js":function(t,s,e){"use strict";function a(t){return`\n        <div class="card card-link" data-id="${t.id_string}">\n            <div class="card-body">\n                <a href="${t.url}" class="card-linkItem" title="${t.title}">${t.title}</a>\n                ${t.description}\n                <ul class="card-tags">\n                    ${t.tags.map(t=>`\n                            <li>\n                                <a href="#/tagged/${t}" title="#${t}">#${t}</a>\n                            </li>\n                    `).join("")}\n                </ul>\n            </div>\n        </div>\n    `}e.r(s),e.d(s,"default",(function(){return a}))},"./src/scripts/templates/posts/photo.js":function(t,s,e){"use strict";function a(t){return`\n        <div class="card card-photo${t.photos.length>1?` photoset photos-${t.photos.length}`:""}" data-id="${t.id_string}" data-tags="${t.tags.join(",").toLowerCase()}">\n            <div class="card-body">\n                <ul class="card-photos">\n                ${t.photos.map(s=>`\n                        <li>\n                            <img class="card-picture" src="${s.original_size.url}" alt="${t.summary}" />\n                        </li>\n                `).join("")}\n                </ul>\n                ${t.summary?`<a href="#/post/${t.id_string}" class="card-title">${t.summary}</a>`:""}\n                <ul class="card-tags">\n                    ${t.tags.map(t=>`\n                            <li>\n                                <a href="#/tagged/${t}" title="#${t}">#${t}</a>\n                            </li>\n                    `).join("")}\n                </ul>\n            </div>\n        </div>\n    `}e.r(s),e.d(s,"default",(function(){return a}))},"./src/scripts/templates/posts/quote.js":function(t,s,e){"use strict";function a(t){return`\n        <div class="card card-quote" data-id="${t.id_string}">\n            <div class="card-body">\n                <blockquote class="card-blockquote">\n                    <p>${t.text}</p>\n                    <footer class="blockquote-footer">${t.source}</footer>\n                </blockquote>\n                <ul class="card-tags">\n                    ${t.tags.map(t=>`\n                            <li>\n                                <a href="#/tagged/${t}" title="#${t}">#${t}</a>\n                            </li>\n                    `).join("")}\n                </ul>\n            </div>\n        </div>\n    `}e.r(s),e.d(s,"default",(function(){return a}))},"./src/scripts/templates/posts/text.js":function(t,s,e){"use strict";function a(t){return`\n        <div class="card card-text" data-id="${t.id_string}">\n            <div class="card-body">\n                <a href="#/post/${t.id_string}" class="card-title">${t.title}</a>\n                ${t.body}\n                <ul class="card-tags">\n                    ${t.tags.map(t=>`\n                            <li>\n                                <a href="#/tagged/${t}" title="#${t}">#${t}</a>\n                            </li>\n                    `).join("")}\n                </ul>\n            </div>\n        </div>\n    `}e.r(s),e.d(s,"default",(function(){return a}))},"./src/scripts/templates/posts/video.js":function(t,s,e){"use strict";function a(t){return`\n        <div class="card card-video" data-id="${t.id_string}" data-tags="${t.tags.join(",").toLowerCase()}">\n            <div class="card-iframe">\n                ${t.player[2].embed_code}\n            </div>\n            <div class="card-body">\n                <a href="#/post/${t.id_string}" class="card-title">${t.summary}</a>\n                <ul class="card-tags">\n                    ${t.tags.map(t=>`\n                            <li>\n                                <a href="#/tagged/${t}" title="#${t}">#${t}</a>\n                            </li>\n                    `).join("")}\n                </ul>\n            </div>\n        </div>\n    `}e.r(s),e.d(s,"default",(function(){return a}))},"./src/scripts/tumblr-builder.js":function(t,s,e){"use strict";e.r(s),e.d(s,"default",(function(){return r}));var a=e("./src/scripts/utils.js");e("./src/scripts/styles.js");function n(){if("function"!=typeof WeakMap)return null;var t=new WeakMap;return n=function(){return t},t}function i(t,s,e){return s in t?Object.defineProperty(t,s,{value:e,enumerable:!0,configurable:!0,writable:!0}):t[s]=e,t}
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["TumblrBuilder"] = factory();
+	else
+		root["TumblrBuilder"] = factory();
+})(window, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/dist/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/scripts/tumblr-builder.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./src/scripts sync recursive ^.*$":
+/*!*******************************!*\
+  !*** ./src/scripts sync ^.*$ ***!
+  \*******************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./styles": "./src/scripts/styles.js",
+	"./styles.js": "./src/scripts/styles.js",
+	"./templates/pages/home": "./src/scripts/templates/pages/home.js",
+	"./templates/pages/home.js": "./src/scripts/templates/pages/home.js",
+	"./templates/pages/post": "./src/scripts/templates/pages/post.js",
+	"./templates/pages/post.js": "./src/scripts/templates/pages/post.js",
+	"./templates/pages/tagged": "./src/scripts/templates/pages/tagged.js",
+	"./templates/pages/tagged.js": "./src/scripts/templates/pages/tagged.js",
+	"./templates/posts/audio": "./src/scripts/templates/posts/audio.js",
+	"./templates/posts/audio.js": "./src/scripts/templates/posts/audio.js",
+	"./templates/posts/chat": "./src/scripts/templates/posts/chat.js",
+	"./templates/posts/chat.js": "./src/scripts/templates/posts/chat.js",
+	"./templates/posts/link": "./src/scripts/templates/posts/link.js",
+	"./templates/posts/link.js": "./src/scripts/templates/posts/link.js",
+	"./templates/posts/photo": "./src/scripts/templates/posts/photo.js",
+	"./templates/posts/photo.js": "./src/scripts/templates/posts/photo.js",
+	"./templates/posts/quote": "./src/scripts/templates/posts/quote.js",
+	"./templates/posts/quote.js": "./src/scripts/templates/posts/quote.js",
+	"./templates/posts/text": "./src/scripts/templates/posts/text.js",
+	"./templates/posts/text.js": "./src/scripts/templates/posts/text.js",
+	"./templates/posts/video": "./src/scripts/templates/posts/video.js",
+	"./templates/posts/video.js": "./src/scripts/templates/posts/video.js",
+	"./tumblr-builder": "./src/scripts/tumblr-builder.js",
+	"./tumblr-builder.js": "./src/scripts/tumblr-builder.js",
+	"./utils": "./src/scripts/utils.js",
+	"./utils.js": "./src/scripts/utils.js"
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = "./src/scripts sync recursive ^.*$";
+
+/***/ }),
+
+/***/ "./src/scripts/styles.js":
+/*!*******************************!*\
+  !*** ./src/scripts/styles.js ***!
+  \*******************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _styles_reset_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../styles/reset.css */ "./src/styles/reset.css");
+/* harmony import */ var _styles_reset_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_styles_reset_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _styles_base_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles/base.css */ "./src/styles/base.css");
+/* harmony import */ var _styles_base_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_styles_base_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _styles_components_tags_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../styles/components/tags.css */ "./src/styles/components/tags.css");
+/* harmony import */ var _styles_components_tags_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_styles_components_tags_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _styles_components_card_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../styles/components/card.css */ "./src/styles/components/card.css");
+/* harmony import */ var _styles_components_card_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_styles_components_card_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _styles_types_photo_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../styles/types/photo.css */ "./src/styles/types/photo.css");
+/* harmony import */ var _styles_types_photo_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_styles_types_photo_css__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _styles_types_quote_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../styles/types/quote.css */ "./src/styles/types/quote.css");
+/* harmony import */ var _styles_types_quote_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_styles_types_quote_css__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../styles/types/chat.css */ "./src/styles/types/chat.css");
+/* harmony import */ var _styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_styles_types_chat_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _styles_types_link_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../styles/types/link.css */ "./src/styles/types/link.css");
+/* harmony import */ var _styles_types_link_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_styles_types_link_css__WEBPACK_IMPORTED_MODULE_7__);
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./src/scripts/templates/pages/home.js":
+/*!*********************************************!*\
+  !*** ./src/scripts/templates/pages/home.js ***!
+  \*********************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateHome; });
+/**
+ * Template for audio Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
+/* prettier-ignore */
+function TemplateHome({
+  templates,
+  tags,
+  posts
+}) {
+  return `
+        <nav class="nav">
+                <ul>
+                    <li>
+                        <a class="btn" href="#_" title="Home">Home</a>
+                    </li>
+                </ul>
+            </ul>
+        </nav>
+        <div class="tags card">
+            <ul class="card-body">
+                ${tags.map(tag => `
+                    <li>
+                        <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
+                    </li>
+                `).join('')}
+                <li></li>
+            </ul>
+        </div>
+        <div class="posts" data-infinite-scroll>
+            ${posts.map(post => templates[post.type](post)).join('')}
+        </div>
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/pages/post.js":
+/*!*********************************************!*\
+  !*** ./src/scripts/templates/pages/post.js ***!
+  \*********************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplatePost; });
+/**
+ * Template for audio Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
+/* prettier-ignore */
+function TemplatePost({
+  templates,
+  posts,
+  relatedPosts
+}) {
+  return `
+        <nav class="nav">
+                <ul>
+                    <li>
+                        <a class="btn" href="#_" title="Home">Home</a>
+                    </li>
+                </ul>
+            </ul>
+        </nav>
+        <div class="posts">
+            ${posts.map(post => templates[post.type](post)).join('')}
+        </div>
+        ${relatedPosts.length ? `
+            <div class="relatedPosts">
+                <h5 class="relatedPosts-title">Related posts</h5>
+                ${relatedPosts.map(post => templates[post.type](post)).join('')}
+            </div>
+        ` : ''}
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/pages/tagged.js":
+/*!***********************************************!*\
+  !*** ./src/scripts/templates/pages/tagged.js ***!
+  \***********************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateTagged; });
+/**
+ * Template for audio Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
+/* prettier-ignore */
+function TemplateTagged({
+  templates,
+  tags,
+  posts
+}) {
+  return `
+        <nav class="nav">
+                <ul>
+                    <li>
+                        <a class="btn" href="#_" title="Home">Home</a>
+                    </li>
+                </ul>
+            </ul>
+        </nav>
+        <div class="posts" data-infinite-scroll>
+            ${posts.map(post => templates[post.type](post)).join('')}
+        </div>
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/posts/audio.js":
+/*!**********************************************!*\
+  !*** ./src/scripts/templates/posts/audio.js ***!
+  \**********************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateAudio; });
+/**
+ * Template for audio Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
+/* prettier-ignore */
+function TemplateAudio(datas) {
+  return `
+        <div class="card card-audio" data-id="${datas.id_string}">
+            <div class="card-iframe">
+                ${datas.player}
+            </div>
+            <div class="card-body">
+                <a href="#/post/${datas.id_string}" class="card-title">${datas.summary}</a>
+                <ul class="card-tags">
+                    ${datas.tags.map(tag => `
+                            <li>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
+                            </li>
+                    `).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/posts/chat.js":
+/*!*********************************************!*\
+  !*** ./src/scripts/templates/posts/chat.js ***!
+  \*********************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateChat; });
+/**
+ * Template for chat Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
+/* prettier-ignore */
+function TemplateChat(datas) {
+  return `
+        <div class="card card-chat" data-id="${datas.id_string}">
+            <div class="card-body">
+                <a href="#/post/${datas.id_string}" class="card-title">${datas.title}</a>
+                <ul class="card-conversations">
+                    ${datas.dialogue.map(line => `
+                            <li>
+                                <strong>${line.label}</strong>&nbsp;&nbsp;
+                                ${line.phrase}
+                            </li>
+                    `).join('')}
+                </ul>
+                <ul class="card-tags">
+                    ${datas.tags.map(tag => `
+                            <li>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
+                            </li>
+                    `).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/posts/link.js":
+/*!*********************************************!*\
+  !*** ./src/scripts/templates/posts/link.js ***!
+  \*********************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateLink; });
+/**
+ * Template for link Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
+/* prettier-ignore */
+function TemplateLink(datas) {
+  return `
+        <div class="card card-link" data-id="${datas.id_string}">
+            <div class="card-body">
+                <a href="${datas.url}" class="card-linkItem" title="${datas.title}">${datas.title}</a>
+                ${datas.description}
+                <ul class="card-tags">
+                    ${datas.tags.map(tag => `
+                            <li>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
+                            </li>
+                    `).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/posts/photo.js":
+/*!**********************************************!*\
+  !*** ./src/scripts/templates/posts/photo.js ***!
+  \**********************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplatePhoto; });
+/**
+ * Template for photo/photoset Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
+/* prettier-ignore */
+function TemplatePhoto(datas) {
+  const isPhotoset = datas.photos.length > 1;
+  return `
+        <div class="card card-photo${isPhotoset ? ` photoset photos-${datas.photos.length}` : ''}" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
+            <div class="card-body">
+                <ul class="card-photos">
+                ${datas.photos.map(photo => `
+                        <li>
+                            <img class="card-picture" src="${photo.original_size.url}" alt="${datas.summary}" />
+                        </li>
+                `).join('')}
+                </ul>
+                ${datas.summary ? `<a href="#/post/${datas.id_string}" class="card-title">${datas.summary}</a>` : ''}
+                <ul class="card-tags">
+                    ${datas.tags.map(tag => `
+                            <li>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
+                            </li>
+                    `).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/posts/quote.js":
+/*!**********************************************!*\
+  !*** ./src/scripts/templates/posts/quote.js ***!
+  \**********************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateQuote; });
+/**
+ * Template for quote Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
+/* prettier-ignore */
+function TemplateQuote(datas) {
+  return `
+        <div class="card card-quote" data-id="${datas.id_string}">
+            <div class="card-body">
+                <blockquote class="card-blockquote">
+                    <p>${datas.text}</p>
+                    <footer class="blockquote-footer">${datas.source}</footer>
+                </blockquote>
+                <ul class="card-tags">
+                    ${datas.tags.map(tag => `
+                            <li>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
+                            </li>
+                    `).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/posts/text.js":
+/*!*********************************************!*\
+  !*** ./src/scripts/templates/posts/text.js ***!
+  \*********************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateText; });
+/**
+ * Template for text Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
+/* prettier-ignore */
+function TemplateText(datas) {
+  return `
+        <div class="card card-text" data-id="${datas.id_string}">
+            <div class="card-body">
+                <a href="#/post/${datas.id_string}" class="card-title">${datas.title}</a>
+                ${datas.body}
+                <ul class="card-tags">
+                    ${datas.tags.map(tag => `
+                            <li>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
+                            </li>
+                    `).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/templates/posts/video.js":
+/*!**********************************************!*\
+  !*** ./src/scripts/templates/posts/video.js ***!
+  \**********************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TemplateVideo; });
+/**
+ * Template for video Tumblr post type
+ *
+ * @param {Object} datas Datas for the post
+ *
+ * @returns {String} HTML string for the template
+ */
+
+/* prettier-ignore */
+function TemplateVideo(datas) {
+  return `
+        <div class="card card-video" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
+            <div class="card-iframe">
+                ${datas.player[2].embed_code}
+            </div>
+            <div class="card-body">
+                <a href="#/post/${datas.id_string}" class="card-title">${datas.summary}</a>
+                <ul class="card-tags">
+                    ${datas.tags.map(tag => `
+                            <li>
+                                <a href="#/tagged/${tag}" title="#${tag}">#${tag}</a>
+                            </li>
+                    `).join('')}
+                </ul>
+            </div>
+        </div>
+    `;
+}
+
+/***/ }),
+
+/***/ "./src/scripts/tumblr-builder.js":
+/*!***************************************!*\
+  !*** ./src/scripts/tumblr-builder.js ***!
+  \***************************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TumblrBuilder; });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
+/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styles */ "./src/scripts/styles.js");
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
 /*!
  * TumblrBuilder v2.0.0
  * (c) 2020 Yoriiis
  * Released under the MIT License.
- */class r{constructor(t){i(this,"init",async()=>(this.datas=await this.getAllDatas(),0!==this.datas.posts.length&&(this.jsonComplete=!0,this.datas.tags=await this.getAllTags(),this.totalPages=Math.ceil(this.datas.totalPosts/this.options.elementsPerPage),this.addEvents(),this.templates=await this.getTemplates(),this.currentRoute=this.getRoute(),this.hashChanged(),this.datas))),i(this,"hashChanged",async t=>{const s=this.getHashTagFromRoute(),e=this.getPostIdFromRoute(),a=this.getPageType();let n;if("tagged"===a&&s)n=await this.getDatasForTaggedPage(s),this.buildPage(this.templates.pages.tagged({templates:this.templates.posts,posts:n}));else if("post"===a&&e){if(n=await this.getDatasForPostPage(e),n.length>1)return void this.setRoute("");const t=this.getRelatedPosts({postId:e,tags:n[0].tags,limit:3});this.buildPage(this.templates.pages.post({templates:this.templates.posts,posts:n,relatedPosts:t}))}else n=await this.getDatasForHomePage(),this.buildPage(this.templates.pages.home({templates:this.templates.posts,tags:this.datas.tags,posts:n}));this.endPage=!1,this.currentPage=1}),i(this,"onScroll",async t=>{const s=this.getPageType();this.isLoading||this.endPage||"home"!==s&&"tagged"!==s||Object(a.getScrollTop)()>=document.body.clientHeight-window.innerHeight-this.options.nearBottom&&(this.isLoading=!0,this.currentPage>=this.totalPages?this.endPage=!0:(await this.loadNewPage(),this.currentPage++),this.isLoading=!1)}),i(this,"loadNewPage",async()=>{const t=await this.getPostsByPageNumber(this.currentPage+1),s=this.options.element.querySelector("[data-infinite-scroll]");null!==s&&s.insertAdjacentHTML("beforeend",`${t.map(t=>this.templates.posts[t.type](t)).join("")}`)}),i(this,"getTemplates",async()=>({pages:await this.getTemplatesByType({keys:this.keysTemplatesPage,path:"./templates/pages/",custom:this.options.templatesPages}),posts:await this.getTemplatesByType({keys:this.keysTemplatePosts,path:"./templates/posts/",custom:this.options.templatesPosts})})),i(this,"getTemplatesByType",async({keys:t,path:s,custom:a})=>{const i={};t.filter(t=>this.hasProperty(a,t)).forEach(t=>{i[t]=a[t]});const r=t.filter(t=>!this.hasProperty(a,t)),o=r.map(t=>Promise.resolve().then(()=>function(t){if(t&&t.__esModule)return t;if(null===t||"object"!=typeof t&&"function"!=typeof t)return{default:t};var s=n();if(s&&s.has(t))return s.get(t);var e={},a=Object.defineProperty&&Object.getOwnPropertyDescriptor;for(var i in t)if(Object.prototype.hasOwnProperty.call(t,i)){var r=a?Object.getOwnPropertyDescriptor(t,i):null;r&&(r.get||r.set)?Object.defineProperty(e,i,r):e[i]=t[i]}return e.default=t,s&&s.set(t,e),e}(e("./src/scripts sync recursive ^.*$")(`${s+t}`))));return(await Promise.all(o)).forEach((t,s)=>{i[r[s]]=t.default}),i}),i(this,"getAllDatas",async t=>{let s;this.options.cache?null===window[this.options.cacheMethod].getItem(this.browserStorageKey)?(s=await this.getDataFromAPI(),window[this.options.cacheMethod].setItem(this.browserStorageKey,JSON.stringify(s))):s=JSON.parse(window[this.options.cacheMethod].getItem(this.browserStorageKey)):(s=await this.getDataFromAPI(),window[this.options.cacheMethod].removeItem(this.browserStorageKey));return s}),i(this,"getDataFromAPI",async()=>{const t=await this.requestAPI(this.getAPIUrl());if(this.isValidResponse(t)){const e=t.response.total_posts,a=this.getNumberOfRequiredRequests(e);let n=t.response.posts;if(t.response.posts.length&&a){const t=[];for(var s=0;s<a;s++)t.push(this.requestAPI(this.getAPIUrl({offset:this.nbPostPerRequest+this.nbPostPerRequest*s})));await Promise.all(t).then(t=>{t.forEach(t=>{n=n.concat(t.response.posts)})})}return{totalPosts:e,posts:n}}return{totalPosts:0,posts:[]}}),i(this,"getDatasForTaggedPage",async t=>{const s=await this.requestAPI(this.getAPIUrl({tag:t,limit:this.options.elementsPerPage}));return s&&s.response?s.response.posts:[]}),i(this,"getDatasForPostPage",async t=>{const s=await this.requestAPI(this.getAPIUrl({id:t}));return s&&s.response?s.response.posts:[]}),i(this,"getPostsByPageNumber",async t=>{const s=this.getRange(t),e=this.extractDatasFromLocalDatas(s);if(e.length&&"home"===this.getPageType())return e;return(await this.requestAPI(this.getAPIUrl({offset:s.start,limit:this.options.elementsPerPage,tag:"tagged"===this.getPageType()&&this.getHashTagFromRoute()}))).response.posts});const s=t||{};this.options=Object.assign({element:null,host:"",apiKey:"",limitData:250,cache:!1,cacheMethod:"sessionStorage",nearBottom:350,elementsPerPage:20,templatesPages:{},templatesPosts:{}},s),this.browserStorageKey="TumblrBuilderJsonData",this.endPage=!1,this.isLoading=!1,this.jsonComplete=!1,this.currentPage=1,this.nbPostPerRequest=50,this.datas={},this.keysTemplatesPage=["home","post","tagged"],this.keysTemplatePosts=["audio","chat","link","photo","quote","text","video"],this.onScroll=this.onScroll.bind(this),this.hashChanged=this.hashChanged.bind(this)}addEvents(){window.addEventListener("scroll",this.onScroll,!1),window.addEventListener("hashchange",this.hashChanged,!1)}buildPage(t){this.options.element.innerHTML=t}setRoute(t){window.location.hash=t}requestAPI(t){return fetch(t).then(t=>t.json())}isValidResponse(t){return 200===t.meta.status}extractDatasFromLocalDatas(t){return this.datas.posts.slice(t.start,t.end+1)}getAPIUrl({id:t=!1,offset:s=0,limit:e=(this.options.limitData<this.nbPostPerRequest?this.options.limitData:this.nbPostPerRequest),tag:a=!1}={}){return`//api.tumblr.com/v2/blog/${this.options.host}/posts/?api_key=${this.options.apiKey}&limit=${e}&notes_info=false&offset=${s}${a?`&tag=${a}`:""}${t?`&id=${t}`:""}`}getNumberOfRequiredRequests(t){return t<=this.options.limitData?Math.ceil((t-this.nbPostPerRequest)/this.nbPostPerRequest):Math.ceil((this.options.limitData-this.nbPostPerRequest)/this.nbPostPerRequest)}getDatasForHomePage(){const t=this.datas.totalPosts<this.options.elementsPerPage?this.datas.totalPosts:this.options.elementsPerPage;return this.datas.posts.slice(0,t)}getPageType(){const t=this.getRoute();return-1!==t.indexOf("/tagged/")?"tagged":-1!==t.indexOf("/post/")?"post":"home"}getRange(t){return{start:(t>1?t-1:t)*this.options.elementsPerPage,end:t*this.options.elementsPerPage-1}}getHashTagFromRoute(){return this.getRoute().split("/tagged/")[1]}getPostIdFromRoute(){return this.getRoute().split("/post/")[1]}getRoute(){return window.location.hash.substr(1)}getRelatedPosts({postId:t,limit:s=3,tags:e=[],ignoreTags:n=[]}){const i=e.filter(t=>!n.includes(t)),r=this.datas.posts.filter(s=>s.tags.some(e=>i.includes(e)&&s.id_string!==t)),o=Object(a.getRandoms)(s,0,r.length-1)||[];return r.length<s?r:o.map(t=>r[t])}getAllTags(){return this.jsonComplete?this.datas.posts.filter(t=>t.tags.length).flatMap(t=>t.tags).map(t=>t.toLowerCase()).filter((t,s,e)=>e.indexOf(t)===s).sort():[]}hasProperty(t,s){return Object.prototype.hasOwnProperty.call(t,s)}}},"./src/scripts/utils.js":function(t,s,e){"use strict";function a(){return window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop||0}function n(t,s,e){var a=e-s+1,n=new Array(a),i=[],r=0,o=0;for(0===s?t>e+1&&(t=e):t>e-s+1&&(t=e),r=0;r<a;r++)n[r]=r+s;for(o=0;o<t;o++){var l=Math.floor(Math.random()*n.length);i.push(n[l]),n.splice(l,1)}return i}e.r(s),e.d(s,"getScrollTop",(function(){return a})),e.d(s,"getRandoms",(function(){return n}))},"./src/styles/base.css":function(t,s,e){},"./src/styles/components/card.css":function(t,s,e){},"./src/styles/components/tags.css":function(t,s,e){},"./src/styles/reset.css":function(t,s,e){},"./src/styles/types/chat.css":function(t,s,e){},"./src/styles/types/link.css":function(t,s,e){},"./src/styles/types/photo.css":function(t,s,e){},"./src/styles/types/quote.css":function(t,s,e){}}).default}));
+ */
+
+class TumblrBuilder {
+  /**
+   * @param {options}
+   */
+  constructor(options) {
+    _defineProperty(this, "init", async () => {
+      // Get JSON and push it in cache if option is active and if it's possible
+      this.datas = await this.getAllDatas();
+
+      if (this.datas.posts.length === 0) {
+        window[this.options.cacheMethod].removeItem('TumblrBuilderJsonData');
+        return false;
+      }
+
+      this.jsonComplete = true;
+      this.datas.tags = await this.getAllTags();
+      this.totalPages = Math.ceil(this.datas.totalPosts / this.options.elementsPerPage);
+      this.addEvents();
+      this.templates = await this.getTemplates(); // Get current route
+
+      this.currentRoute = this.getRoute();
+      this.hashChanged();
+      return this.datas;
+    });
+
+    _defineProperty(this, "hashChanged", async e => {
+      const currentTag = this.getHashTagFromRoute();
+      const currentPostId = this.getPostIdFromRoute();
+      const pageType = this.getPageType();
+      let posts;
+
+      if (pageType === 'tagged' && currentTag) {
+        posts = await this.getDatasForTaggedPage(currentTag);
+        this.buildPage(this.templates.pages.tagged({
+          templates: this.templates.posts,
+          posts
+        }));
+      } else if (pageType === 'post' && currentPostId) {
+        posts = await this.getDatasForPostPage(currentPostId); // Back to home page if post page returns more than one article
+
+        if (posts.length > 1) {
+          this.setRoute('');
+          return;
+        }
+
+        const relatedPosts = this.getRelatedPosts({
+          postId: currentPostId,
+          tags: posts[0].tags,
+          limit: 3
+        });
+        this.buildPage(this.templates.pages.post({
+          templates: this.templates.posts,
+          posts,
+          relatedPosts
+        }));
+      } else {
+        posts = await this.getDatasForHomePage();
+        this.buildPage(this.templates.pages.home({
+          templates: this.templates.posts,
+          tags: this.datas.tags,
+          posts
+        }));
+      } // Reset class properties on page changes
+
+
+      this.endPage = false;
+      this.currentPage = 1;
+    });
+
+    _defineProperty(this, "onScroll", async e => {
+      const page = this.getPageType();
+
+      if (!this.isLoading && !this.endPage && (page === 'home' || page === 'tagged')) {
+        if (Object(_utils__WEBPACK_IMPORTED_MODULE_0__["getScrollTop"])() >= document.body.clientHeight - window.innerHeight - this.options.nearBottom) {
+          this.isLoading = true;
+
+          if (this.currentPage >= this.totalPages) {
+            this.endPage = true;
+          } else {
+            await this.loadNewPage();
+            this.currentPage++;
+          }
+
+          this.isLoading = false;
+        }
+      }
+    });
+
+    _defineProperty(this, "loadNewPage", async () => {
+      const posts = await this.getPostsByPageNumber(this.currentPage + 1);
+      const infiniteScrollElement = this.options.element.querySelector('[data-infinite-scroll]');
+
+      if (infiniteScrollElement !== null) {
+        infiniteScrollElement.insertAdjacentHTML('beforeend', `${posts.map(post => this.templates.posts[post.type](post)).join('')}`);
+      }
+    });
+
+    _defineProperty(this, "getTemplates", async () => {
+      return {
+        pages: await this.getTemplatesByType({
+          keys: this.keysTemplatesPage,
+          path: './templates/pages/',
+          custom: this.options.templatesPages
+        }),
+        posts: await this.getTemplatesByType({
+          keys: this.keysTemplatePosts,
+          path: './templates/posts/',
+          custom: this.options.templatesPosts
+        })
+      };
+    });
+
+    _defineProperty(this, "getTemplatesByType", async ({
+      keys,
+      path,
+      custom
+    }) => {
+      const templates = {};
+      const customTemplates = keys.filter(name => this.hasProperty(custom, name));
+      customTemplates.forEach(name => {
+        templates[name] = custom[name];
+      });
+      const defaultTemplates = keys.filter(name => !this.hasProperty(custom, name));
+      const requestsDefaultTemplates = defaultTemplates.map(name => Promise.resolve().then(() => _interopRequireWildcard(__webpack_require__("./src/scripts sync recursive ^.*$")(`${path + name}`))));
+      const responses = await Promise.all(requestsDefaultTemplates);
+      responses.forEach((response, index) => {
+        templates[defaultTemplates[index]] = response.default;
+      });
+      return templates;
+    });
+
+    _defineProperty(this, "getAllDatas", async e => {
+      let datas;
+
+      if (this.options.cache) {
+        var getDataFromCache = window[this.options.cacheMethod].getItem(this.browserStorageKey);
+
+        if (getDataFromCache === null) {
+          datas = await this.getDataFromAPI();
+          window[this.options.cacheMethod].setItem(this.browserStorageKey, JSON.stringify(datas));
+        } else {
+          datas = JSON.parse(window[this.options.cacheMethod].getItem(this.browserStorageKey));
+        }
+      } else {
+        datas = await this.getDataFromAPI();
+        window[this.options.cacheMethod].removeItem(this.browserStorageKey);
+      }
+
+      return datas;
+    });
+
+    _defineProperty(this, "getDataFromAPI", async () => {
+      // Trigger the first request to get infos about totalPosts and calculate next requests
+      const datasFirstRequest = await this.requestAPI(this.getAPIUrl());
+
+      if (this.isValidResponse(datasFirstRequest)) {
+        const totalPosts = datasFirstRequest.response.total_posts;
+        const nbLoop = this.getNumberOfRequiredRequests(totalPosts);
+        let posts = datasFirstRequest.response.posts;
+
+        if (datasFirstRequest.response.posts.length && nbLoop) {
+          const requests = []; // Do multiple loop according to nbLoop and options.limitData
+
+          for (var i = 0; i < nbLoop; i++) {
+            requests.push(this.requestAPI(this.getAPIUrl({
+              offset: this.nbPostPerRequest + this.nbPostPerRequest * i
+            })));
+          }
+
+          await Promise.all(requests).then(responses => {
+            responses.forEach(response => {
+              posts = posts.concat(response.response.posts);
+            });
+          });
+        }
+
+        return {
+          totalPosts,
+          posts
+        };
+      } else {
+        // If the request failed, return empty results to prevent break the application
+        return {
+          totalPosts: 0,
+          posts: []
+        };
+      }
+    });
+
+    _defineProperty(this, "getDatasForTaggedPage", async tag => {
+      const datas = await this.requestAPI(this.getAPIUrl({
+        tag,
+        limit: this.options.elementsPerPage
+      }));
+      return datas && datas.response ? datas.response.posts : [];
+    });
+
+    _defineProperty(this, "getDatasForPostPage", async id => {
+      const datas = await this.requestAPI(this.getAPIUrl({
+        id: id
+      }));
+      return datas && datas.response ? datas.response.posts : [];
+    });
+
+    _defineProperty(this, "getPostsByPageNumber", async pageNumber => {
+      const range = this.getRange(pageNumber);
+      const datas = this.extractDatasFromLocalDatas(range); // Only home page can used local datas, tagged page need to filter (request directly)
+
+      if (datas.length && this.getPageType() === 'home') {
+        return datas;
+      } else {
+        const datas = await this.requestAPI(this.getAPIUrl({
+          offset: range.start,
+          limit: this.options.elementsPerPage,
+          tag: this.getPageType() === 'tagged' ? this.getHashTagFromRoute() : false
+        }));
+        return datas.response.posts;
+      }
+    });
+
+    const userOptions = options || {};
+    const defaultOptions = {
+      element: null,
+      host: '',
+      apiKey: '',
+      limitData: 250,
+      cache: false,
+      cacheMethod: 'sessionStorage',
+      nearBottom: 350,
+      elementsPerPage: 20,
+      templatesPages: {},
+      templatesPosts: {}
+    }; // Merge default options with user options
+
+    this.options = Object.assign(defaultOptions, userOptions); // No configurables params
+
+    this.browserStorageKey = 'TumblrBuilderJsonData';
+    this.endPage = false;
+    this.isLoading = false;
+    this.jsonComplete = false;
+    this.currentPage = 1;
+    this.nbPostPerRequest = 50;
+    this.datas = {};
+    this.keysTemplatesPage = ['home', 'post', 'tagged'];
+    this.keysTemplatePosts = ['audio', 'chat', 'link', 'photo', 'quote', 'text', 'video'];
+    this.onScroll = this.onScroll.bind(this);
+    this.hashChanged = this.hashChanged.bind(this);
+  }
+  /**
+   * Function to initialize the app
+   */
+
+
+  /**
+   * Create event listeners
+   */
+  addEvents() {
+    window.addEventListener('scroll', this.onScroll, false);
+    window.addEventListener('hashchange', this.hashChanged, false);
+  }
+  /**
+   * On hash changed event listener
+   *
+   * @param {Object} e Event listener datas
+   */
+
+
+  /**
+   * Build the page
+   *
+   * @param {Array} posts List of posts for the current page
+   * @param {Array} relatedPosts List of related posts if available
+   */
+  buildPage(html) {
+    this.options.element.innerHTML = html;
+  }
+  /**
+   * Load new page on infinite scroll
+   * Get next posts from the API
+   * Inject new content after current posts on the [data-infinite-scroll] element
+   */
+
+
+  /**
+   * Set the route
+   *
+   * @param {String} route New value for the route
+   */
+  setRoute(route) {
+    window.location.hash = route;
+  }
+  /**
+   * Request datas from the API
+   *
+   * @param {String} url API url
+   *
+   * @returns {Promise<Object>} Promise results from the API
+   */
+
+
+  requestAPI(url) {
+    return fetch(url).then(response => response.json());
+  }
+  /**
+   * Check if the Response from the API is valid
+   *
+   * @param {Object} datas Response datas
+   *
+   * @returns {Boolean} Is a valid Response
+   */
+
+
+  isValidResponse(datas) {
+    return datas.meta.status === 200;
+  }
+  /**
+   * Extract a range of posts from browser storage if available
+   *
+   * @param {Object} range Start and end index for the range
+   *
+   * @returns {Array} List of corresponding posts
+   */
+
+
+  extractDatasFromLocalDatas(range) {
+    return this.datas.posts.slice(range.start, range.end + 1);
+  }
+  /**
+   * Get templates from constructor options templatesPages and templatesPosts
+   * Else, dynamic import default template for each types
+   *
+   * @returns {Object} List of template functions by type
+   */
+
+
+  /**
+   * Build the Tumblr API url
+   *
+   * @param {Object}
+   * @param {String||Boolean} id Post id
+   * @param {Integer} offset Offset for the query
+   * @param {Integer} limit Limit of results for the query
+   * @param {String} tag Filter by a unique post tag
+   *
+   * @returns {String} API url for the request
+   */
+  getAPIUrl({
+    id = false,
+    offset = 0,
+    limit = this.options.limitData < this.nbPostPerRequest ? this.options.limitData : this.nbPostPerRequest,
+    tag = false
+  } = {}) {
+    return `//api.tumblr.com/v2/blog/${this.options.host}/posts/?api_key=${this.options.apiKey}&limit=${limit}&notes_info=false&offset=${offset}${tag ? `&tag=${tag}` : ''}${id ? `&id=${id}` : ''}`;
+  }
+  /**
+   * Get all datas from the API
+   * Store datas in browser storage is option is enabled
+   *
+   * @returns {Object} Datas from the API
+   */
+
+
+  /**
+   * Get number of required requests to reach options.limitDatas
+   * without the first request datas
+   *
+   * @param {*} totalPosts Total of posts from the API
+   *
+   * @returns {Integer} Number of request to reach options.limitDatas
+   */
+  getNumberOfRequiredRequests(totalPosts) {
+    return totalPosts <= this.options.limitData ? Math.ceil((totalPosts - this.nbPostPerRequest) / this.nbPostPerRequest) : Math.ceil((this.options.limitData - this.nbPostPerRequest) / this.nbPostPerRequest);
+  }
+  /**
+   * Get datas for the homepage (first page only)
+   * Datas are available in the class property
+   *
+   * @returns {Object} Posts datas for the homepage
+   */
+
+
+  getDatasForHomePage() {
+    const maxPosts = this.datas.totalPosts < this.options.elementsPerPage ? this.datas.totalPosts : this.options.elementsPerPage;
+    return this.datas.posts.slice(0, maxPosts);
+  }
+  /**
+   * Get datas for the tagged page
+   * Request the API to get posts
+   *
+   * @param {String} tag Tag to filter posts
+   *
+   * @returns {Object} Posts datas for the tagged page filter by tag
+   */
+
+
+  /**
+   * Get the type of the current page according to the hash
+   *
+   * @returns {String} Page type (tagged, post, home)
+   */
+  getPageType() {
+    const hash = this.getRoute();
+
+    if (hash.indexOf('/tagged/') !== -1) {
+      return 'tagged';
+    } else if (hash.indexOf('/post/') !== -1) {
+      return 'post';
+    } else {
+      return 'home';
+    }
+  }
+  /**
+   * Get range index (start, end) to extract posts from local datas
+   * according to the current page position and elements per page
+   *
+   * @param {Integer} pageNumber Pagz number
+   *
+   * @returns {Object} Start and end index for the range
+   */
+
+
+  getRange(pageNumber) {
+    const previousPage = pageNumber > 1 ? pageNumber - 1 : pageNumber;
+    return {
+      start: previousPage * this.options.elementsPerPage,
+      end: pageNumber * this.options.elementsPerPage - 1
+    };
+  }
+  /**
+   * Get hashtag from the route
+   *
+   * @returns {String} Current tag
+   */
+
+
+  getHashTagFromRoute() {
+    return this.getRoute().split('/tagged/')[1];
+  }
+  /**
+   * Get post id from the route
+   *
+   * @returns {String} Current post id
+   */
+
+
+  getPostIdFromRoute() {
+    return this.getRoute().split('/post/')[1];
+  }
+  /**
+   * Get the current route (hash)
+   *
+   * @returns {String} Current hash
+   */
+
+
+  getRoute() {
+    return window.location.hash.substr(1);
+  }
+  /**
+   * Get related posts
+   * Research is executed is local datas collection only
+   *
+   * @param {Object}
+   * @param {String} postId Pot id
+   * @param {Integer} limit Limit of related posts results
+   * @param {Array} tags Tags list of the current post
+   * @param {Array} ignoreTags Ignore specific list of tags
+   *
+   * @returns {Array} List of related posts associated to the current post
+   */
+
+
+  getRelatedPosts({
+    postId,
+    limit = 3,
+    tags = [],
+    ignoreTags = []
+  }) {
+    // Get all tags from current post without ignore tags
+    const tagsSource = tags.filter(tag => !ignoreTags.includes(tag)); // Get related posts
+
+    const relatedPosts = this.datas.posts.filter(post => post.tags.some(tag => tagsSource.includes(tag) && post.id_string !== postId)); // Get random keys
+
+    const randomKeys = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["getRandoms"])(limit, 0, relatedPosts.length - 1) || [];
+
+    if (relatedPosts.length < limit) {
+      return relatedPosts;
+    } else {
+      // Extract random related posts
+      return randomKeys.map(key => relatedPosts[key]);
+    }
+  }
+  /**
+   * Get all tags from local datas
+   * Tags are sorted alphabetical
+   * Tags are search only from local datas according to options.limitData posts
+   *
+   * @returns {Array} List of tags
+   */
+
+
+  getAllTags() {
+    return this.jsonComplete ? this.datas.posts.filter(post => post.tags.length).flatMap(post => post.tags).map(tag => tag.toLowerCase()).filter((elem, pos, arr) => {
+      return arr.indexOf(elem) === pos;
+    }).sort() : [];
+  }
+  /**
+   * Custom hasOwnProperty to prevent security issue (ESLint no-prototype-builtins)
+   *
+   * @param {Object} objectSource Object source to search the key
+   * @param {String} key The key to search inside the object
+   *
+   * @returns {Boolean} Is the key present inside the object
+   */
+
+
+  hasProperty(objectSource, key) {
+    return Object.prototype.hasOwnProperty.call(objectSource, key);
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/scripts/utils.js":
+/*!******************************!*\
+  !*** ./src/scripts/utils.js ***!
+  \******************************/
+/*! ModuleConcatenation bailout: Module exports are unknown */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getScrollTop", function() { return getScrollTop; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRandoms", function() { return getRandoms; });
+/**
+ * Get current scroll position
+ *
+ * @returns {Integer} Scroll position
+ */
+function getScrollTop() {
+  return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+}
+/**
+ * Get a unique random number between min/max
+ *
+ * @param {*} numPicks Number of items to returns
+ * @param {*} min Minimal value to start the random
+ * @param {*} max Maximal value to end the random
+ *
+ * @returns {Array} Array of random numbers
+ */
+
+function getRandoms(numPicks, min, max) {
+  var len = max - min + 1;
+  var nums = new Array(len);
+  var selections = [];
+  var i = 0;
+  var j = 0;
+
+  if (min === 0) {
+    if (numPicks > max + 1) numPicks = max;
+  } else {
+    if (numPicks > max - min + 1) numPicks = max;
+  } // Initialize the array
+
+
+  for (i = 0; i < len; i++) {
+    nums[i] = i + min;
+  } // Randomly pick one from the array
+
+
+  for (j = 0; j < numPicks; j++) {
+    var index = Math.floor(Math.random() * nums.length);
+    selections.push(nums[index]);
+    nums.splice(index, 1);
+  }
+
+  return selections;
+}
+
+/***/ }),
+
+/***/ "./src/styles/base.css":
+/*!*****************************!*\
+  !*** ./src/styles/base.css ***!
+  \*****************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./src/styles/components/card.css":
+/*!****************************************!*\
+  !*** ./src/styles/components/card.css ***!
+  \****************************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./src/styles/components/tags.css":
+/*!****************************************!*\
+  !*** ./src/styles/components/tags.css ***!
+  \****************************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./src/styles/reset.css":
+/*!******************************!*\
+  !*** ./src/styles/reset.css ***!
+  \******************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./src/styles/types/chat.css":
+/*!***********************************!*\
+  !*** ./src/styles/types/chat.css ***!
+  \***********************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./src/styles/types/link.css":
+/*!***********************************!*\
+  !*** ./src/styles/types/link.css ***!
+  \***********************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./src/styles/types/photo.css":
+/*!************************************!*\
+  !*** ./src/styles/types/photo.css ***!
+  \************************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./src/styles/types/quote.css":
+/*!************************************!*\
+  !*** ./src/styles/types/quote.css ***!
+  \************************************/
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ })
+
+/******/ })["default"];
+});
+//# sourceMappingURL=tumblr-builder.js.map

@@ -53,6 +53,7 @@ export default class TumblrBuilder {
 		this.datas = await this.getAllDatas()
 
 		if (this.datas.posts.length === 0) {
+			window[this.options.cacheMethod].removeItem('TumblrBuilderJsonData')
 			return false
 		}
 		this.jsonComplete = true
