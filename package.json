@@ -1,10 +1,10 @@
 {
-	"name": "tumblr",
-	"version": "1.0.0",
+	"name": "tumblr-builder",
+	"version": "2.0.0",
 	"description": "Boilerplate to kickstart creating a project with Webpack configuration",
-	"homepage": "https://github.com/yoriiis/tumblr",
-	"bugs": "https://github.com/yoriiis/tumblr/issues",
-	"repository": "https://github.com/yoriiis/tumblr.git",
+	"homepage": "https://github.com/yoriiis/tumblr-builder",
+	"bugs": "https://github.com/yoriiis/tumblr-builder/issues",
+	"repository": "https://github.com/yoriiis/tumblr-builder.git",
 	"license": "MIT",
 	"author": "Yoriiis aka Joris DANIEL",
 	"files": [
