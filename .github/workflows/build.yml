@@ -42,6 +42,7 @@ jobs:
         run: |
           npm run build
           npm run build:examples
+          npm run build:netlify
           npm run docs:build
 
       - name: Upload docs artifacts
@@ -114,4 +115,4 @@ jobs:
       - name: Deploy to Netlify
         run: |
           npm i -g netlify-cli
-          netlify deploy --prod --site ${{ secrets.NETLIFY_APP_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --dir netlify --message "Deploy to TumblrBuilder app"
+          netlify deploy --prod --site ${{ secrets.NETLIFY_APP_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --dir netlify --message "Deploy to Netlify"

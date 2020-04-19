@@ -10,15 +10,20 @@
 }
 
 /* Form to update Tumblr host */
+.tmblr-iframe-themed .form {
+    margin-top: 50px;
+}
+
 .form {
     text-align: right;
     position: relative;
     display: flex;
+    height: 38px;
     justify-content: space-between;
 
     input {
         width: 100%;
-        height: 38px;
+        height: 100%;
         padding: 6px 12px;
         border-radius: 4px;
         font-size: 16px;
@@ -83,14 +88,5 @@ html {
     .card-linkItem,
     .form input {
         border: 1px solid var(--gray-darkMode);
-    }
-}
-
-@media screen and (min-width: 750px) {
-    .form {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        width: 300px;
     }
 }
