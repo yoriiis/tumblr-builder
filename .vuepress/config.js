@@ -1,11 +1,33 @@
 module.exports = {
-	base: '/tumblr-builder/',
+	base: '/tumblr/docs/site/',
 	dest: 'docs/site',
 	markdown: {
 		lineNumbers: true
 	},
 	title: 'TumblrBuilder',
-	description: '',
+	description: 'Javascript library to build custom Tumblr from API',
+	head: [
+		['link', { rel: 'manifest', href: '/manifest.json' }],
+		['meta', { name: 'theme-color', content: '#001935' }],
+		['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
+		['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
+		['link', { rel: 'apple-touch-icon', href: '/icons/apple-touch-icon-152x152.png' }],
+		[
+			'meta',
+			{ name: 'msapplication-TileImage', content: '/icons/msapplication-icon-144x144.png' }
+		],
+
+		['meta', { name: 'msapplication-TileColor', content: '#001935' }]
+	],
+	plugins: [
+		[
+			'@vuepress/pwa',
+			{
+				serviceWorker: true,
+				updatePopup: true
+			}
+		]
+	],
 	themeConfig: {
 		repo: 'yoriiis/tumblr-builder',
 		repoLabel: 'Github',
@@ -17,15 +39,11 @@ module.exports = {
 		nextLinks: true,
 		prevLinks: true,
 		lastUpdated: 'Last Updated',
-		searchPlaceholder: 'Search...',
-		search: false,
+		search: true,
 		searchMaxSuggestions: 10,
+		searchPlaceholder: 'Search...',
 		activeHeaderLinks: false,
 		displayAllHeaders: false,
-		// algolia: {
-		// 	apiKey: '<API_KEY>',
-		// 	indexName: '<INDEX_NAME>'
-		// },
 		nav: [
 			{ text: 'Guide', link: '/guide/' },
 			{
