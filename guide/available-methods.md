@@ -2,11 +2,15 @@
 
 List of functions exposed by the instance.
 
-## Initialize function
+::: tip API research
+Functions `getAllTags` and `getRelatedPosts` executes research in the collection of articles get from the API according to the [limitData](how-it-works.html#limitdata) option. The limit can be adjust to fit your need.
+:::
 
-### init(): Promise\<Object>
+## init
 
-The function build the app and return a promise.
+- Return: `Promise<Object>`
+
+The function build the app and returns a promise. API dependents functions must be called after the `init` function.
 
 ```javascript
 tumblr.init().then(response => {
@@ -20,84 +24,121 @@ Since `init()` returns a promise, you can achieve the same as the above using th
 const response = await tumblr.init();
 ```
 
-The function exposes a `response` object with datas from the API including `totalPosts`, `posts` and `tags`.
+The function exposes a `response` object with datas from the API including following fields.
 
-#### response.totalPosts
+### response.totalPosts
 
 - Type: `Integer`
 - Default: `0`
 
 The total of articles available on the Tumblr blog, according to the [host](how-it-works.html#host) option.
 
-#### response.posts
+### response.posts
 
 - Type: `Array<Object>`
 - Default: `[]`
 
 List of articles datas returns by the app, according to the [limitData](how-it-works.html#limitdata) option.
 
-#### response.tags
+### response.tags
 
 - Type: `Array`
 - Default: `[]`
 
 List of all hashtags for all articles requested by the app, according to the [limitData](how-it-works.html#limitdata) option.
 
-## API dependent function
+## getAllTags <Badge type="warning" vertical="middle" text="API dependent"/>
 
-All the following functions must be executed on the promise return of the `init ()` function.
-
-::: tip API research
-All API dependent functions executes research in the collection of articles get from the API according to the [limitData](how-it-works.html#limitdata) option. The limit can be adjust to fit your need.
-:::
-
-### getAllTags(): Array
+- Return: `Array`
 
 The function get the list of all hashtags from all available articles, according to the [limitData](how-it-works.html#limitdata) option.
 
 ```javascript
-const tags = tumblr.getAllTags();
+tumblr.getAllTags();
 ```
 
-### getRelatedPosts(): Array
+## getRelatedPosts <Badge type="warning" vertical="middle" text="API dependent"/>
+
+- Return: `Array`
 
 The function get related posts according to a specific post.
 
 ```javascript
-const relatedPosts = tumblr.getRelatedPosts({
-  postId: "614498886036422656",
-  tags: ["picture", "gallery"],
-  limit: 3,
-  ignoreTags: ["gif"]
+tumblr.getRelatedPosts({
+  postId,
+  tags,
+  limit,
+  ignoreTags
 });
 ```
 
-The function has an object parameter with following properties:
+The function has an object parameter with following fields.
 
-#### postId
+### postId
 
 - Type: `String`
 - Default: `''`
 
 Tells the function the id of the associated article.
 
-#### tags
+### tags
 
 - Type: `Array`
 - Default: `[]`
 
 Tells the function the list of hashtags for the associated article.
 
-#### limit
+### limit
 
 - Type: `Integer`
 - Default: `3`
 
 Tells the function the limit of results to return.
 
-#### ignoreTags
+### ignoreTags
 
 - Type: `Array`
 - Default: `[]`
 
 Tells the function the list of hashtags to ignore for the research.
+
+## getRoute
+
+- Return: `String`
+
+The function get the current hash from the route.
+
+```javascript
+tumblr.getRoute();
+```
+
+## getPageType
+
+- Return: `String`
+- Possible value: `'home'` `'tagged'` `'post'`
+
+The function get the page type from the route.
+
+```javascript
+tumblr.getPageType();
+```
+
+## getPostIdFromHash
+
+- Return: `String`
+
+The function get the post id from the route (`/post/` route only).
+
+```javascript
+tumblr.getPostIdFromHash();
+```
+
+## getHashTagFromRoute
+
+- Return: `String`
+
+The function get the hashtag from the route (`/tagged/` route only).
+
+```javascript
+tumblr.getHashTagFromRoute();
+```

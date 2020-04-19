@@ -7,7 +7,7 @@ module.exports = {
 	title: 'TumblrBuilder',
 	description: '',
 	themeConfig: {
-		repo: 'yoriiis/tumblr',
+		repo: 'yoriiis/tumblr-builder',
 		repoLabel: 'Github',
 		docsDir: 'docs',
 		docsBranch: 'develop',
@@ -59,7 +59,7 @@ module.exports = {
 						items: [
 							{
 								text: 'Changelog',
-								link: 'http://github.com/yoriiis/tumblr/CHANGELOG.md'
+								link: 'http://github.com/yoriiis/tumblr-builder/CHANGELOG.md'
 							}
 						]
 					}

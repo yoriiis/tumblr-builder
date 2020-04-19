@@ -5,7 +5,7 @@ Need to customize HTML for pages home, tagged or post? The `templatesPages` opti
 On app initialize, add the `templatesPages` parameter with all pages you need to customize. The others pages will automatically used their default template.
 
 ::: tip Override default templates
-To simply override the default template for a spacific page use `templatesPages.<page>`. `<page>` placeholder must be replaced by following values: `home` `tagged` `post`.
+To simply override the default template for a spacific page use `templatesPages.<page>` option. The `<page>` placeholder must be replaced by following values: `home` `tagged` `post`.
 :::
 
 ::: details Prettier ignore comment
@@ -16,7 +16,7 @@ To prevent issue with Prettier and template literals indents, following examples
 
 ### Default home page
 
-The default template used for the home page is described below. The function can be override with `templatesPages.home` option.
+The default template used for the home page is described below. The function can be override with `templatesPages.home` option. The `data-infinite-scroll` attribute is used for the infinite scroll feature.
 
 ```javascript
 function home ({ templates, tags, posts }) => {
@@ -85,7 +85,7 @@ function customHomePage({ templates, tags, posts }) {
 Next, use the `templatesPages.home` option to passed the new home page function.
 
 ```javascript
-const tumblr = new Tumblr({
+new TumblrBuilder({
   templatesPages: {
     home: customHomePage
   }
@@ -96,7 +96,7 @@ const tumblr = new Tumblr({
 
 ### Default tagged page
 
-The default template used for the tagged page is described below. The function can be override with `templatesPages.tagged` option.
+The default template used for the tagged page is described below. The function can be override with `templatesPages.tagged` option. The `data-infinite-scroll` attribute is used for the infinite scroll feature.
 
 ```javascript
 function tagged ({ templates, tags, posts }) => {
@@ -110,7 +110,7 @@ function tagged ({ templates, tags, posts }) => {
                 </ul>
             </ul>
         </nav>
-        <div class="posts">
+        <div class="posts" data-infinite-scroll>
             ${posts.map(post => templates[post.type](post)).join('')}
         </div>
     `;
@@ -134,7 +134,7 @@ function customTaggedPage({ templates, tags, posts }) {
 Next, use the `templatesPages.tagged` option to passed the new tagged page function.
 
 ```javascript
-const tumblr = new Tumblr({
+new TumblrBuilder({
   templatesPages: {
     tagged: customTaggedPage
   }
@@ -198,7 +198,7 @@ function customPostPage({ templates, posts, relatedPosts }) {
 Next, use the `templatesPages.post` option to passed the new post page function.
 
 ```javascript
-const tumblr = new Tumblr({
+new TumblrBuilder({
   templatesPages: {
     post: customPostPage
   }

@@ -2,10 +2,10 @@
 
 Need to customize HTML for article types (audio, chat, link, photo, quote, text, video)? The `templatesPosts` option is for you.
 
-On app initialize, add the `templatesPosts` parameter with all pages you need to customize. The others article type will automatically used their default template.
+On app initialize, add the `templatesPosts` parameter with all pages you need to customize. The others article types will automatically used their default template.
 
 ::: tip Override default templates
-To simply override the default template for a spacific article type use `templatesPosts.<post>`. `<post>` placeholder must be replaced by following values: `audio` `chat` `link` `photo` `quote` `text` `video`.
+To simply override the default template for a specific article type use the `templatesPosts.<post>` option. The `<post>` placeholder must be replaced by following values: `audio` `chat` `link` `photo` `quote` `text` `video`.
 :::
 
 ::: details Prettier ignore comment
@@ -14,14 +14,14 @@ To prevent issue with Prettier and template literals indents, following examples
 
 ## Function parameters
 
-All functions exposes following parameters:
+All functions exposes following parameter.
 
 ### datas
 
 - Type: `Object`
 - Default: `{}`
 
-All datas available from the Tumblr API for this type of article. Fields depends on article type. More informations about available fields on the [Tumblr API documentation](https://www.tumblr.com/docs/en/api/v2#posts--retrieve-published-posts).
+All datas available from the Tumblr API for the current article type. More informations about available fields on the [Tumblr API documentation](https://www.tumblr.com/docs/en/api/v2#posts--retrieve-published-posts).
 
 ## Audio post
 
@@ -67,7 +67,7 @@ function customAudioPost(datas) {
 Next, use the `templatesPosts.audio` option to passed the new audio post function.
 
 ```javascript
-const tumblr = new Tumblr({
+const tumblr = new TumblrBuilder({
   templatesPosts: {
     audio: customAudioPost
   }
@@ -118,7 +118,7 @@ function customChatPost(datas) {
 Next, use the `templatesPosts.chat` option to passed the new chat post function.
 
 ```javascript
-const tumblr = new Tumblr({
+const tumblr = new TumblrBuilder({
   templatesPosts: {
     chat: customChatPost
   }
@@ -167,7 +167,7 @@ function customLinkPost(datas) {
 Next, use the `templatesPosts.link` option to passed the new link post function.
 
 ```javascript
-const tumblr = new Tumblr({
+const tumblr = new TumblrBuilder({
   templatesPosts: {
     link: customLinkPost
   }
@@ -225,7 +225,7 @@ function customPhotoPost(datas) {
 Next, use the `templatesPosts.photo` option to passed the new photo post function.
 
 ```javascript
-const tumblr = new Tumblr({
+const tumblr = new TumblrBuilder({
   templatesPosts: {
     photo: customPhotoPost
   }
@@ -276,7 +276,7 @@ function customQuotePost(datas) {
 Next, use the `templatesPosts.quote` option to passed the new quote post function.
 
 ```javascript
-const tumblr = new Tumblr({
+const tumblr = new TumblrBuilder({
   templatesPosts: {
     quote: customQuotePost
   }
@@ -325,7 +325,7 @@ function customTextPost(datas) {
 Next, use the `templatesPosts.text` option to passed the new text post function.
 
 ```javascript
-const tumblr = new Tumblr({
+const tumblr = new TumblrBuilder({
   templatesPosts: {
     text: customTextPost
   }
@@ -376,7 +376,7 @@ function customVideoPost(datas) {
 Next, use the `templatesPosts.video` option to passed the new video post function.
 
 ```javascript
-const tumblr = new Tumblr({
+const tumblr = new TumblrBuilder({
   templatesPosts: {
     video: customVideoPost
   }
