@@ -11,10 +11,7 @@ Include a [reduced test case](https://css-tricks.com/reduced-test-cases/) if pos
 
 ## Steps to reproduce
 
-Explain in detail the exact steps necessary to reproduce the issue.
-1.
-2.
-3.
+Explain in detail the exact steps necessary to reproduce the issue. 1. 2. 3.
 
 ## Results
 
@@ -36,9 +33,9 @@ Please include any additional information necessary here. Including the followin
 
 ### versions
 
-#### WebpackBoilerplate
+#### TumblrBuilder
 
-What version of `WebpackBoilerplate` does this occur with?
+What version of `TumblrBuilder` does this occur with?
 
 #### Browsers
 

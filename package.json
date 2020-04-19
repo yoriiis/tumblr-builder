@@ -7,9 +7,7 @@
 	"repository": "https://github.com/yoriiis/tumblr-builder.git",
 	"license": "MIT",
 	"author": "Yoriiis aka Joris DANIEL",
-	"files": [
-		"web"
-	],
+	"files": [],
 	"main": "dist/tumblr.js",
 	"scripts": {
 		"build": "rm -rf ./dist && webpack --mode=production",
@@ -20,12 +18,9 @@
 		"start": "webpack --mode=development",
 		"start:examples": "webpack --config=./examples/webpack.config.js --mode=development",
 		"start:netlify": "webpack --config=./netlify/webpack.config.js --mode=development",
-		"test": "jest",
-		"test:coverage": "jest --coverage",
 		"test:eslint": "eslint . --ignore-pattern dist --ignore-pattern docs",
 		"test:markdown": "markdownlint '**/*.md' --ignore node_modules",
-		"test:stylelint": "stylelint './src/**/*.css' './examples/**/*.css' --ignore-pattern examples/dist",
-		"test:watch": "jest --watch --coverage"
+		"test:stylelint": "stylelint './src/**/*.css' './examples/**/*.css' --ignore-pattern examples/dist"
 	},
 	"babel": {
 		"plugins": [
@@ -63,7 +58,6 @@
 		"env": {
 			"browser": true,
 			"es6": true,
-			"jest": true,
 			"node": true
 		},
 		"parser": "babel-eslint",
@@ -111,19 +105,12 @@
 			]
 		}
 	},
-	"jest": {
-		"moduleFileExtensions": [
-			"js",
-			"css"
-		],
-		"resetModules": true,
-		"verbose": true
-	},
 	"dependencies": {},
 	"devDependencies": {
 		"@babel/core": "7.9.0",
 		"@babel/plugin-proposal-class-properties": "^7.8.3",
 		"@babel/preset-env": "7.9.0",
+		"@vuepress/plugin-pwa": "1.4.1",
 		"babel-eslint": "10.0.3",
 		"babel-loader": "8.0.6",
 		"babel-plugin-dynamic-import-node": "2.3.0",
@@ -136,7 +123,6 @@
 		"eslint-plugin-standard": "4.0.1",
 		"expose-loader": "0.7.5",
 		"file-loader": "5.0.2",
-		"jest": "25.1.0",
 		"markdownlint-cli": "0.21.0",
 		"mini-css-extract-plugin": "0.4.1",
 		"npm-force-resolutions": "0.0.3",
@@ -154,7 +140,6 @@
 		"stylelint": "13.0.0",
 		"stylelint-config-recommended": "3.0.0",
 		"stylelint-config-standard": "19.0.0",
-		"svg-inline-loader": "0.8.2",
 		"terser-webpack-plugin": "2.3.2",
 		"vuepress": "1.4.1",
 		"webpack": "4.41.5",

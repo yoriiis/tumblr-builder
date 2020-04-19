@@ -81,9 +81,4 @@ const tumblr = new window.TumblrBuilder({
 // Initialize the Tumblr from the instance
 tumblr.init().then(response => {
 	console.log(response)
-
-	// No result, redirect to a fresh home with default host
-	if (response === false) {
-		window.sessionStorage.removeItem('tumblr')
-	}
 })
