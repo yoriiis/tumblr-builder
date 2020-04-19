@@ -1,6 +1,6 @@
 # Overview
 
-Build a custom Tumblr theme in minutes!
+Build a custom Tumblr theme with Javascript!
 
 ## Online playground
 
@@ -28,7 +28,7 @@ See the [Custom pages](https://github.com/yoriiis/tumblr/tree/develop/examples/c
 
 The example includes custom templates for articles and default templates for pages.
 
-- [Custom posts](https://github.com/yoriiis/tumblr/tree/develop/examples/custom-posts)
+See the [Custom posts](https://github.com/yoriiis/tumblr/tree/develop/examples/custom-posts) example on Github.
 
 ## Tumblr contents
 

@@ -17,7 +17,7 @@ Create the container for the app with a selector easily accessible.
 Then, we will initialize the constructor. **Highlight lines are mandatory parameters.**
 
 ```javascript{2,3,4}
-const tumblr = new Tumblr({
+const tumblr = new TumblrBuilder({
   element: null,
   host: "",
   apiKey: "",
@@ -88,7 +88,7 @@ If `cache` option is enabled the app will used datas from the browser storage in
 
 - Type: `String`
 - Default: `'sessionStorage'`
-- Possible value: `'sessionStorage'` or `'localStorage'`
+- Possible value: `'sessionStorage'` `'localStorage'`
 
 Tell the method to use for the browser storage.
 

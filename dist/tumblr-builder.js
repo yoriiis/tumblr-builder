@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/scripts/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/scripts/tumblr-builder.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -104,10 +104,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	".": "./src/scripts/index.js",
-	"./": "./src/scripts/index.js",
-	"./index": "./src/scripts/index.js",
-	"./index.js": "./src/scripts/index.js",
 	"./styles": "./src/scripts/styles.js",
 	"./styles.js": "./src/scripts/styles.js",
 	"./templates/pages/home": "./src/scripts/templates/pages/home.js",
@@ -155,22 +151,6 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = "./src/scripts sync recursive ^.*$";
-
-/***/ }),
-
-/***/ "./src/scripts/index.js":
-/*!******************************!*\
-  !*** ./src/scripts/index.js ***!
-  \******************************/
-/*! ModuleConcatenation bailout: Module exports are unknown */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _tumblr_builder__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tumblr-builder */ "./src/scripts/tumblr-builder.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _tumblr_builder__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
-
 
 /***/ }),
 
@@ -253,7 +233,7 @@ function TemplateHome({
                 <li></li>
             </ul>
         </div>
-        <div class="posts" data-infinite-scrolll>
+        <div class="posts" data-infinite-scroll>
             ${posts.map(post => templates[post.type](post)).join('')}
         </div>
     `;
@@ -1340,4 +1320,4 @@ function getRandoms(numPicks, min, max) {
 
 /******/ })["default"];
 });
-//# sourceMappingURL=tumblr.js.map
+//# sourceMappingURL=tumblr-builder.js.map

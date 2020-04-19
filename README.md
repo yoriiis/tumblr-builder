@@ -1,20 +1,20 @@
 # TumblrBuilder
 
-![TumblrBuilder](https://img.shields.io/badge/tumblr-v2.0.0-546e7a.svg?style=for-the-badge) [![Github Action](https://img.shields.io/github/workflow/status/yoriiis/tumblr/CI/develop?style=for-the-badge)](https://gitlab.com/yoriiis/tumblr/pipelines) [![Netlify Status](https://api.netlify.com/api/v1/badges/cfe5ccb9-b063-4ca0-81d7-9492bfae8754/deploy-status)](https://app.netlify.com/sites/tumblrjs/deploys)
+![TumblrBuilder](https://img.shields.io/badge/tumblr-v2.0.0-546e7a.svg?style=for-the-badge) [![Github Action](https://img.shields.io/github/workflow/status/yoriiis/tumblr/CI/develop?style=for-the-badge)](https://gitlab.com/yoriiis/tumblr/pipelines)
 
 TumblrBuilder is a client Javascript library works with Tumblr to expand these capabilities and add somes fun and powerfull features such as lists of tags, related posts and outside of the box capability and off course, infinite scroll.
 
 ## Installation
 
-The library is available as the `tumblr-builder` package name on [npm](https://www.npmjs.com/package/tumblr-app).
+First, install the library from [npm](https://www.npmjs.com/package/tumblr-builder).
 
 ```bash
-npm i --save-dev tumblr-builder
+npm install --save-dev tumblr-builder
 ```
 
 ## Documentation
 
-Check out our docs at [yoriiis.github.io/tumblr](https://yoriiis.github.io/tumblr).
+Check out the docs at [yoriiis.github.io/tumblr-builder](https://yoriiis.github.io/tumblr-builder).
 
 ## License
 

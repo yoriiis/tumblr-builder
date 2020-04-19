@@ -17,7 +17,7 @@ export default function TemplateTagged ({ templates, tags, posts }) {
                 </ul>
             </ul>
         </nav>
-        <div class="posts">
+        <div class="posts" data-infinite-scroll>
             ${posts.map(post => templates[post.type](post)).join('')}
         </div>
     `

@@ -2,16 +2,12 @@ import { getScrollTop, getRandoms } from './utils'
 
 import './styles'
 
-/**
- * @license MIT
- * @name Tumblrjs
- * @version 2.0.0
- * @author: Yoriiis aka Joris DANIEL <joris.daniel@gmail.com>
- * @description:
- * {@link https://github.com/yoriiis/tumblr}
- * @copyright 2020 Joris DANIEL
- **/
-export default class Tumblr {
+/*!
+ * TumblrBuilder v2.0.0
+ * (c) 2020 Yoriiis
+ * Released under the MIT License.
+ */
+export default class TumblrBuilder {
 	/**
 	 * @param {options}
 	 */
@@ -88,8 +84,8 @@ export default class Tumblr {
 	 * @param {Object} e Event listener datas
 	 */
 	hashChanged = async e => {
-		const currentTag = this.getHashTag()
-		const currentPostId = this.getHashPostId()
+		const currentTag = this.getHashTagFromRoute()
+		const currentPostId = this.getPostIdFromRoute()
 		const pageType = this.getPageType()
 		let posts
 
@@ -103,6 +99,7 @@ export default class Tumblr {
 			)
 		} else if (pageType === 'post' && currentPostId) {
 			posts = await this.getDatasForPostPage(currentPostId)
+			// Back to home page if post page returns more than one article
 			if (posts.length > 1) {
 				this.setRoute('')
 				return
@@ -141,7 +138,8 @@ export default class Tumblr {
 	 * @param {Object} e Event listener datas
 	 */
 	onScroll = async e => {
-		if (!this.isLoading && !this.endPage && this.getPageType() === 'home') {
+		const page = this.getPageType()
+		if (!this.isLoading && !this.endPage && (page === 'home' || page === 'tagged')) {
 			if (
 				getScrollTop() >=
 				document.body.clientHeight - window.innerHeight - this.options.nearBottom
@@ -171,16 +169,18 @@ export default class Tumblr {
 	/**
 	 * Load new page on infinite scroll
 	 * Get next posts from the API
-	 * Inject new content after current posts
+	 * Inject new content after current posts on the [data-infinite-scroll] element
 	 */
 	loadNewPage = async () => {
 		const posts = await this.getPostsByPageNumber(this.currentPage + 1)
-		this.options.element
-			.querySelector('[data-infinite-scroll]')
-			.insertAdjacentHTML(
+		const infiniteScrollElement = this.options.element.querySelector('[data-infinite-scroll]')
+
+		if (infiniteScrollElement !== null) {
+			infiniteScrollElement.insertAdjacentHTML(
 				'beforeend',
 				`${posts.map(post => this.templates.posts[post.type](post)).join('')}`
 			)
+		}
 	}
 
 	/**
@@ -226,8 +226,8 @@ export default class Tumblr {
 	}
 
 	/**
-	 * Get templates from constructor options if available (options.templates[type])
-	 * Else, dynamic import default template
+	 * Get templates from constructor options templatesPages and templatesPosts
+	 * Else, dynamic import default template for each types
 	 *
 	 * @returns {Object} List of template functions by type
 	 */
@@ -246,6 +246,17 @@ export default class Tumblr {
 		}
 	}
 
+	/**
+	 * Get templates between default and custom templates
+	 * Priority to custom templates
+	 *
+	 * @param {Object}
+	 * @param {String} keys Keys for template pages (home, tagged, post)
+	 * @param {String} path Path to dynamic import default templates
+	 * @param {String} custom Custom templates for the current type
+	 *
+	 * @returns {Object} List of templates for the current type (pages, posts)
+	 */
 	getTemplatesByType = async ({ keys, path, custom }) => {
 		const templates = {}
 
@@ -269,6 +280,7 @@ export default class Tumblr {
 	/**
 	 * Build the Tumblr API url
 	 *
+	 * @param {Object}
 	 * @param {String||Boolean} id Post id
 	 * @param {Integer} offset Offset for the query
 	 * @param {Integer} limit Limit of results for the query
@@ -332,7 +344,7 @@ export default class Tumblr {
 
 		if (this.isValidResponse(datasFirstRequest)) {
 			const totalPosts = datasFirstRequest.response.total_posts
-			const nbLoop = this.getNumberOfRequest(totalPosts)
+			const nbLoop = this.getNumberOfRequiredRequests(totalPosts)
 			let posts = datasFirstRequest.response.posts
 
 			if (datasFirstRequest.response.posts.length && nbLoop) {
@@ -363,14 +375,14 @@ export default class Tumblr {
 	}
 
 	/**
-	 * Get number of requests necessary to reach options.limitDatas
+	 * Get number of required requests to reach options.limitDatas
 	 * without the first request datas
 	 *
 	 * @param {*} totalPosts Total of posts from the API
 	 *
 	 * @returns {Integer} Number of request to reach options.limitDatas
 	 */
-	getNumberOfRequest (totalPosts) {
+	getNumberOfRequiredRequests (totalPosts) {
 		return totalPosts <= this.options.limitData
 			? Math.ceil((totalPosts - this.nbPostPerRequest) / this.nbPostPerRequest)
 			: Math.ceil((this.options.limitData - this.nbPostPerRequest) / this.nbPostPerRequest)
@@ -402,7 +414,8 @@ export default class Tumblr {
 	getDatasForTaggedPage = async tag => {
 		const datas = await this.requestAPI(
 			this.getAPIUrl({
-				tag: tag
+				tag,
+				limit: this.options.elementsPerPage
 			})
 		)
 
@@ -440,13 +453,15 @@ export default class Tumblr {
 		const range = this.getRange(pageNumber)
 		const datas = this.extractDatasFromLocalDatas(range)
 
-		if (datas.length) {
+		// Only home page can used local datas, tagged page need to filter (request directly)
+		if (datas.length && this.getPageType() === 'home') {
 			return datas
 		} else {
 			const datas = await this.requestAPI(
 				this.getAPIUrl({
 					offset: range.start,
-					limit: this.options.elementsPerPage
+					limit: this.options.elementsPerPage,
+					tag: this.getPageType() === 'tagged' ? this.getHashTagFromRoute() : false
 				})
 			)
 			return datas.response.posts
@@ -487,20 +502,20 @@ export default class Tumblr {
 	}
 
 	/**
-	 * Get tag from the hash
+	 * Get hashtag from the route
 	 *
 	 * @returns {String} Current tag
 	 */
-	getHashTag () {
+	getHashTagFromRoute () {
 		return this.getRoute().split('/tagged/')[1]
 	}
 
 	/**
-	 * Get post id from the hash
+	 * Get post id from the route
 	 *
 	 * @returns {String} Current post id
 	 */
-	getHashPostId () {
+	getPostIdFromRoute () {
 		return this.getRoute().split('/post/')[1]
 	}
 
@@ -513,10 +528,11 @@ export default class Tumblr {
 		return window.location.hash.substr(1)
 	}
 
-	// Get a related posts
 	/**
 	 * Get related posts
+	 * Research is executed is local datas collection only
 	 *
+	 * @param {Object}
 	 * @param {String} postId Pot id
 	 * @param {Integer} limit Limit of related posts results
 	 * @param {Array} tags Tags list of the current post

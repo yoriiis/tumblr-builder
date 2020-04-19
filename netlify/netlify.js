@@ -1,5 +1,5 @@
-import TumblrBuilder from '../dist/tumblr'
-import '../dist/tumblr.css'
+import TumblrBuilder from '../dist/tumblr-builder'
+import '../dist/tumblr-builder.css'
 
 import './netlify.css'
 

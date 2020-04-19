@@ -11,7 +11,7 @@ const tumblr = new window.TumblrBuilder({
 		audio: datas => {
 			/* prettier-ignore */
 			return `
-				<div class="customCard card card-audio override" data-id="${datas.id_string}">
+				<div class="customCard card card-audio" data-id="${datas.id_string}">
 					<div class="card-iframe">
 						${datas.player}
 					</div>

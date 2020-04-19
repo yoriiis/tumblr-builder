@@ -12,7 +12,7 @@ module.exports = (env, argv) => {
 	return {
 		watch: !isProduction,
 		entry: {
-			tumblr: './src/scripts/index.js'
+			'tumblr-builder': './src/scripts/tumblr-builder.js'
 		},
 		watchOptions: {
 			ignored: /node_modules/
