@@ -1,6 +1,8 @@
 name: Build
 
-on: [push, pull_request]
+on:
+  - push
+  - pull_request
 
 jobs:
   build:
@@ -44,28 +46,32 @@ jobs:
 
       - name: Upload docs artifacts
         uses: actions/upload-artifact@v1
-        if: github.ref == 'refs/heads/master' &&
-            github.repository == 'yoriiis/tumblr-builder' &&
-            github.event_name != 'pull_request'
+        # if: github.ref == 'refs/heads/master' &&
+        #     github.repository == 'yoriiis/tumblr-builder' &&
+        #     github.event_name != 'pull_request'
         with:
           name: docs
           path: docs/site
 
-      - name: Upload demo artifacts
+      - name: Create Netlify demo
+        run: |
+          cp -r dist/ netlify/assets/
+
+      - name: Upload netlify artifacts
         uses: actions/upload-artifact@v1
-        if: github.ref == 'refs/heads/master' &&
-            github.repository == 'yoriiis/tumblr-builder' &&
-            github.event_name != 'pull_request'
+        # if: github.ref == 'refs/heads/master' &&
+        #     github.repository == 'yoriiis/tumblr-builder' &&
+        #     github.event_name != 'pull_request'
         with:
-          name: demo
-          path: examples
+          name: netlify
+          path: netlify
 
   deploy-gh-pages:
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' &&
-        github.repository == 'yoriiis/tumblr-builder' &&
-        github.event_name != 'pull_request'
+    # if: github.ref == 'refs/heads/master' &&
+    #     github.repository == 'yoriiis/tumblr-builder' &&
+    #     github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v2
 
@@ -85,17 +91,17 @@ jobs:
 
   deploy-netlify:
     needs: build
-    if: github.ref == 'refs/heads/master' &&
-        github.repository == 'yoriiis/tumblr-builder' &&
-        github.event_name != 'pull_request'
+    # if: github.ref == 'refs/heads/master' &&
+    #     github.repository == 'yoriiis/tumblr-builder' &&
+    #     github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: Download demo artifacts
+      - name: Download netlify artifacts
         uses: actions/download-artifact@v1
         with:
-          name: demo
+          name: netlify
 
       - uses: actions/setup-node@v1
         with:
@@ -107,4 +113,4 @@ jobs:
       - name: Deploy to Netlify
         run: |
           npm i -g netlify-cli
-          netlify deploy --prod --site ${{ secrets.NETLIFY_APP_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          netlify deploy --prod --site ${{ secrets.NETLIFY_APP_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --dir netlify
