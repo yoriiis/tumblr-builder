@@ -1,5 +1,5 @@
 module.exports = {
-	base: '/tumblr/',
+	base: '/tumblr-builder/',
 	dest: 'docs/site',
 	markdown: {
 		lineNumbers: true
