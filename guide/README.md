@@ -4,13 +4,13 @@ Build a custom Tumblr theme with Javascript!
 
 ## Online playground
 
-If you're interested in playing around with TumblrBuilder, you can use the online code playground on [CodePen](https://codepen.io/yoriiis/pen/abvZWdv) which included the [basic usage](https://github.com/yoriiis/tumblr-builder/examples/basic-usage) example.
+If you're interested in playing around with TumblrBuilder, you can use the online code playground on [CodePen](https://codepen.io/yoriiis/pen/abvZWdv).
 
 ## First examples
 
 If you prefer to use your own text editor, you can also download the [repository](https://github.com/yoriiis/tumblr-builder) from Github.
 
-The project includes severals examples in the `./examples/` directory. All examples are fully functionnals with pages (home, tagged, post) and article types (audio, chat, link, photo, quote, text, video).
+The project includes several examples in the `./examples/` directory. All examples described below are fully functional with all pages (home, tagged, post) and all article types (audio, chat, link, photo, quote, text, video).
 
 ### Basic usage
 
@@ -32,7 +32,7 @@ See the [Custom posts](https://github.com/yoriiis/tumblr-builder/examples/custom
 
 ## Tumblr contents
 
-All pages described below have their default templates and can be customized with [custom pages](custom-pages.html). Same for all these article types with [custom posts](custom-posts.html).
+All pages described below have their own default templates and can be individually customized with [custom pages](custom-pages.html). Same for all these article types with [custom posts](custom-posts.html).
 
 ### Tumblr pages
 

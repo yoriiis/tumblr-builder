@@ -1,11 +1,11 @@
 # Custom posts
 
-Need to customize HTML for article types (audio, chat, link, photo, quote, text, video)? The `templatesPosts` option is for you.
+Need to customize the HTML for article types (audio, chat, link, photo, quote, text, video)? The `templatesPosts` option is for you :rocket:
 
-On app initialize, add the `templatesPosts` parameter with all pages you need to customize. The others article types will automatically used their default template.
+On app initialize, add the `templatesPosts` parameter with post types you need to customized. The others article types will automatically used their default template.
 
 ::: tip Override default templates
-To simply override the default template for a specific article type use the `templatesPosts.<post>` option. The `<post>` placeholder must be replaced by following values: `audio` `chat` `link` `photo` `quote` `text` `video`.
+To simply override the default template for a specific article type use the `templatesPosts.<post>` parameter. The `<post>` placeholder must be replaced by the following values: `audio` `chat` `link` `photo` `quote` `text` `video`.
 :::
 
 ::: details Prettier ignore comment
@@ -27,13 +27,13 @@ All datas available from the Tumblr API for the current article type. More infor
 
 ### Default audio post
 
-The default template used for the audio post is described below. The function can be override with the `templatesPosts.audio` option.
+The default template used for the audio post is described below. The function can be replaced with the `templatesPosts.audio` parameter.
 
 ```javascript
 function audio (datas) => {
     /* prettier-ignore */
     return `
-        <div class="customCard card card-audio override" data-id="${datas.id_string}">
+        <div class="card card-audio override" data-id="${datas.id_string}">
             <div class="card-iframe">
                 ${datas.player}
             </div>
@@ -64,7 +64,7 @@ function customAudioPost(datas) {
 }
 ```
 
-Next, use the `templatesPosts.audio` option to passed the new audio post function.
+Next, use the `templatesPosts.audio` parameter to passed the new audio post template function.
 
 ```javascript
 const tumblr = new TumblrBuilder({
@@ -78,13 +78,13 @@ const tumblr = new TumblrBuilder({
 
 ### Default chat post
 
-The default template used for the chat post is described below. The function can be override with the `templatesPosts.chat` option.
+The default template used for the chat post is described below. The function can be replaced with the `templatesPosts.chat` parameter.
 
 ```javascript
 function chat (datas) => {
     /* prettier-ignore */
     return `
-        <div class="customCard card card-audio override" data-id="${datas.id_string}">
+        <div class="card card-audio override" data-id="${datas.id_string}">
             <div class="card-iframe">
                 ${datas.player}
             </div>
@@ -115,7 +115,7 @@ function customChatPost(datas) {
 }
 ```
 
-Next, use the `templatesPosts.chat` option to passed the new chat post function.
+Next, use the `templatesPosts.chat` parameter to passed the new chat post template function.
 
 ```javascript
 const tumblr = new TumblrBuilder({
@@ -129,13 +129,13 @@ const tumblr = new TumblrBuilder({
 
 ### Default link post
 
-The default template used for the link post is described below. The function can be override with the `templatesPosts.link` option.
+The default template used for the link post is described below. The function can be replaced with the `templatesPosts.link` parameter.
 
 ```javascript
 function link (datas) => {
     /* prettier-ignore */
     return `
-        <div class="customCard card card-link" data-id="${datas.id_string}">
+        <div class="card card-link" data-id="${datas.id_string}">
             <div class="card-body">
                 <a href="${datas.url}" class="card-link" title="${datas.title}">${datas.title}</a>
                 ${datas.description}
@@ -164,7 +164,7 @@ function customLinkPost(datas) {
 }
 ```
 
-Next, use the `templatesPosts.link` option to passed the new link post function.
+Next, use the `templatesPosts.link` parameter to passed the new link post template function.
 
 ```javascript
 const tumblr = new TumblrBuilder({
@@ -178,14 +178,14 @@ const tumblr = new TumblrBuilder({
 
 ### Default photo post
 
-The default template used for the photo post is described below. The function can be override with the `templatesPosts.photo` option.
+The default template used for the photo post is described below. The function can be replaced with the `templatesPosts.photo` parameter.
 
 ```javascript
 function photo (datas) => {
     const isPhotoset = datas.photos.length > 1
     /* prettier-ignore */
     return `
-        <div class="customCard card card-photo${isPhotoset ? ` photoset photos-${datas.photos.length}` : ''}" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
+        <div class="card card-photo${isPhotoset ? ` photoset photos-${datas.photos.length}` : ''}" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
             <div class="card-body">
                 <ul class="card-photos">
                 ${datas.photos.map(photo => `
@@ -222,7 +222,7 @@ function customPhotoPost(datas) {
 }
 ```
 
-Next, use the `templatesPosts.photo` option to passed the new photo post function.
+Next, use the `templatesPosts.photo` parameter to passed the new photo post template function.
 
 ```javascript
 const tumblr = new TumblrBuilder({
@@ -236,13 +236,13 @@ const tumblr = new TumblrBuilder({
 
 ### Default quote post
 
-The default template used for the quote post is described below. The function can be override with the `templatesPosts.quote` option.
+The default template used for the quote post is described below. The function can be replaced with the `templatesPosts.quote` parameter.
 
 ```javascript
 function quote (datas) => {
     /* prettier-ignore */
     return `
-        <div class="customCard card card-quote" data-id="${datas.id_string}">
+        <div class="card card-quote" data-id="${datas.id_string}">
             <div class="card-body">
                 <blockquote class="card-blockquote">
                     <p>${datas.text}</p>
@@ -273,7 +273,7 @@ function customQuotePost(datas) {
 }
 ```
 
-Next, use the `templatesPosts.quote` option to passed the new quote post function.
+Next, use the `templatesPosts.quote` parameter to passed the new quote post parameter function.
 
 ```javascript
 const tumblr = new TumblrBuilder({
@@ -287,13 +287,13 @@ const tumblr = new TumblrBuilder({
 
 ### Default text post
 
-The default template used for the text post is described below. The function can be override with the `templatesPosts.text` option.
+The default template used for the text post is described below. The function can be replaced with the `templatesPosts.text` parameter.
 
 ```javascript
 function text (datas) => {
     /* prettier-ignore */
     return `
-        <div class="customCard card card-text" data-id="${datas.id_string}">
+        <div class="card card-text" data-id="${datas.id_string}">
             <div class="card-body">
                 <a href="#/post/${datas.id_string}" class="card-title">${datas.title}</a>
                 ${datas.body}
@@ -322,7 +322,7 @@ function customTextPost(datas) {
 }
 ```
 
-Next, use the `templatesPosts.text` option to passed the new text post function.
+Next, use the `templatesPosts.text` parameter to passed the new text post template function.
 
 ```javascript
 const tumblr = new TumblrBuilder({
@@ -336,13 +336,13 @@ const tumblr = new TumblrBuilder({
 
 ### Default video post
 
-The default template used for the video post is described below. The function can be override with the `templatesPosts.video` option.
+The default template used for the video post is described below. The function can be replaced with the `templatesPosts.video` parameter.
 
 ```javascript
 function video (datas) => {
     /* prettier-ignore */
     return `
-        <div class="customCard card card-video" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
+        <div class="card card-video" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
             <div class="card-iframe">
                 ${datas.player[2].embed_code}
             </div>
@@ -373,7 +373,7 @@ function customVideoPost(datas) {
 }
 ```
 
-Next, use the `templatesPosts.video` option to passed the new video post function.
+Next, use the `templatesPosts.video` parameter to passed the new video post template function.
 
 ```javascript
 const tumblr = new TumblrBuilder({

@@ -1,11 +1,11 @@
 # Custom pages
 
-Need to customize HTML for pages home, tagged or post? The `templatesPages` option is for you.
+Need to customize the HTML for the home page, tagged page or post page? The `templatesPages` option is for you :rocket:
 
-On app initialize, add the `templatesPages` parameter with all pages you need to customize. The others pages will automatically used their default template.
+On app initialize, add the `templatesPages` parameter with pages you need to individually customized. The others pages will automatically used their default template.
 
 ::: tip Override default templates
-To simply override the default template for a spacific page use `templatesPages.<page>` option. The `<page>` placeholder must be replaced by following values: `home` `tagged` `post`.
+To simply override the default template for a specific page use `templatesPages.<page>` parameter. The `<page>` placeholder must be replaced by the following values: `home` `tagged` `post`.
 :::
 
 ::: details Prettier ignore comment
@@ -16,7 +16,7 @@ To prevent issue with Prettier and template literals indents, following examples
 
 ### Default home page
 
-The default template used for the home page is described below. The function can be override with `templatesPages.home` option. The `data-infinite-scroll` attribute is used for the infinite scroll feature.
+The default template used for the home page is described below. The function can be replaced with the `templatesPages.home` parameter. The `data-infinite-scroll` attribute is used for the infinite scroll feature.
 
 ```javascript
 function home ({ templates, tags, posts }) => {
@@ -49,26 +49,26 @@ function home ({ templates, tags, posts }) => {
 
 The function exposes following parameters:
 
-#### templates
+#### home ({ templates })
 
 - Type: `Object`
 - Default: `{}`
 
-List of all template articles functions (audio, chat, link, photo, quote, text, video). All defaults functions are automatically used if `templatesPosts` object is not overrides them.
+List of all template articles functions (audio, chat, link, photo, quote, text, video). All defaults functions are automatically used if `templatesPages` object is not overrides them.
 
-#### tags
-
-- Type: `Array`
-- Default: `[]`
-
-List of all hashtags from all available article, according to the [limitData](how-it-works.html#limitdata) nn.
-
-#### posts
+#### home ({ tags })
 
 - Type: `Array`
 - Default: `[]`
 
-List of all articles to display on the first page (before the first infinite scroll), according to the [elementsPerPage](how-it-works.html#elementsperpage) nn.
+List of all hashtags from all available article, according to the [limitData](how-it-works.html#limitdata) option.
+
+#### home ({ posts })
+
+- Type: `Array`
+- Default: `[]`
+
+List of all articles to display on the first page (before the first infinite scroll), according to the [elementsPerPage](how-it-works.html#elementsperpage) option.
 
 ### Custom home page
 
@@ -82,7 +82,7 @@ function customHomePage({ templates, tags, posts }) {
 }
 ```
 
-Next, use the `templatesPages.home` option to passed the new home page function.
+Next, use the `templatesPages.home` parameter to passed the new home page template function.
 
 ```javascript
 new TumblrBuilder({
@@ -96,10 +96,10 @@ new TumblrBuilder({
 
 ### Default tagged page
 
-The default template used for the tagged page is described below. The function can be override with `templatesPages.tagged` option. The `data-infinite-scroll` attribute is used for the infinite scroll feature.
+The default template used for the tagged page is described below. The function can be replaced with the `templatesPages.tagged` parameter. The `data-infinite-scroll` attribute is used for the infinite scroll feature.
 
 ```javascript
-function tagged ({ templates, tags, posts }) => {
+function tagged ({ templates, tag, posts }) => {
     /* prettier-ignore */
     return `
         <nav class="nav">
@@ -110,6 +110,7 @@ function tagged ({ templates, tags, posts }) => {
                 </ul>
             </ul>
         </nav>
+        <h3 class="subnav">Tagged: ${tag}</h3>
         <div class="posts" data-infinite-scroll>
             ${posts.map(post => templates[post.type](post)).join('')}
         </div>
@@ -117,14 +118,35 @@ function tagged ({ templates, tags, posts }) => {
 }
 ```
 
-The tagged page is simply the homepage filtered with a unique tag. The function exposes the same parameters as the [home function](custom-pages.html#homepage-function-parameters) described above.
+The function exposes following parameters:
+
+#### tagged ({ templates })
+
+- Type: `Object`
+- Default: `{}`
+
+List of all template articles functions (audio, chat, link, photo, quote, text, video). All defaults functions are automatically used if `templatesPages` object is not overrides them.
+
+#### tagged ({ tag })
+
+- Type: `String`
+- Default: `''`
+
+The current hashtag from the route.
+
+#### tagged ({ posts })
+
+- Type: `Array`
+- Default: `[]`
+
+List of all articles filtered by the current hashtag.
 
 ### Custom tagged page
 
-To customize the tagged page template, write your own `customTaggedPage` function inspired by the `home` function above.
+To customize the tagged page template, write your own `customTaggedPage` function inspired by the `tagged` function above.
 
 ```javascript
-function customTaggedPage({ templates, tags, posts }) {
+function customTaggedPage({ templates, tag, posts }) {
   return `
         <!-- Write the HTML for the custom tagged page here -->
     `;
@@ -145,7 +167,7 @@ new TumblrBuilder({
 
 ### Default post page
 
-The default template used for the post page is described below. The function can be override with `templatesPages.post` option.
+The default template used for the post page is described below. The function can be replaced with the `templatesPages.post` parameter.
 
 ```javascript
 function post ({ templates, posts, relatedPosts }) => {
@@ -172,20 +194,32 @@ function post ({ templates, posts, relatedPosts }) => {
 }
 ```
 
-The function exposes the same parameters `templates` and `posts` as the [home function](custom-pages.html#homepage-function-parameters) described above.
+The function exposes following parameters:
 
-However, the function exposes the following specific parameter:
+#### post ({ templates })
 
-#### relatedPosts
+- Type: `Object`
+- Default: `{}`
+
+List of all template articles functions (audio, chat, link, photo, quote, text, video). All defaults functions are automatically used if `templatesPages` object is not overrides them.
+
+#### post ({ posts })
 
 - Type: `Array`
 - Default: `[]`
 
-List of related posts for the associated article, according to the [getRelatedPosts](available-methods.html#getrelatedposts) function.
+Datas for the current article.
+
+#### post ({ relatedPosts })
+
+- Type: `Array`
+- Default: `[]`
+
+List of related posts for the associated article.
 
 ### Custom post page
 
-To customize the post page template, write your own `customPostPage` function inspired by the `home` function above.
+To customize the post page template, write your own `customPostPage` function inspired by the `post` function above.
 
 ```javascript
 function customPostPage({ templates, posts, relatedPosts }) {
@@ -204,3 +238,7 @@ new TumblrBuilder({
   }
 });
 ```
+
+::: tip Custom related posts
+The `relatedPosts` parameter can be replaced by a new call to the [getRelatedPosts](available-methods.html#getrelatedposts) function with custom parameters.
+:::
