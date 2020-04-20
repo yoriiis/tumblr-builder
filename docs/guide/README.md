@@ -16,19 +16,19 @@ The project includes several examples in the `./examples/` directory. All exampl
 
 The example includes all default templates for pages and articles.
 
-See the [Basic usage](https://github.com/yoriiis/tumblr-builder/examples/basic-usage) example on Github.
+See the [Basic usage](https://github.com/yoriiis/tumblr-builder/tree/master/examples/basic-usage) example on Github.
 
 ### Custom pages
 
 The example includes custom templates for pages and default templates for articles.
 
-See the [Custom pages](https://github.com/yoriiis/tumblr-builder/examples/custom-pages) example on Github.
+See the [Custom pages](https://github.com/yoriiis/tumblr-builder/tree/master/examples/custom-pages) example on Github.
 
 ### Custom posts
 
 The example includes custom templates for articles and default templates for pages.
 
-See the [Custom posts](https://github.com/yoriiis/tumblr-builder/examples/custom-posts) example on Github.
+See the [Custom posts](https://github.com/yoriiis/tumblr-builder/tree/master/examples/custom-posts) example on Github.
 
 ## Tumblr contents
 
