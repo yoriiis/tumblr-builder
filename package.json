@@ -95,6 +95,7 @@
 			"unit-whitelist": [
 				"%",
 				"px",
+				"fr",
 				"ms"
 			]
 		}
