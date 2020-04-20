@@ -1,6 +1,6 @@
 # TumblrBuilder
 
-![TumblrBuilder](https://img.shields.io/badge/tumblr--builder-v2.0.0-001935.svg?style=for-the-badge) [![Github Action](https://img.shields.io/github/workflow/status/yoriiis/tumblr-builder/CI/master?style=for-the-badge)](https://github.com/yoriiis/tumblr-builder/actions)
+![TumblrBuilder](https://img.shields.io/badge/tumblr--builder-v2.0.0-001935.svg?style=for-the-badge) ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/yoriiis/tumblr-builder/Build/master?style=for-the-badge)
 
 ## Installation
 
