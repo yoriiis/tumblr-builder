@@ -1,13 +1,16 @@
 /**
- * Template for audio Tumblr post type
+ * Template for Tumblr tagged page
  *
- * @param {Object} datas Datas for the post
+ * @param {Object}
+ * @param {Object} templates List of all template pages functions
+ * @param {Object} tag The current hashtag from the route
+ * @param {Object} posts List of all articles to display
  *
  * @returns {String} HTML string for the template
  */
 
-/* prettier-ignore */
 export default function TemplateTagged ({ templates, tag, posts }) {
+	/* prettier-ignore */
 	return `
         <nav class="nav">
                 <ul>

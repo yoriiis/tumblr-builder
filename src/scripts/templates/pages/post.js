@@ -1,13 +1,16 @@
 /**
- * Template for audio Tumblr post type
+ * Template for Tumblr post page
  *
- * @param {Object} datas Datas for the post
+ * @param {Object}
+ * @param {Object} templates List of all template pages functions
+ * @param {Object} posts List of all articles to display
+ * @param {Object} relatedPosts List of related posts for the associated article
  *
  * @returns {String} HTML string for the template
  */
 
-/* prettier-ignore */
 export default function TemplatePost ({ templates, posts, relatedPosts }) {
+	/* prettier-ignore */
 	return `
         <nav class="nav">
                 <ul>

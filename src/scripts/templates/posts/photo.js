@@ -6,9 +6,9 @@
  * @returns {String} HTML string for the template
  */
 
-/* prettier-ignore */
 export default function TemplatePhoto (datas) {
 	const isPhotoset = datas.photos.length > 1
+	/* prettier-ignore */
 	return `
         <div class="card card-photo${isPhotoset ? ` photoset photos-${datas.photos.length}` : ''}" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
             <div class="card-body">

@@ -6,8 +6,8 @@
  * @returns {String} HTML string for the template
  */
 
-/* prettier-ignore */
 export default function TemplateChat (datas) {
+	/* prettier-ignore */
 	return `
         <div class="card card-chat" data-id="${datas.id_string}">
             <div class="card-body">

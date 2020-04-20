@@ -6,8 +6,8 @@
  * @returns {String} HTML string for the template
  */
 
-/* prettier-ignore */
 export default function TemplateVideo (datas) {
+	/* prettier-ignore */
 	return `
         <div class="card card-video" data-id="${datas.id_string}" data-tags="${datas.tags.join(',').toLowerCase()}">
             <div class="card-iframe">
