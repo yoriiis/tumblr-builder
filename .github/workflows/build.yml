@@ -7,6 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
 
@@ -68,8 +69,9 @@ jobs:
           path: netlify
 
   deploy-gh-pages:
-    needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: build
     if: success() &&
         github.ref == 'refs/heads/master' &&
         github.repository == 'yoriiis/tumblr-builder' &&
@@ -93,6 +95,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
   deploy-netlify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs: build
     if: success() &&
         github.ref == 'refs/heads/master' &&
