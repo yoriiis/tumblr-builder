@@ -54,7 +54,7 @@ The function exposes following parameters:
 - Type: `Object`
 - Default: `{}`
 
-List of all template articles functions (audio, chat, link, photo, quote, text, video). All defaults functions are automatically used if `templatesPages` object is not overrides them.
+List of all template pages functions (audio, chat, link, photo, quote, text, video). All defaults functions are automatically used if `templatesPages` object is not overrides them.
 
 #### home ({ tags })
 
@@ -125,7 +125,7 @@ The function exposes following parameters:
 - Type: `Object`
 - Default: `{}`
 
-List of all template articles functions (audio, chat, link, photo, quote, text, video). All defaults functions are automatically used if `templatesPages` object is not overrides them.
+List of all template pages functions (audio, chat, link, photo, quote, text, video). All defaults functions are automatically used if `templatesPages` object is not overrides them.
 
 #### tagged ({ tag })
 
@@ -201,7 +201,7 @@ The function exposes following parameters:
 - Type: `Object`
 - Default: `{}`
 
-List of all template articles functions (audio, chat, link, photo, quote, text, video). All defaults functions are automatically used if `templatesPages` object is not overrides them.
+List of all template pages functions (audio, chat, link, photo, quote, text, video). All defaults functions are automatically used if `templatesPages` object is not overrides them.
 
 #### post ({ posts })
 
