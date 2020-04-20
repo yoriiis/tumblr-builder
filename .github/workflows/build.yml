@@ -64,10 +64,6 @@ jobs:
   deploy-gh-pages:
     needs: build
     runs-on: ubuntu-latest
-    if: success() &&
-        github.ref == 'refs/heads/master' &&
-        github.repository == 'yoriiis/tumblr-builder' &&
-        github.event_name != 'pull_request'
     steps:
       - uses: actions/checkout@v2
 
@@ -88,10 +84,6 @@ jobs:
 
   deploy-netlify:
     needs: build
-    if: success() &&
-        github.ref == 'refs/heads/master' &&
-        github.repository == 'yoriiis/tumblr-builder' &&
-        github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
