@@ -34,7 +34,7 @@ module.exports = {
 		repo: 'yoriiis/tumblr-builder',
 		repoLabel: 'Github',
 		docsDir: 'docs',
-		docsBranch: 'develop',
+		docsBranch: 'master',
 		editLinks: true,
 		editLinkText: 'Edit this page',
 		smoothScroll: true,
