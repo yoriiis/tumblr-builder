@@ -7,16 +7,17 @@
  */
 
 /* prettier-ignore */
-export default function TemplateTagged ({ templates, tags, posts }) {
+export default function TemplateTagged ({ templates, tag, posts }) {
 	return `
         <nav class="nav">
                 <ul>
                     <li>
-                        <a class="btn" href="#_" title="Home">Home</a>
+                        <a class="btn" href="#_" title="Home">Back to home</a>
                     </li>
                 </ul>
             </ul>
         </nav>
+        <h3 class="subnav">Tagged: ${tag}</h3>
         <div class="posts" data-infinite-scroll>
             ${posts.map(post => templates[post.type](post)).join('')}
         </div>

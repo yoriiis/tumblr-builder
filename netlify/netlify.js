@@ -3,12 +3,12 @@ import '../dist/tumblr-builder.css'
 
 import './netlify.css'
 
-const host = window.sessionStorage.getItem('tumblr') || 'yoriiis'
+const host = window.sessionStorage.getItem('tumblr') || 'tmblr-builder.tumblr.com'
 
 const tumblr = new TumblrBuilder({
 	element: document.querySelector('#tumblr-app'),
 	host,
-	apiKey: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',
+	apiKey: 'ZbYkYWjthx8Uf7eUY6795MYOKUYRb9xoAXlneH7AmAtyv0LQ2x',
 	limitData: 250,
 	cache: true,
 	cacheMethod: 'sessionStorage',

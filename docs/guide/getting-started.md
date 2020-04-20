@@ -1,7 +1,5 @@
 # Getting started
 
-TumblrBuilder works with a minimalist client Javascript.
-
 ## Installation
 
 First, install the library from [npm](https://www.npmjs.com/package/tumblr-builder).
@@ -11,7 +9,7 @@ In the following example we will use `npm` but `yarn` also work :heart:
 :::
 
 ```bash
-npm install --save-dev tumblr-builder
+npm install tumblr-builder --save-dev
 ```
 
 ## Get an API Key <Badge type="warning" vertical="middle" text="Mandatory"/>

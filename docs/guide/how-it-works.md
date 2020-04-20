@@ -34,7 +34,9 @@ const tumblr = new TumblrBuilder({
 Next, create the Tumblr app.
 
 ```javascript
-tumblr.init();
+tumblr.init().then(response => {
+  // App is render and ready
+});
 ```
 
 ## Options
@@ -51,14 +53,14 @@ The HTML element where the app will render.
 - Type: `String`
 - Default: `''`
 
-The Tumblr name, for example `<NAME>.tumblr.com`. The API will fetch datas from this blog.
+The Tumblr blog hostname, for example `<name>.tumblr.com`. The API will fetch datas from this blog.
 
 ### apiKey
 
 - Type: `String`
 - Default: `''`
 
-Tell Tumblr the API key (for API usage).
+The Tumblr API key for API usage.
 
 ### limitData
 
@@ -117,14 +119,16 @@ Tell whether to override default templates for pages (home, tagged, post).
 Example of implementation:
 
 ```javascript
-templatesPages: {
-    home: () => {},
-    tagged: () => {},
-    post: () => {}
-}
+new TumblrBuilder({
+  templatesPages: {
+    home: ({ templates, tags, posts }) => {},
+    tagged: ({ templates, tag, posts }) => {},
+    post: ({ templates, posts, relatedPosts }) => {}
+  }
+});
 ```
 
-More information about [custom pages](custom-pages.html#custom-templates).
+More information about [custom pages](custom-pages.html).
 
 ### templatesPosts
 
@@ -137,15 +141,17 @@ Tell whether to override default templates for article (audio, chat, link, photo
 Example of implementation:
 
 ```javascript
-templatesPosts: {
-    audio: () => {},
-    chat: () => {},
-    link: () => {},
-    photo: () => {},
-    quote: () => {},
-    text: () => {},
-    video: () => {}
-}
+new TumblrBuilder({
+  templatesPosts: {
+    audio: datas => {},
+    chat: datas => {},
+    link: datas => {},
+    photo: datas => {},
+    quote: datas => {},
+    text: datas => {},
+    video: datas => {}
+  }
+});
 ```
 
-More information about [custom posts](custom-posts.html#custom-templates).
+More information about [custom posts](custom-posts.html).

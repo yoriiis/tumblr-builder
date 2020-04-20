@@ -4,7 +4,7 @@ import './styles'
 
 /*!
  * TumblrBuilder v2.0.0
- * (c) 2020 Yoriiis
+ * (c) 2013-2020 Yoriiis
  * Released under the MIT License.
  */
 export default class TumblrBuilder {
@@ -95,6 +95,7 @@ export default class TumblrBuilder {
 			this.buildPage(
 				this.templates.pages.tagged({
 					templates: this.templates.posts,
+					tag: currentTag,
 					posts
 				})
 			)
@@ -117,7 +118,7 @@ export default class TumblrBuilder {
 					relatedPosts
 				})
 			)
-		} else {
+		} else if (pageType === 'home') {
 			posts = await this.getDatasForHomePage()
 			this.buildPage(
 				this.templates.pages.home({
@@ -131,6 +132,7 @@ export default class TumblrBuilder {
 		// Reset class properties on page changes
 		this.endPage = false
 		this.currentPage = 1
+		window.scrollTo(0, 0)
 	}
 
 	/**
@@ -282,7 +284,7 @@ export default class TumblrBuilder {
 	 * Build the Tumblr API url
 	 *
 	 * @param {Object}
-	 * @param {String||Boolean} id Post id
+	 * @param {(String|Boolean)} id Post id
 	 * @param {Integer} offset Offset for the query
 	 * @param {Integer} limit Limit of results for the query
 	 * @param {String} tag Filter by a unique post tag
@@ -472,17 +474,20 @@ export default class TumblrBuilder {
 	/**
 	 * Get the type of the current page according to the hash
 	 *
-	 * @returns {String} Page type (tagged, post, home)
+	 * @returns {(String|null)} Page type (tagged, post, home)
 	 */
 	getPageType () {
 		const hash = this.getRoute()
+		const defaultRoute = ['', '#', '#_']
 
 		if (hash.indexOf('/tagged/') !== -1) {
 			return 'tagged'
 		} else if (hash.indexOf('/post/') !== -1) {
 			return 'post'
-		} else {
+		} else if (defaultRoute.includes(hash)) {
 			return 'home'
+		} else {
+			return null
 		}
 	}
 

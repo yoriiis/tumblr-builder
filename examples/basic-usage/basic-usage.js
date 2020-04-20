@@ -1,7 +1,7 @@
 const tumblr = new window.TumblrBuilder({
 	element: document.querySelector('#tumblr-app'),
-	host: 'yoriiis',
-	apiKey: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',
+	host: 'tmblr-builder.tumblr.com',
+	apiKey: 'X3Hk9uvqCx5OJJVKm9AZX8uh6wf1OhLPtKK5vCJcmQUyngWabO',
 	limitData: 250,
 	cache: true,
 	cacheMethod: 'sessionStorage',

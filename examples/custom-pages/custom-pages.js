@@ -1,7 +1,7 @@
 const tumblr = new window.TumblrBuilder({
 	element: document.querySelector('#tumblr-app'),
-	host: 'yoriiis',
-	apiKey: 'wjDj3SRz6JjM0fHgntNdwxOPYkhc2Qz4UgQJIRRpvjDUXBo49T',
+	host: 'tmblr-builder.tumblr.com',
+	apiKey: 'X3Hk9uvqCx5OJJVKm9AZX8uh6wf1OhLPtKK5vCJcmQUyngWabO',
 	limitData: 250,
 	cache: true,
 	cacheMethod: 'sessionStorage',
@@ -35,7 +35,7 @@ const tumblr = new window.TumblrBuilder({
 				</div>
 			`
 		},
-		tagged: ({ templates, tags, posts }) => {
+		tagged: ({ templates, tag, posts }) => {
 			/* prettier-ignore */
 			return `
 				Custom tagged page
@@ -47,6 +47,7 @@ const tumblr = new window.TumblrBuilder({
 						</ul>
 					</ul>
 				</nav>
+				<h3 class="subnav">Tagged: ${tag}</h3>
 				<div class="posts">
 					${posts.map(post => templates[post.type](post)).join('')}
 				</div>

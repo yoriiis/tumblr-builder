@@ -10,7 +10,7 @@ Functions `getAllTags` and `getRelatedPosts` executes research in the collection
 
 - Return: `Promise<Object>`
 
-The function build the app and returns a promise. API dependents functions must be called after the `init` function.
+The function build the app and returns a promise. **API dependents functions must be called when `init` function is ready.**
 
 ```javascript
 tumblr.init().then(response => {
@@ -38,20 +38,20 @@ The total of articles available on the Tumblr blog, according to the [host](how-
 - Type: `Array<Object>`
 - Default: `[]`
 
-List of articles datas returns by the app, according to the [limitData](how-it-works.html#limitdata) option.
+List of articles datas returns by the app.
 
 ### response.tags
 
 - Type: `Array`
 - Default: `[]`
 
-List of all hashtags for all articles requested by the app, according to the [limitData](how-it-works.html#limitdata) option.
+List of all hashtags for all articles requested by the app.
 
 ## getAllTags <Badge type="warning" vertical="middle" text="API dependent"/>
 
 - Return: `Array`
 
-The function get the list of all hashtags from all available articles, according to the [limitData](how-it-works.html#limitdata) option.
+The function get the list of all hashtags from all available articles.
 
 ```javascript
 tumblr.getAllTags();
@@ -114,8 +114,8 @@ tumblr.getRoute();
 
 ## getPageType
 
-- Return: `String`
-- Possible value: `'home'` `'tagged'` `'post'`
+- Return: `String||null`
+- Possible value: `'home'` `'tagged'` `'post'` `null`
 
 The function get the page type from the route.
 
@@ -123,14 +123,14 @@ The function get the page type from the route.
 tumblr.getPageType();
 ```
 
-## getPostIdFromHash
+## getPostIdFromRoute
 
 - Return: `String`
 
 The function get the post id from the route (`/post/` route only).
 
 ```javascript
-tumblr.getPostIdFromHash();
+tumblr.getPostIdFromRoute();
 ```
 
 ## getHashTagFromRoute

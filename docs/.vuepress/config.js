@@ -26,7 +26,9 @@ module.exports = {
 				serviceWorker: true,
 				updatePopup: true
 			}
-		]
+		],
+		'@vuepress/back-to-top',
+		'@vuepress/nprogress'
 	],
 	themeConfig: {
 		repo: 'yoriiis/tumblr-builder',

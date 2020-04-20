@@ -1,16 +1,16 @@
 {
 	"name": "tumblr-builder",
 	"version": "2.0.0",
-	"description": "Boilerplate to kickstart creating a project with Webpack configuration",
+	"description": "Javascript library to build custom Tumblr from API",
 	"homepage": "https://github.com/yoriiis/tumblr-builder",
 	"bugs": "https://github.com/yoriiis/tumblr-builder/issues",
 	"repository": "https://github.com/yoriiis/tumblr-builder.git",
 	"license": "MIT",
 	"author": "Yoriiis aka Joris DANIEL",
-	"files": [],
 	"main": "dist/tumblr.js",
 	"scripts": {
 		"build": "rm -rf ./dist && webpack --mode=production",
+		"build:all": "npm run build && npm run build:examples && npm run build:netlify",
 		"build:examples": "rm -rf ./examples/dist && webpack --config=./examples/webpack.config.js --mode=production",
 		"build:netlify": "rm -rf ./netlify/dist && webpack --config=./netlify/webpack.config.js --mode=production",
 		"docs:build": "vuepress build docs",
@@ -93,14 +93,8 @@
 		"rules": {
 			"indentation": 4,
 			"unit-whitelist": [
-				"em",
-				"rem",
 				"%",
 				"px",
-				"s",
-				"deg",
-				"fr",
-				"vh",
 				"ms"
 			]
 		}
@@ -108,8 +102,10 @@
 	"dependencies": {},
 	"devDependencies": {
 		"@babel/core": "7.9.0",
-		"@babel/plugin-proposal-class-properties": "^7.8.3",
+		"@babel/plugin-proposal-class-properties": "7.8.3",
 		"@babel/preset-env": "7.9.0",
+		"@vuepress/plugin-back-to-top": "1.4.1",
+		"@vuepress/plugin-nprogress": "1.4.1",
 		"@vuepress/plugin-pwa": "1.4.1",
 		"babel-eslint": "10.0.3",
 		"babel-loader": "8.0.6",
@@ -145,8 +141,5 @@
 		"webpack": "4.41.5",
 		"webpack-cli": "3.3.10",
 		"webpack-manifest-plugin": "2.2.0"
-	},
-	"engines": {
-		"node": ">=12.14.0"
 	}
 }
