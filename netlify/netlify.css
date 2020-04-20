@@ -1,0 +1,92 @@
+:root {
+    --gray: #80868b;
+    --gray-10: rgba(0, 0, 0, 0.1);
+
+    /* Darkmode */
+    --dark: #202124;
+    --gray-darkMode: #5f6368;
+    --transition-darkMode: 250ms ease-out;
+    --yellow: #ffe300;
+}
+
+/* Form to update on Tumblr host */
+.tmblr-iframe-themed .form {
+    margin-top: 50px;
+}
+
+.form {
+    text-align: right;
+    position: relative;
+    display: flex;
+    height: 38px;
+    justify-content: space-between;
+
+    input {
+        width: 100%;
+        height: 100%;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 16px;
+        background-color: inherit;
+        border: 1px solid var(--gray-10);
+    }
+
+    .form-text {
+        margin-bottom: 10px;
+        margin-right: 10px;
+        color: var(--gray);
+    }
+
+    .form-submit {
+        cursor: pointer;
+        color: var(--gray);
+        width: auto;
+    }
+}
+
+/* Dark mode */
+html {
+    transition: background var(--transition-darkMode);
+}
+
+.card  {
+    transition: border var(--transition-darkMode);
+}
+
+.button-darkMode {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 10px;
+
+    &:focus {
+        outline: none;
+    }
+
+    svg {
+        fill: #000;
+        transition: fill var(--transition-darkMode);
+    }
+}
+
+.darkMode {
+    background-color: var(--dark);
+    color: var(--gray);
+
+    .button-darkMode svg {
+        fill: var(--yellow);
+    }
+
+    a,
+    .card-tags a,
+    .tags a {
+        color: var(--gray);
+    }
+
+    .card,
+    .card-linkItem,
+    .form input {
+        border: 1px solid var(--gray-darkMode);
+    }
+}

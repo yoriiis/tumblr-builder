@@ -1,0 +1,9 @@
+node_modules
+
+# Local Netlify folder
+.netlify
+
+docs/site
+**/*.map
+netlify/dist/
+netlify/assets/
