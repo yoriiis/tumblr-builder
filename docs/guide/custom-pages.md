@@ -49,21 +49,21 @@ function home ({ templates, tags, posts }) => {
 
 The function exposes following parameters:
 
-#### templates
+#### home ({ templates })
 
 - Type: `Object`
 - Default: `{}`
 
 List of all template articles functions (audio, chat, link, photo, quote, text, video). All defaults functions are automatically used if `templatesPages` object is not overrides them.
 
-#### tags
+#### home ({ tags })
 
 - Type: `Array`
 - Default: `[]`
 
 List of all hashtags from all available article, according to the [limitData](how-it-works.html#limitdata) option.
 
-#### posts
+#### home ({ posts })
 
 - Type: `Array`
 - Default: `[]`
@@ -120,21 +120,21 @@ function tagged ({ templates, tag, posts }) => {
 
 The function exposes following parameters:
 
-#### templates
+#### tagged ({ templates })
 
 - Type: `Object`
 - Default: `{}`
 
 List of all template articles functions (audio, chat, link, photo, quote, text, video). All defaults functions are automatically used if `templatesPages` object is not overrides them.
 
-#### tag
+#### tagged ({ tag })
 
 - Type: `String`
 - Default: `''`
 
 The current hashtag from the route.
 
-#### posts
+#### tagged ({ posts })
 
 - Type: `Array`
 - Default: `[]`
@@ -196,21 +196,21 @@ function post ({ templates, posts, relatedPosts }) => {
 
 The function exposes following parameters:
 
-#### templates
+#### post ({ templates })
 
 - Type: `Object`
 - Default: `{}`
 
 List of all template articles functions (audio, chat, link, photo, quote, text, video). All defaults functions are automatically used if `templatesPages` object is not overrides them.
 
-#### posts
+#### post ({ posts })
 
 - Type: `Array`
 - Default: `[]`
 
 Datas for the current article.
 
-#### relatedPosts
+#### post ({ relatedPosts })
 
 - Type: `Array`
 - Default: `[]`
