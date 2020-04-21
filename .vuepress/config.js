@@ -44,6 +44,10 @@ module.exports = {
 		search: true,
 		searchMaxSuggestions: 10,
 		searchPlaceholder: 'Search...',
+		algolia: {
+			apiKey: '02b27ef69549260976707846ce013194',
+			indexName: 'tumblr-builder'
+		},
 		activeHeaderLinks: false,
 		displayAllHeaders: false,
 		nav: [
