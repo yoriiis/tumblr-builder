@@ -7,7 +7,7 @@ Deploy the app on Tumblr or to an external site.
 Tumblr blog have a customize page to import custom HTML.
 
 - Copy the HTML content
-- Open Tumblr editor `https://www.tumblr.com/customize/<NAME>`
+- Open Tumblr editor `https://www.tumblr.com/customize/<hostname>`
 - Paste the HTML content
 - Host the asset files (scripts and styles)
 - Navigate to the Tumblr
