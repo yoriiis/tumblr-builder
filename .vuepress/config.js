@@ -84,7 +84,8 @@ module.exports = {
 						items: [
 							{
 								text: 'Changelog',
-								link: 'http://github.com/yoriiis/tumblr-builder/CHANGELOG.md'
+								link:
+									'https://github.com/yoriiis/tumblr-builder/blob/master/CHANGELOG.md'
 							}
 						]
 					}
