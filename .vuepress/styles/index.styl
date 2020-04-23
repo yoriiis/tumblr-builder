@@ -5,3 +5,11 @@
 .badge.tip {
     background-color: $accentColor !important;
 }
+
+/*
+ * Quick fix in order to wait the next release
+ * https://github.com/vuejs/vuepress/issues/2334
+*/
+.sidebar .dropdown-wrapper .dropdown-title {
+    pointer-events: auto;
+}
