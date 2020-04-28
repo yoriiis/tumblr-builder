@@ -23,7 +23,9 @@
     "editor.tabSize": 4,
     "files.associations": {
         "*.css": "postcss",
-        "*.html": "html"
+        "*.html": "html",
+        "*.ts": "typescript",
+		"*.json": "json"
     },
     "files.trimTrailingWhitespace": true,
     "javascript.format.enable": false,
