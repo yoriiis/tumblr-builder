@@ -112,7 +112,7 @@ jobs:
 
       - uses: actions/setup-node@v1
         with:
-          node-version: 12.14.0
+          node-version: 18.12.0
 
       - name: Install dependencies
         run: npm i -g netlify-cli
