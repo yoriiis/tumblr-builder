@@ -92,7 +92,7 @@ jobs:
           keep_history: true
           commit_message: "Deploy to GitHub pages"
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-netlify:
     runs-on: ubuntu-latest
