@@ -133,6 +133,7 @@
 		"file-loader": "5.0.2",
 		"markdownlint-cli": "0.21.0",
 		"mini-css-extract-plugin": "0.4.1",
+		"netlify-cli": "^2.47.0",
 		"npm-force-resolutions": "0.0.3",
 		"optimize-css-assets-webpack-plugin": "5.0.3",
 		"postcss-custom-media": "7.0.8",
