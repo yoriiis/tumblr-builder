@@ -1,123 +1,18 @@
 name: Build
 
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Cache node_modules
-        uses: actions/cache@v1
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12.14.0
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Test ESLint
-        run: npm run test:eslint
-
-      - name: Test Stylelint
-        run: npm run test:stylelint
-
-      - name: Test Markdown
-        run: npm run test:markdown
-
-      - name: Build
-        run: |
-          npm run build
-          npm run build:examples
-          npm run build:netlify
-          npm run docs:build
-
-      - name: Upload docs artifacts
-        uses: actions/upload-artifact@v1
-        if: github.ref == 'refs/heads/master' &&
-            github.repository == 'yoriiis/tumblr-builder' &&
-            github.event_name != 'pull_request'
-        with:
-          name: docs
-          path: docs/site
-
-      - name: Create Netlify demo
-        run: |
-          cp -r dist/ netlify/assets/
-
-      - name: Upload netlify artifacts
-        uses: actions/upload-artifact@v1
-        if: github.ref == 'refs/heads/master' &&
-            github.repository == 'yoriiis/tumblr-builder' &&
-            github.event_name != 'pull_request'
-        with:
-          name: netlify
-          path: netlify
-
-  deploy-gh-pages:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    needs: build
-    if: success() &&
-        github.ref == 'refs/heads/master' &&
-        github.repository == 'yoriiis/tumblr-builder' &&
-        github.event_name != 'pull_request'
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Download docs artifacts
-        uses: actions/download-artifact@v1
-        with:
-          name: docs
-
-      - name: Deploy to Github Pages
-        uses: crazy-max/ghaction-github-pages@v1
-        with:
-          target_branch: gh-pages
-          build_dir: docs
-          keep_history: true
-          commit_message: "Deploy to GitHub pages"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  deploy-netlify:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    needs: build
-    if: success() &&
-        github.ref == 'refs/heads/master' &&
-        github.repository == 'yoriiis/tumblr-builder' &&
-        github.event_name != 'pull_request'
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Download netlify artifacts
-        uses: actions/download-artifact@v1
-        with:
-          name: netlify
-
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 18.12.0
-
-      - name: Install dependencies
-        run: npm i -g netlify-cli
-
-      - name: Deploy to Netlify
-        run: |
-          npm i -g netlify-cli
-          netlify deploy --prod --site ${{ secrets.NETLIFY_APP_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --dir netlify --message "Deploy to Netlify"
+    uses: yoriiis/actions/.github/workflows/test-and-build.yml@main
+    with:
+      node-version: 12.14.0
+      command-build: |
+        npm run build
+        npm run build:examples

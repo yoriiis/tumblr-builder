@@ -1,0 +1,15 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  github:
+    uses: yoriiis/actions/.github/workflows/github-pages-deploy.yml@main
+    with:
+      node-version: 12.14.0
+      build-dir: docs
+      target-branch: gh-pages
+      command-build: npm run docs:build
