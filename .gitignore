@@ -7,3 +7,4 @@ docs/site
 **/*.map
 netlify/dist/
 netlify/assets/
+dist
