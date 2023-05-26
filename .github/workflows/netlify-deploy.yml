@@ -9,7 +9,7 @@ jobs:
   netlify:
     uses: yoriiis/actions/.github/workflows/netlify-deploy.yml@main
     with:
-      node-version: 18.12
+      node-version: 12.14
       build-dir: netlify
       command-build: |
         npm run build
