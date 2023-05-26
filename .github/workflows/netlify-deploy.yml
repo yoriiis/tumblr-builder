@@ -1,0 +1,17 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  github:
+    uses: yoriiis/actions/.github/workflows/netlify-deploy.yml@main
+    with:
+      node-version: 18.12
+      build-dir: netlify
+      command-build: npm run build:netlify
+    secrets:
+      NETLIFY_APP_ID: ${{ secrets.NETLIFY_APP_ID }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
