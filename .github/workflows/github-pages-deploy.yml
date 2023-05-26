@@ -9,7 +9,7 @@ jobs:
   github:
     uses: yoriiis/actions/.github/workflows/github-pages-deploy.yml@main
     with:
-      node-version: 12.14.0
+      node-version: 12.14
       build-dir: docs
       target-branch: gh-pages
       command-build: npm run docs:build
