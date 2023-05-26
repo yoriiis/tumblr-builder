@@ -31,7 +31,7 @@
 		"test": "npm run test:eslint && npm run test:stylelint npm run test:markdown",
 		"test:eslint": "eslint . --ignore-pattern dist --ignore-pattern docs",
 		"test:markdown": "markdownlint '**/*.md' --ignore node_modules --ignore CHANGELOG.md",
-		"test:stylelint": "stylelint './src/**/*.css' './examples/**/*.css' --ignore-pattern examples/dist",
+		"test:stylelint": "stylelint './src/**/*.css' './examples/**/*.css' --ignore-pattern examples/dist"
 	},
 	"babel": {
 		"plugins": [
