@@ -16,5 +16,4 @@ jobs:
     with:
       node-version: 12.14
       build-dir: docs
-      target-branch: gh-pages
       command-build: npm run docs:build
