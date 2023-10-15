@@ -16,7 +16,7 @@
 	"bugs": "https://github.com/yoriiis/tumblr-builder/issues",
 	"repository": "https://github.com/yoriiis/tumblr-builder.git",
 	"license": "MIT",
-	"author": "Yoriiis aka Joris DANIEL",
+	"author": "Yoriiis",
 	"main": "dist/tumblr.js",
 	"scripts": {
 		"build": "rm -rf ./dist && webpack --mode=production",
