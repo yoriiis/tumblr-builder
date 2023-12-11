@@ -15,5 +15,5 @@ jobs:
     uses: yoriiis/actions/.github/workflows/github-pages-deploy.yml@main
     with:
       node-version: 12.14
-      build-dir: docs
+      build-dir: docs/site
       command-build: npm run docs:build
